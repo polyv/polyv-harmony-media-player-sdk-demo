@@ -1,0 +1,24 @@
+{
+  "string": [
+    {
+      "name": "plv_media_player_ability_label",
+      "value": "PLVHarmonyMediaPlayer"
+    },
+    {
+      "name": "NET_REQUEST_PERMISSION",
+      "value": "api apply net request permission."
+    },
+    {
+      "name": "plv_media_player_entrance_feed_video_text",
+      "value": "短视频"
+    },
+    {
+      "name": "plv_media_player_entrance_single_video_text",
+      "value": "长视频"
+    },
+    {
+      "name": "plv_media_player_fail_to_load_media_resource",
+      "value": "视频数据初始化失败"
+    }
+  ]
+}

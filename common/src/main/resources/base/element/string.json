@@ -1,0 +1,80 @@
+{
+  "string": [
+    {
+      "name": "page_show",
+      "value": "page from package"
+    },
+    {
+      "name": "plv_media_player_ui_component_audio_mode_hint_text",
+      "value": "音频模式"
+    },
+    {
+      "name": "plv_media_player_ui_component_bit_rate_hint_text_portrait",
+      "value": "清晰度："
+    },
+    {
+      "name": "plv_media_player_ui_component_speed_hint_text_portrait",
+      "value": "倍速："
+    },
+    {
+      "name": "plv_media_player_ui_component_audio_mode_hint_desc_text",
+      "value": "在锁屏和切到后台时也能播放音频"
+    },
+    {
+      "name": "plv_media_player_ui_component_switch_video_hint_text",
+      "value": "切回视频"
+    },
+    {
+      "name": "plv_media_player_ui_component_complete_hint_restart_text",
+      "value": "重播"
+    },
+    {
+      "name": "plv_media_player_ui_component_error_hint_text",
+      "value": "视频加载失败，请检查网络设置"
+    },
+    {
+      "name": "plv_media_player_ui_component_error_hint_restart_text",
+      "value": "点击重试"
+    },
+    {
+      "name": "plv_media_player_ui_component_network_poor_hint_text",
+      "value": "当前网络较差，可尝试"
+    },
+    {
+      "name": "plv_media_player_ui_component_network_poor_switch_bitrate_action_text_prefix",
+      "value": "切换到"
+    },
+    {
+      "name": "plv_media_player_ui_component_long_press_speed_control_hint_text",
+      "value": "快进中"
+    },
+    {
+      "name": "plv_media_player_ui_component_auto_continue_hint_pre",
+      "value": "您上次观看至 "
+    },
+    {
+      "name": "plv_media_player_ui_component_auto_continue_hint_post",
+      "value": "，已为您自动续播"
+    },
+    {
+      "name": "plv_media_player_ui_component_switch_bit_rate_start_text_pre",
+      "value": "正在为您切换到"
+    },
+    {
+      "name": "plv_media_player_ui_component_switch_bit_rate_start_text_post",
+      "value": "清晰度，请耐心等待~"
+    },
+    {
+      "name": "plv_media_player_ui_component_switch_bit_rate_finish_text_pre",
+      "value": "您已成功切换到"
+    },
+    {
+      "name": "plv_media_player_ui_component_switch_bit_rate_finish_text_post",
+      "value": "清晰度"
+    },
+    {
+      "name": "plv_media_player_ui_component_buffering_speed_hint_text",
+      "value": "正在加载中 请稍等"
+    }
+  ]
+}

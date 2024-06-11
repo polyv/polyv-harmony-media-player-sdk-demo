@@ -1,0 +1,46 @@
+{
+  "module": {
+    "name": "demo",
+    "type": "entry",
+    "srcEntry": "./ets/PLVMediaPlayerAbilityStage.ets",
+    "mainElement": "PLVMediaPlayerAbility",
+    "deviceTypes": [
+      "phone",
+      "tablet"
+    ],
+    "deliveryWithInstall": true,
+    "installationFree": false,
+    "pages": "$profile:main_pages",
+    "requestPermissions": [
+      {
+        "name": "ohos.permission.INTERNET",
+        "reason": "$string:NET_REQUEST_PERMISSION"
+      },
+      {
+        "name": "ohos.permission.GET_NETWORK_INFO",
+        "reason": "$string:NET_REQUEST_PERMISSION"
+      }
+    ],
+    "abilities": [
+      {
+        "name": "PLVMediaPlayerAbility",
+        "srcEntry": "./ets/ability/PLVMediaPlayerAbility.ets",
+        "icon": "$media:plv_media_player_app_icon",
+        "label": "$string:plv_media_player_ability_label",
+        "startWindowIcon": "$media:plv_media_player_app_icon_startwindow",
+        "startWindowBackground": "$color:start_window_background",
+        "exported": true,
+        "skills": [
+          {
+            "entities": [
+              "entity.system.home"
+            ],
+            "actions": [
+              "action.system.home"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

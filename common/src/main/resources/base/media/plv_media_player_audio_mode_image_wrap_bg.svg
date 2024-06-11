@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" version="1.1" width="88" height="88" viewBox="0 0 88 88">
+    <g>
+        <g>
+            <rect x="0" y="0" width="88" height="88" rx="8" fill="#FFFFFF" fill-opacity="0.10000000149011612" />
+            <rect x="0.25" y="0.25" width="87.5" height="87.5" rx="7.75" fill-opacity="0"
+                stroke-opacity="0.20000000298023224" stroke="#FFFFFF" fill="none" stroke-width="0.5" />
+        </g>
+        <g style="opacity:0.20000000298023224;">
+            <ellipse cx="44" cy="44" rx="40" ry="40" fill="#FFFFFF" fill-opacity="0.10000000149011612" />
+            <ellipse cx="44" cy="44" rx="39.75" ry="39.75" fill-opacity="0" stroke-opacity="0.20000000298023224"
+                stroke="#FFFFFF" fill="none" stroke-width="0.5" />
+        </g>
+        <g style="opacity:0.10000000149011612;">
+            <ellipse cx="44" cy="44" rx="38" ry="38" fill="#FFFFFF" fill-opacity="0.10000000149011612" />
+            <ellipse cx="44" cy="44" rx="37.75" ry="37.75" fill-opacity="0" stroke-opacity="0.10000000149011612"
+                stroke="#FFFFFF" fill="none" stroke-width="0.5" />
+        </g>
+        <g style="opacity:0.10000000149011612;">
+            <ellipse cx="44" cy="44" rx="36" ry="36" fill="#FFFFFF" fill-opacity="0.10000000149011612" />
+            <ellipse cx="44" cy="44" rx="35.75" ry="35.75" fill-opacity="0" stroke-opacity="0.10000000149011612"
+                stroke="#FFFFFF" fill="none" stroke-width="0.5" />
+        </g>
+        <g style="opacity:0.10000000149011612;">
+            <ellipse cx="44" cy="44" rx="34" ry="34" fill="#FFFFFF" fill-opacity="0.10000000149011612" />
+            <ellipse cx="44" cy="44" rx="33.75" ry="33.75" fill-opacity="0" stroke-opacity="0.10000000149011612"
+                stroke="#FFFFFF" fill="none" stroke-width="0.5" />
+        </g>
+        <g style="opacity:0.10000000149011612;">
+            <ellipse cx="44" cy="44" rx="32" ry="32" fill="#FFFFFF" fill-opacity="0.10000000149011612" />
+            <ellipse cx="44" cy="44" rx="31.75" ry="31.75" fill-opacity="0" stroke-opacity="0.10000000149011612"
+                stroke="#FFFFFF" fill="none" stroke-width="0.5" />
+        </g>
+        <g style="opacity:0.10000000149011612;">
+            <ellipse cx="44" cy="44" rx="30" ry="30" fill="#FFFFFF" fill-opacity="0.10000000149011612" />
+            <ellipse cx="44" cy="44" rx="29.75" ry="29.75" fill-opacity="0" stroke-opacity="0.10000000149011612"
+                stroke="#FFFFFF" fill="none" stroke-width="0.5" />
+        </g>
+        <g style="opacity:0.10000000149011612;">
+            <ellipse cx="44" cy="44" rx="28" ry="28" fill="#FFFFFF" fill-opacity="0.10000000149011612" />
+            <ellipse cx="44" cy="44" rx="27.75" ry="27.75" fill-opacity="0" stroke-opacity="0.10000000149011612"
+                stroke="#FFFFFF" fill="none" stroke-width="0.5" />
+        </g>
+    </g>
+</svg>

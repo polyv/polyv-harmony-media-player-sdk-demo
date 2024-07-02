@@ -66,6 +66,8 @@ export function createId(id?: string): string {
   return id ?? `plv_media_player_comp_id_${createIdCounter++}`
 }
 
+export type whatever = unknown
+
 // <editor-fold defaultstate="collapsed" desc="ohos declare">
 
 declare enum VerticalAlign {

@@ -15,7 +15,7 @@ export function isLandscape() {
  * @returns width in px
  */
 export function getDisplayWindowWidth() {
-  return display.getDefaultDisplaySync().width
+  return px(display.getDefaultDisplaySync().width)
 }
 
 /**
@@ -23,5 +23,59 @@ export function getDisplayWindowWidth() {
  * @returns height in px
  */
 export function getDisplayWindowHeight() {
-  return display.getDefaultDisplaySync().height
+  return px(display.getDefaultDisplaySync().height)
 }
+
+export class Pixels {
+  constructor(
+    readonly value: number
+  ) {
+  }
+
+  get px() {
+    return this.value
+  }
+
+  get vp() {
+    return px2vp(this.value)
+  }
+
+  toString() {
+    return `${this.value}px`
+  }
+}
+
+export function px(value: number) {
+  return new Pixels(value)
+}
+
+export class VirtualPixels {
+  constructor(
+    readonly value: number
+  ) {
+  }
+
+  get px() {
+    return vp2px(this.value)
+  }
+
+  get vp() {
+    return this.value
+  }
+
+  toString() {
+    return `${this.value}vp`
+  }
+}
+
+export function vp(value: number) {
+  return new VirtualPixels(value)
+}
+
+// <editor-fold defaultstate="collapsed" desc="ohos declare">
+
+declare function px2vp(value: number): number;
+
+declare function vp2px(value: number): number;
+
+// </editor-fold>

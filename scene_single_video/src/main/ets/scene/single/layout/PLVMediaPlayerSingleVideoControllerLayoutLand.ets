@@ -1,6 +1,6 @@
 import { createDependScope, DependScope } from '@polyvharmony/media-player-sdk'
 import {
-  commonModule,
+  commonItemModule,
   createId,
   parent,
   PLVMediaPlayerAudioModeCoverLayoutLand,
@@ -13,6 +13,7 @@ import {
   PLVMediaPlayerGestureHandleLayout,
   PLVMediaPlayerLockControllerImageView,
   PLVMediaPlayerLongPressSpeedHintLayout,
+  PLVMediaPlayerMarqueeLayout,
   PLVMediaPlayerMoreActionImageView,
   PLVMediaPlayerNetworkPoorIndicateLayout,
   PLVMediaPlayerPlayButton,
@@ -39,6 +40,7 @@ export struct PLVMediaPlayerSingleVideoControllerLayoutLand {
   // <editor-fold defaultstate="collapsed" desc="ids">
   private readonly plv_media_player_controller_gradient_mask_layout: string = createId()
   private readonly plv_media_player_gesture_handle_layout: string = createId()
+  private readonly plv_media_player_marquee_layout: string = createId()
   private readonly plv_media_player_audio_mode_cover_layout: string = createId()
   private readonly plv_media_player_buffering_speed_layout: string = createId()
   private readonly plv_media_player_complete_overlay_layout: string = createId()
@@ -71,6 +73,11 @@ export struct PLVMediaPlayerSingleVideoControllerLayoutLand {
       // 手势处理
       PLVMediaPlayerGestureHandleLayout()
         .id(this.plv_media_player_gesture_handle_layout)
+
+      // 播放器跑马灯
+      PLVMediaPlayerMarqueeLayout()
+        .id(this.plv_media_player_marquee_layout)
+        .hitTestBehavior(HitTestMode.None)
 
       // 音频模式
       PLVMediaPlayerAudioModeCoverLayoutLand()
@@ -166,7 +173,7 @@ export struct PLVMediaPlayerSingleVideoControllerLayoutLand {
           horizontal: 12
         }))
         .margin({
-          bottom: -16
+          bottom: 6
         })
         .alignRules({
           bottom: toTopOf(this.plv_media_player_play_button)
@@ -287,7 +294,7 @@ export struct PLVMediaPlayerSingleVideoControllerLayoutLand {
 @Preview
 @Component
 struct PLVMediaPlayerSingleVideoControllerLayoutLandPreview {
-  @Provide dependScope: DependScope = createDependScope(commonModule)
+  @Provide dependScope: DependScope = createDependScope(commonItemModule)
 
   build() {
     PLVMediaPlayerSingleVideoControllerLayoutLand()

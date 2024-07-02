@@ -131,16 +131,20 @@ export struct PLVMediaPlayerGestureHandleLayout {
     const state = this.horizontalPanGestureState
     switch (type) {
       case 'start':
-        if (event === null) return;
+        if (event === null) {
+          return;
+        }
         state.startX = any(event).globalX ?? any(event).localX ?? null
         this.videoProgressOnStartDrag = this.mediaViewModel.mediaPlayViewState.value?.currentProgress ?? 0
         this.videoDuration = this.mediaViewModel.mediaPlayViewState.value?.duration ?? 0
         this.controllerViewModel.handleDragGestureSeek('update', this.videoProgressOnStartDrag)
         break;
       case 'update':
-        if (event === null || state.startX === null) return;
+        if (event === null || state.startX === null) {
+          return;
+        }
         const dx = event.offsetX
-        const percent = dx / px2vp(getDisplayWindowWidth())
+        const percent = dx / getDisplayWindowWidth().vp
         const dprogress = percent * Math.min(this.videoDuration, minutes(3).toMillis())
         const targetProgress = extendNumber(this.videoProgressOnStartDrag + dprogress)
           .coerceIn_ext(0, this.videoDuration)
@@ -165,18 +169,24 @@ export struct PLVMediaPlayerGestureHandleLayout {
     const state = this.verticalPanGestureState
     switch (type) {
       case 'start':
-        if (event === null) break;
+        if (event === null) {
+          break;
+        }
         state.startX = any(event).globalX ?? any(event).localX ?? null
         state.startY = any(event).globalY ?? any(event).localY ?? null
         state.lastY = state.startY ?? 0
         state.lastConsumedY = state.lastY
         break;
       case 'update':
-        if (event === null || state.startX === null || state.startY === null) return;
+        if (event === null || state.startX === null || state.startY === null) {
+          return;
+        }
         const sensitivity = 5
         state.lastY = state.startY + event.offsetY
         const dy = state.lastY - state.lastConsumedY
-        if (Math.abs(dy) < sensitivity) break;
+        if (Math.abs(dy) < sensitivity) {
+          break;
+        }
         const consumeCount = Math.floor(Math.abs(dy) / sensitivity)
         const direction = dy / Math.abs(dy)
         repeat(consumeCount, () => {
@@ -223,6 +233,6 @@ class PanGestureState {
     if (this.startX === null) {
       return undefined
     }
-    return this.startX < px2vp(getDisplayWindowWidth() / 2)
+    return this.startX < getDisplayWindowWidth().vp / 2
   }
 }

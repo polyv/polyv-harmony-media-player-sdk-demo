@@ -1,13 +1,15 @@
-import router from '@ohos.router'
 import { DependScope, MutableObserver } from '@polyvharmony/media-player-sdk'
 import { PLVMPMediaControllerViewModel } from '../../modules/mediacontroller/viewmodel/PLVMPMediaControllerViewModel'
+import { PLVMPPageControlViewModel } from '../../modules/pagecontrol/viewmodel/PLVMPPageControlViewModel'
 import { isLandscape, isPortrait } from '../../utils/PLVDisplayUtils'
 import { PLVOrientationManager } from '../../utils/PLVOrientationManager'
 
 @Component
 export struct PLVMediaPlayerBackImageView {
   @Consume dependScope: DependScope
+  @Consume pageDependScope: DependScope
   private controllerViewModel: PLVMPMediaControllerViewModel = this.dependScope.get(PLVMPMediaControllerViewModel)
+  private pageControlViewModel: PLVMPPageControlViewModel = this.pageDependScope.get(PLVMPPageControlViewModel)
   @State isVisible: boolean = false
   private observers: MutableObserver[] = []
 
@@ -26,7 +28,8 @@ export struct PLVMediaPlayerBackImageView {
     Image($r('app.media.plv_media_player_back_icon'))
       .onClick(() => {
         if (isPortrait()) {
-          router.back()
+          const navPathStack: NavPathStack | undefined = this.pageControlViewModel.navPathStack
+          navPathStack?.pop()
         } else {
           PLVOrientationManager.getInstance().requestOrientation('port');
         }

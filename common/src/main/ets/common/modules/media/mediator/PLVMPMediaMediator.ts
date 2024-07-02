@@ -1,4 +1,5 @@
 import {
+  IPLVAuxiliaryMediaPlayer,
   MutableEvent,
   MutableState,
   PLVMediaPlayerBusinessErrorEnum,
@@ -21,5 +22,7 @@ export class PLVMPMediaMediator {
   playingState?: MutableState<PLVMediaPlayerPlayingState>
   playerState?: MutableState<PLVMediaPlayerState>
   mediaInfo?: () => PLVMPMediaInfoViewState | undefined
+  bindAuxiliaryPlayer?: (auxiliaryPlayer: IPLVAuxiliaryMediaPlayer) => void
+  unbindAuxiliaryPlayer?: (auxiliaryPlayer: IPLVAuxiliaryMediaPlayer) => void
 
 }

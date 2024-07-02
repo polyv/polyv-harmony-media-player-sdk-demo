@@ -6,34 +6,41 @@ import {
   PLVMediaBitRate,
   PLVMediaOutputMode,
   PLVMediaPlayerAutoContinueEvent,
+  PLVMediaPlayerOnCompletedEvent,
   PLVMediaPlayerOnInfoEvent,
   PLVMediaPlayerOnPreparedEvent,
   PLVMediaPlayerOption,
   PLVMediaPlayerState,
-  PLVMediaResource
+  PLVMediaResource,
+  State
 } from '@polyvharmony/media-player-sdk';
 import {PLVMPMediaPlayViewState} from './viewstate/PLVMPMediaPlayViewState';
 import {PLVMPMediaInfoViewState} from './viewstate/PLVMPMediaInfoViewState';
+import {PLVMPMediaMediator} from "../mediator/PLVMPMediaMediator";
 
 export class PLVMPMediaViewModel {
 
   private readonly repo: PLVMPMediaRepo
+  private readonly mediator: PLVMPMediaMediator
   private readonly useCases: PLVMPMediaUseCases
 
-  readonly mediaPlayViewState: MutableState<PLVMPMediaPlayViewState>
-  readonly mediaInfoViewState: MutableState<PLVMPMediaInfoViewState>
+  readonly mediaPlayViewState: State<PLVMPMediaPlayViewState>
+  readonly mediaInfoViewState: State<PLVMPMediaInfoViewState>
   readonly networkPoorEvent: MutableEvent<number>
   readonly onChangeBitRateEvent: MutableEvent<PLVMediaBitRate>
   readonly onPreparedEvent: MutableEvent<PLVMediaPlayerOnPreparedEvent>
   readonly onAutoContinueEvent: MutableEvent<PLVMediaPlayerAutoContinueEvent>
   readonly onInfoEvent: MutableEvent<PLVMediaPlayerOnInfoEvent>
+  readonly onCompleteEvent: MutableEvent<PLVMediaPlayerOnCompletedEvent>
   readonly playerState: MutableState<PLVMediaPlayerState>
 
   constructor(
     repo: PLVMPMediaRepo,
+    mediator: PLVMPMediaMediator,
     useCases: PLVMPMediaUseCases
   ) {
     this.repo = repo
+    this.mediator = mediator
     this.useCases = useCases
     this.mediaPlayViewState = this.useCases.updateMediaStateUseCase.mediaPlayViewState
     this.mediaInfoViewState = this.useCases.updateMediaStateUseCase.mediaInfoViewState
@@ -42,9 +49,10 @@ export class PLVMPMediaViewModel {
     this.onPreparedEvent = this.repo.player.getEventListenerRegistry().onPrepared
     this.onAutoContinueEvent = this.repo.player.getBusinessListenerRegistry().onAutoContinueEvent
     this.onInfoEvent = this.repo.player.getEventListenerRegistry().onInfo
+    this.onCompleteEvent = this.repo.player.getEventListenerRegistry().onCompleted
     this.playerState = this.repo.player.getStateListenerRegistry().playerState
 
-    this.repo.mediator.mediaInfo = () => this.mediaInfoViewState.value
+    this.mediator.mediaInfo = () => this.mediaInfoViewState.value
   }
 
   setMediaResource(mediaResource: PLVMediaResource) {

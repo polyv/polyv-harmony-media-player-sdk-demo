@@ -1,9 +1,11 @@
 import {PLVMPMediaRepo} from '../../model/PLVMPMediaRepo';
 import {
+  DerivedState,
   LifecycleAwareDependComponent,
-  MutableObserver,
-  MutableState,
-  PLVMediaPlayerPlayingState
+  PLVMediaOutputMode,
+  PLVMediaPlayerPlayingState,
+  PLVMediaPlayerState,
+  Rect
 } from '@polyvharmony/media-player-sdk';
 import {PLVMPMediaPlayViewState} from '../viewstate/PLVMPMediaPlayViewState';
 import {PLVMPMediaInfoViewState} from '../viewstate/PLVMPMediaInfoViewState';
@@ -14,10 +16,8 @@ export class UpdateMediaStateUseCase implements LifecycleAwareDependComponent {
   private readonly repo: PLVMPMediaRepo
   private readonly updateBufferingSpeedUseCase: UpdateBufferingSpeedUseCase
 
-  readonly mediaPlayViewState: MutableState<PLVMPMediaPlayViewState> = new MutableState<PLVMPMediaPlayViewState>(new PLVMPMediaPlayViewState())
-  readonly mediaInfoViewState: MutableState<PLVMPMediaInfoViewState> = new MutableState<PLVMPMediaInfoViewState>(new PLVMPMediaInfoViewState())
-
-  private observers: MutableObserver[] = []
+  readonly mediaPlayViewState: DerivedState<PLVMPMediaPlayViewState>;
+  readonly mediaInfoViewState: DerivedState<PLVMPMediaInfoViewState>;
 
   constructor(
     repo: PLVMPMediaRepo,
@@ -26,94 +26,36 @@ export class UpdateMediaStateUseCase implements LifecycleAwareDependComponent {
     this.repo = repo
     this.updateBufferingSpeedUseCase = updateBufferingSpeedUseCase
 
-    this.observePlayerState()
-    this.observeBufferingSpeed()
-  }
+    this.mediaPlayViewState = new DerivedState(() => {
+      const viewState = new PLVMPMediaPlayViewState();
+      viewState.currentProgress = this.repo.player.getStateListenerRegistry().progressState.value ?? 0
+      viewState.duration = this.repo.player.getStateListenerRegistry().durationState.value ?? 0
+      viewState.isPlaying = this.repo.player.getStateListenerRegistry().playingState.value === PLVMediaPlayerPlayingState.PLAYING
+      viewState.playerState = this.repo.player.getStateListenerRegistry().playerState.value ?? PLVMediaPlayerState.STATE_IDLE
+      viewState.isBuffering = this.repo.player.getStateListenerRegistry().isBuffering.value ?? false
+      viewState.bufferingSpeed = this.updateBufferingSpeedUseCase.bufferingSpeed.value ?? 0
+      viewState.speed = this.repo.player.getStateListenerRegistry().speed.value ?? 1
+      return viewState;
+    })
 
-  private observePlayerState() {
-    this.repo.player.getStateListenerRegistry().progressState.observe((progress) => {
-      this.mediaPlayViewState.mutate({
-        currentProgress: progress
-      })
-    }).pushTo(this.observers)
-
-    this.repo.player.getStateListenerRegistry().durationState.observe((duration) => {
-      this.mediaPlayViewState.mutate({
-        duration: duration
-      })
-    }).pushTo(this.observers)
-
-    this.repo.player.getStateListenerRegistry().playingState.observe((playingState) => {
-      this.mediaPlayViewState.mutate({
-        isPlaying: playingState === PLVMediaPlayerPlayingState.PLAYING
-      })
-    }).pushTo(this.observers)
-
-    this.repo.player.getStateListenerRegistry().isBuffering.observe((isBuffering) => {
-      this.mediaPlayViewState.mutate({
-        isBuffering: isBuffering
-      })
-    }).pushTo(this.observers)
-
-    this.repo.player.getStateListenerRegistry().speed.observe((speed) => {
-      this.mediaPlayViewState.mutate({
-        speed: speed
-      })
-    }).pushTo(this.observers)
-
-    this.repo.player.getStateListenerRegistry().videoSize.observe((size) => {
-      this.mediaInfoViewState.mutate({
-        videoSize: size
-      })
-    }).pushTo(this.observers)
-
-    this.repo.player.getBusinessListenerRegistry().currentMediaBitRate.observe((bitRate) => {
-      this.mediaInfoViewState.mutate({
-        bitRate: bitRate
-      })
-    }).pushTo(this.observers)
-
-    this.repo.player.getBusinessListenerRegistry().supportMediaBitRates.observe((supportBitRates) => {
-      this.mediaInfoViewState.mutate({
-        supportBitRates: supportBitRates
-      })
-    }).pushTo(this.observers)
-
-    this.repo.player.getBusinessListenerRegistry().currentMediaOutputMode.observe((outputMode) => {
-      this.mediaInfoViewState.mutate({
-        outputMode: outputMode
-      })
-    }).pushTo(this.observers)
-
-    this.repo.player.getBusinessListenerRegistry().supportMediaOutputModes.observe((supportOutputModes) => {
-      this.mediaInfoViewState.mutate({
-        supportOutputModes: supportOutputModes
-      })
-    }).pushTo(this.observers)
-
-    this.repo.player.getBusinessListenerRegistry().vodVideoJson.observe((videoJson) => {
-      this.mediaInfoViewState.mutate({
-        title: videoJson?.title ?? "",
-        progressPreviewImage: videoJson?.progressImage ?? null,
-        progressPreviewImageInterval: videoJson?.progressImageInterval?.toSeconds() ?? -1,
-        audioModeCoverImage: videoJson?.first_image ?? null
-      })
-    }).pushTo(this.observers)
-  }
-
-  private observeBufferingSpeed() {
-    this.updateBufferingSpeedUseCase.bufferingSpeed.observe((speed) => {
-      this.mediaPlayViewState.mutate({
-        bufferingSpeed: speed
-      })
-    }).pushTo(this.observers)
+    this.mediaInfoViewState = new DerivedState(() => {
+      const viewState = new PLVMPMediaInfoViewState();
+      viewState.title = this.repo.player.getBusinessListenerRegistry().vodVideoJson.value?.title ?? ""
+      viewState.videoSize = this.repo.player.getStateListenerRegistry().videoSize.value ?? new Rect()
+      viewState.bitRate = this.repo.player.getBusinessListenerRegistry().currentMediaBitRate.value ?? null
+      viewState.supportBitRates = this.repo.player.getBusinessListenerRegistry().supportMediaBitRates.value ?? []
+      viewState.outputMode = this.repo.player.getBusinessListenerRegistry().currentMediaOutputMode.value ?? PLVMediaOutputMode.AUDIO_VIDEO
+      viewState.supportOutputModes = this.repo.player.getBusinessListenerRegistry().supportMediaOutputModes.value ?? []
+      viewState.progressPreviewImage = this.repo.player.getBusinessListenerRegistry().vodVideoJson.value?.progressImage ?? null
+      viewState.progressPreviewImageInterval = this.repo.player.getBusinessListenerRegistry().vodVideoJson.value?.progressImageInterval?.toSeconds() ?? -1
+      viewState.audioModeCoverImage = this.repo.player.getBusinessListenerRegistry().vodVideoJson.value?.first_image ?? null
+      return viewState;
+    })
   }
 
   onDestroy() {
-    this.observers.forEach((observer) => {
-      observer.dispose()
-    })
-    this.observers = []
+    this.mediaPlayViewState.destroy()
+    this.mediaInfoViewState.destroy()
   }
 
 }

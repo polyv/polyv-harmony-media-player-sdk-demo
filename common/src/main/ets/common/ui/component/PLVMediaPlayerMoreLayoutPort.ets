@@ -57,7 +57,7 @@ export struct PLVMediaPlayerMoreLayoutPort {
       })
 
       Column() {
-        Row() {
+        Row({ space: 28 }) {
           PLVMediaPlayerMoreLayoutAudioModeActionView()
         }
 

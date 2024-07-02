@@ -2,7 +2,7 @@ polyv-harmony-media-player-sdk-demo
 ===
 
 [![build passing](https://img.shields.io/badge/build-passing-brightgreen.svg)](#)
-[![GitHub release](https://img.shields.io/badge/release-2.0.0-blue.svg)](https://github.com/polyv/polyv-harmony-media-player-sdk-demo/releases/tag/2.0.0)
+[![GitHub release](https://img.shields.io/badge/release-2.1.0-blue.svg)](https://github.com/polyv/polyv-harmony-media-player-sdk-demo/releases/tag/2.1.0)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -29,8 +29,10 @@ polyv-harmony-media-player-sdk-demo
 |   |-- mock (demo模拟数据)
 |   |-- pages
 |   |   |-- PLVMediaPlayerEntrancePage (入口页)
+|   |   `-- PLVMediaPlayerFeedVideoPage (短视频场景页面)
 |   |   `-- PLVMediaPlayerSingleVideoPage (长视频场景页面)
 |   `-- startup (SDK初始化)
+|-- scene_feed_video (短视频场景模块)
 |-- scene_single_video (长视频场景模块)
 `-- common
     |-- modules (业务逻辑)
@@ -48,6 +50,6 @@ ohpm install @polyvharmony/media-player-sdk
 #### 3.1 集成文档
 [集成文档](https://github.com/polyv/polyv-harmony-media-player-sdk-demo/tree/master/docs/public)
 #### 3.2 接口文档
-[v2.0.0 接口文档](https://repo.polyv.net/harmony/documents/media_player_sdk/2.0.0/index.html)
+[v2.1.0 接口文档](https://repo.polyv.net/harmony/documents/media_player_sdk/2.1.0/index.html)
 #### 3.3 版本更新记录
 [全版本更新记录](https://github.com/polyv/polyv-harmony-media-player-sdk-demo/blob/master/CHANGELOG.md)

@@ -9,7 +9,8 @@ import {
 } from '@polyvharmony/media-player-sdk';
 import {
   PLVMPMediaControllerFloatAction,
-  PLVMPMediaControllerViewState
+  PLVMPMediaControllerViewState,
+  PLVMPVideoViewLocation
 } from './viewstate/PLVMPMediaControllerViewState';
 import {PLVBrightnessManager} from "../../../utils/PLVBrightnessManager";
 import {PLVMPMediaControllerUseCases} from "./usecase/PLVMPMediaControllerUseCases";
@@ -77,10 +78,10 @@ export class PLVMPMediaControllerViewModel implements LifecycleAwareDependCompon
     }
   }
 
-  changeControllerVisible() {
+  changeControllerVisible(toVisible?: boolean) {
     const currentVisible = this.mediaControllerViewState.value?.controllerVisible ?? false
     this.mediaControllerViewState.mutate({
-      controllerVisible: !currentVisible
+      controllerVisible: toVisible ?? !currentVisible
     })
   }
 
@@ -163,6 +164,12 @@ export class PLVMPMediaControllerViewModel implements LifecycleAwareDependCompon
     floatActionLayouts.pop()
     this.mediaControllerViewState.mutate({
       floatActionLayouts: floatActionLayouts
+    })
+  }
+
+  updateVideoViewLocation(videoViewLocation: PLVMPVideoViewLocation) {
+    this.mediaControllerViewState.mutate({
+      videoViewLocation: videoViewLocation
     })
   }
 

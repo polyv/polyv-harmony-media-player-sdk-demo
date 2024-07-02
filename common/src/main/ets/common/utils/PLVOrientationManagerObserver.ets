@@ -1,4 +1,5 @@
 import mediaquery from '@ohos.mediaquery';
+import { isPortrait } from './PLVDisplayUtils';
 import { PLVOrientationManager } from './PLVOrientationManager';
 
 @Component
@@ -14,11 +15,7 @@ export struct PLVOrientationManagerObserver {
   }
 
   onOrientationChanged(isOrientationLandscape: mediaquery.MediaQueryResult) {
-    if (isOrientationLandscape.matches) {
-      PLVOrientationManager.getInstance().isPortrait.value = false;
-    } else {
-      PLVOrientationManager.getInstance().isPortrait.value = true;
-    }
+    PLVOrientationManager.getInstance().isPortrait.value = isPortrait();
   }
 
   build() {

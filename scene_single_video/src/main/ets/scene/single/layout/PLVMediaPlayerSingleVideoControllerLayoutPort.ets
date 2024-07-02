@@ -1,6 +1,6 @@
 import { createDependScope, DependScope } from '@polyvharmony/media-player-sdk'
 import {
-  commonModule,
+  commonItemModule,
   createId,
   parent,
   PLVMediaPlayerAudioModeCoverLayoutPort,
@@ -11,6 +11,7 @@ import {
   PLVMediaPlayerControllerGradientMaskLayout,
   PLVMediaPlayerGestureHandleLayout,
   PLVMediaPlayerLongPressSpeedHintLayout,
+  PLVMediaPlayerMarqueeLayout,
   PLVMediaPlayerMoreActionImageView,
   PLVMediaPlayerNetworkPoorIndicateLayout,
   PLVMediaPlayerPlayButton,
@@ -39,6 +40,7 @@ export struct PLVMediaPlayerSingleVideoControllerLayoutPort {
   // <editor-fold defaultstate="collapsed" desc="ids">
   private readonly plv_media_player_controller_gradient_mask_layout: string = createId()
   private readonly plv_media_player_gesture_handle_layout: string = createId()
+  private readonly plv_media_player_marquee_layout: string = createId()
   private readonly plv_media_player_audio_mode_cover_layout: string = createId()
   private readonly plv_media_player_buffering_speed_layout: string = createId()
   private readonly plv_media_player_complete_overlay_layout: string = createId()
@@ -69,6 +71,11 @@ export struct PLVMediaPlayerSingleVideoControllerLayoutPort {
       // 手势处理
       PLVMediaPlayerGestureHandleLayout()
         .id(this.plv_media_player_gesture_handle_layout)
+
+      // 播放器跑马灯
+      PLVMediaPlayerMarqueeLayout()
+        .id(this.plv_media_player_marquee_layout)
+        .hitTestBehavior(HitTestMode.None)
 
       // 音频模式
       PLVMediaPlayerAudioModeCoverLayoutPort()
@@ -257,7 +264,7 @@ export struct PLVMediaPlayerSingleVideoControllerLayoutPort {
 @Preview
 @Component
 struct PLVMediaPlayerSingleVideoControllerLayoutPortPreview {
-  @Provide dependScope: DependScope = createDependScope(commonModule)
+  @Provide dependScope: DependScope = createDependScope(commonItemModule)
 
   build() {
     PLVMediaPlayerSingleVideoControllerLayoutPort()

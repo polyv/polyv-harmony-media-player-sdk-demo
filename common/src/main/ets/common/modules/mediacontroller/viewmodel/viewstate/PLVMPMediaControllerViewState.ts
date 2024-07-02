@@ -7,6 +7,7 @@ export class PLVMPMediaControllerViewState {
   longPressSpeeding: boolean = false
   speedBeforeLongPress: number = 1
   floatActionLayouts: PLVMPMediaControllerFloatAction[] = []
+  videoViewLocation: PLVMPVideoViewLocation = {width: 0, height: 0, offset: {x: 0, y: 0}}
   errorOverlayLayoutVisible: boolean = false
   completeOverlayLayoutVisible: boolean = false
 
@@ -21,3 +22,12 @@ export class PLVMPMediaControllerViewState {
 }
 
 export type PLVMPMediaControllerFloatAction = 'more' | 'bitRate' | 'speed'
+
+export type PLVMPVideoViewLocation = {
+  width: number,
+  height: number,
+  offset: {
+    x: number,
+    y: number
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "module": {
+    "name": "scene_feed_video",
+    "type": "har",
+    "deviceTypes": [
+      "default",
+      "tablet"
+    ]
+  }
+}

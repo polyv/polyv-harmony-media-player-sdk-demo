@@ -38,6 +38,7 @@ mediaModule.provide(PLVMPMediaUseCases, (scope) => new PLVMPMediaUseCases(
 
 mediaModule.provide(PLVMPMediaViewModel, (scope) => new PLVMPMediaViewModel(
   scope.get(PLVMPMediaRepo),
+  scope.get(PLVMPMediaMediator),
   scope.get(PLVMPMediaUseCases)
 ))
 

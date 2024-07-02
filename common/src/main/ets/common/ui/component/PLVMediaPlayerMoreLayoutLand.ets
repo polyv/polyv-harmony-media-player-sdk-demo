@@ -1,6 +1,6 @@
 import { DependScope, extendArray, MutableObserver } from '@polyvharmony/media-player-sdk'
 import { PLVMPMediaControllerViewModel } from '../../modules/mediacontroller/viewmodel/PLVMPMediaControllerViewModel'
-import { createId, parent, toEndOf, toTopOf } from '../../utils/arkts-no-everything'
+import { createId, parent, toEndOf, toStartOf, toTopOf } from '../../utils/arkts-no-everything'
 import { PLVMediaPlayerMoreLayoutAudioModeActionView } from './PLVMediaPlayerMoreLayoutAudioModeActionView'
 
 @Component
@@ -10,6 +10,7 @@ export struct PLVMediaPlayerMoreLayoutLand {
   @State isVisible: boolean = false
   private observers: MutableObserver[] = []
   // <editor-fold defaultstate="collapsed" desc="ids">
+  private readonly plv_media_player_more_action_start_guide_line: string = createId()
   private readonly plv_media_player_more_action_layout_close_layout_mask: string = createId()
   private readonly plv_media_player_more_action_audio_mode_action_view: string = createId()
   private readonly plv_media_player_more_action_close_iv: string = createId()
@@ -40,18 +41,27 @@ export struct PLVMediaPlayerMoreLayoutLand {
         this.controllerViewModel.popFloatActionLayout()
       })
 
+      Shape() {
+      }
+      .id(this.plv_media_player_more_action_start_guide_line)
+      .width('56%')
+      .height('100%')
+      .alignRules({
+        left: toStartOf(parent)
+      })
+      .hitTestBehavior(HitTestMode.None)
+
       PLVMediaPlayerMoreLayoutAudioModeActionView({
         iconResourceInactive: $r('app.media.plv_media_player_more_audio_mode_action_icon_inactive_land'),
         textFontColorInactive: '#CCFFFFFF'
       })
         .id(this.plv_media_player_more_action_audio_mode_action_view)
         .alignRules({
-          top: toTopOf(parent),
-          right: toEndOf(parent)
+          left: toEndOf(this.plv_media_player_more_action_start_guide_line),
+          top: toTopOf(parent)
         })
         .margin({
-          top: 48,
-          right: 300
+          top: 48
         })
 
       Image($r('app.media.plv_media_player_float_menu_close_icon'))

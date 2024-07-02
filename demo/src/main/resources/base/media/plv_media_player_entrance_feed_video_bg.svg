@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" version="1.1" width="212" height="108" viewBox="0 0 212 108">
+    <defs>
+        <linearGradient x1="0" y1="0" x2="1" y2="1" id="master_svg0_314_1915">
+            <stop offset="0%" stop-color="#00C4F7" stop-opacity="1" />
+            <stop offset="100%" stop-color="#0096F7" stop-opacity="1" />
+        </linearGradient>
+        <clipPath id="master_svg1_489_1037">
+            <rect x="128" y="24" width="80" height="80" rx="0" />
+        </clipPath>
+    </defs>
+    <g>
+        <g>
+            <rect x="0" y="0" width="212" height="108" rx="8" fill="url(#master_svg0_314_1915)" fill-opacity="1" />
+        </g>
+        <g style="opacity:0.5;" clip-path="url(#master_svg1_489_1037)">
+            <g>
+                <path
+                    d="M133,64C133,44.6707,148.6707,29,168,29C187.3293,29,203,44.6707,203,64C203,83.3293,187.3293,99,168,99C148.6707,99,133,83.3293,133,64ZM160.4097,48.1987C158.1603,46.9597,156.3333,48.0283,156.3333,50.595L156.3333,77.4026C156.3333,79.95060000000001,158.15800000000002,81.0403,160.4097,79.799L184.9586,66.2493C187.2033,65.00800000000001,187.208,62.992,184.9586,61.7483L160.4097,48.1987Z"
+                    fill="#0091ED" fill-opacity="1" />
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,76 +1,86 @@
 import { PLVMediaPlayerSingleVideoLayout } from 'scene_single_video';
-import { PLVMediaResource, safe } from '@polyvharmony/media-player-sdk';
-import router from '@ohos.router';
+import { createDependScope, DependScope, requireNotNull, safe } from '@polyvharmony/media-player-sdk';
 import {
+  commonPageModule,
   createId,
   PLVAbilityContexts,
-  PLVComponentLifecycle,
+  PLVMediaPlayerScenes,
+  PLVMediaPlayerSingleVideoPageParam,
+  PLVMPPageControlViewModel,
   PLVOrientationManager,
   PLVOrientationManagerObserver
 } from 'media-player-common';
 import common from '@ohos.app.ability.common';
 import window from '@ohos.window';
 
-export class PLVMediaPlayerSingleVideoPageParam {
-  readonly mediaResource: PLVMediaResource
-
-  constructor(mediaResource: PLVMediaResource) {
-    this.mediaResource = mediaResource
-  }
-}
-
-@Entry
 @Component
-struct PLVMediaPlayerSingleVideoPage {
-  private param: PLVMediaPlayerSingleVideoPageParam = router.getParams() as PLVMediaPlayerSingleVideoPageParam
+export struct PLVMediaPlayerSingleVideoPage {
+  @Consume navPathStack: NavPathStack
+  private param: PLVMediaPlayerSingleVideoPageParam = this.navPathStack.getParamByName(PLVMediaPlayerScenes.SINGLE_VIDEO.name)[0] as PLVMediaPlayerSingleVideoPageParam
   private context = getContext(this) as common.UIAbilityContext
-  @Provide pageLifecycle: PLVComponentLifecycle = new PLVComponentLifecycle()
+  @Provide pageDependScope: DependScope = createDependScope(commonPageModule)
+  private pageControlViewModel: PLVMPPageControlViewModel = this.pageDependScope.get(PLVMPPageControlViewModel)
   private readonly plv_media_player_single_video_background: string = createId()
 
-  aboutToAppear(): void {
+  navAboutToAppear(): void {
+    requireNotNull(this.param, () => "param is null")
     PLVAbilityContexts.getInstance().registerContext(getContext(this) as common.UIAbilityContext)
-    this.pageLifecycle.onAboutToAppear()
-  }
+    this.pageControlViewModel.navPathStack = this.navPathStack
+    this.pageControlViewModel.pageLifecycle.onAboutToAppear()
 
-  onPageShow(): void {
-    this.pageLifecycle.onPageShow()
     safe(async () => {
       const windowInstance = await window.getLastWindow(this.context)
       windowInstance.setWindowKeepScreenOn(true)
     })
   }
 
-  build() {
-    Stack() {
-      // 背景图
-      Image($r('app.media.plv_media_player_video_item_background_portrait'))
-        .id(this.plv_media_player_single_video_background)
-        .objectFit(ImageFit.Cover)
-
-      PLVMediaPlayerSingleVideoLayout({ mediaResource: this.param.mediaResource })
-
-      // 屏幕方向监听器
-      PLVOrientationManagerObserver()
-    }
+  navOnPageShow(): void {
+    this.pageControlViewModel.pageLifecycle.onPageShow()
   }
 
-  onBackPress(): boolean | void {
+  build() {
+    NavDestination() {
+      Stack() {
+        // 背景图
+        Image($r('app.media.plv_media_player_video_item_background_portrait'))
+          .id(this.plv_media_player_single_video_background)
+          .objectFit(ImageFit.Cover)
+
+        PLVMediaPlayerSingleVideoLayout({
+          mediaResource: this.param.mediaResource,
+        })
+
+        // 屏幕方向监听器
+        PLVOrientationManagerObserver()
+      }
+    }
+    .hideTitleBar(true)
+    .onAppear(() => this.navAboutToAppear())
+    .onShown(() => this.navOnPageShow())
+    .onBackPressed(() => this.navOnBackPress())
+    .onHidden(() => this.navOnPageHide())
+    .onDisAppear(() => this.navAboutToDisappear())
+  }
+
+  navOnBackPress(): boolean {
     if (!PLVOrientationManager.getInstance().isPortrait.value) {
       PLVOrientationManager.getInstance().requestOrientation('port');
       return true;
     }
+    return false;
   }
 
-  onPageHide(): void {
+  navOnPageHide(): void {
+    this.pageControlViewModel.pageLifecycle.onPageHide()
+  }
+
+  navAboutToDisappear(): void {
+    this.pageControlViewModel.pageLifecycle.onAboutToDisappear()
+    PLVAbilityContexts.getInstance().unregisterContext(getContext(this) as common.UIAbilityContext)
+
     safe(async () => {
       const windowInstance = await window.getLastWindow(this.context)
       windowInstance.setWindowKeepScreenOn(false)
     })
-    this.pageLifecycle.onPageHide()
-  }
-
-  aboutToDisappear(): void {
-    this.pageLifecycle.onAboutToDisappear()
-    PLVAbilityContexts.getInstance().unregisterContext(getContext(this) as common.UIAbilityContext)
   }
 }

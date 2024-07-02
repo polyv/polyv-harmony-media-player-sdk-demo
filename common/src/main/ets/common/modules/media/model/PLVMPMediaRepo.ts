@@ -32,6 +32,8 @@ export class PLVMPMediaRepo implements LifecycleAwareDependComponent {
     this.mediator.businessErrorState = this.player.getBusinessListenerRegistry().businessErrorState
     this.mediator.playingState = this.player.getStateListenerRegistry().playingState
     this.mediator.playerState = this.player.getStateListenerRegistry().playerState
+    this.mediator.bindAuxiliaryPlayer = (auxiliaryPlayer) => this.player.bindAuxiliaryPlayer(auxiliaryPlayer)
+    this.mediator.unbindAuxiliaryPlayer = (auxiliaryPlayer) => this.player.unbindAuxiliaryPlayer(auxiliaryPlayer)
   }
 
   setMediaResource(mediaResource: PLVMediaResource) {

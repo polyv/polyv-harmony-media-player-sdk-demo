@@ -5,8 +5,7 @@
       {
         "name": "default",
         "signingConfig": "default",
-        "compileSdkVersion": "4.1.0(11)",
-        "compatibleSdkVersion": "4.0.0(10)",
+        "compatibleSdkVersion": "4.1.0(11)",
         "runtimeOS": "HarmonyOS",
       }
     ],
@@ -35,6 +34,10 @@
     {
       "name": "scene_single_video",
       "srcPath": "./scene_single_video"
+    },
+    {
+      "name": "scene_feed_video",
+      "srcPath": "./scene_feed_video"
     },
     {
       "name": "common",

@@ -7,7 +7,7 @@ import {
   requireNotNull
 } from '@polyvharmony/media-player-sdk';
 import {
-  commonModule,
+  commonItemModule,
   createId,
   getDisplayWindowHeight,
   getDisplayWindowWidth,
@@ -16,11 +16,13 @@ import {
   PLVMediaPlayerHandleOnEnterBackgroundComponent,
   PLVMPMediaControllerViewModel,
   PLVMPMediaViewModel,
+  PLVMPPageControlViewModel,
   PLVOrientationManager,
   toCenterOf,
   toMiddleOf,
   toTopOf
 } from 'media-player-common';
+import { PLVMediaPlayerAuxiliaryLayout } from './component/PLVMediaPlayerAuxiliaryLayout';
 import { PLVMediaPlayerSingleVideoControllerLayout } from './layout/PLVMediaPlayerSingleVideoControllerLayout';
 import { PLVMediaPlayerSingleVideoFloatActionLayout } from './layout/PLVMediaPlayerSingleVideoFloatActionLayout';
 
@@ -28,13 +30,16 @@ import { PLVMediaPlayerSingleVideoFloatActionLayout } from './layout/PLVMediaPla
 @Component
 export struct PLVMediaPlayerSingleVideoLayout {
   mediaResource?: PLVMediaResource
-  @Provide dependScope: DependScope = createDependScope(commonModule)
+  @Provide dependScope: DependScope = createDependScope(commonItemModule)
+  @Consume pageDependScope: DependScope
   private viewModel: PLVMPMediaViewModel = this.dependScope.get(PLVMPMediaViewModel);
   private controllerViewModel: PLVMPMediaControllerViewModel = this.dependScope.get(PLVMPMediaControllerViewModel);
+  private pageControlViewModel: PLVMPPageControlViewModel = this.pageDependScope.get(PLVMPPageControlViewModel)
   @State videoWidth: number = 0
   @State videoHeight: number = 0
   @State isPortrait: boolean = isPortrait()
   @State isFloatActionLayoutVisible: boolean = false
+  private componentController: XComponentController = new XComponentController()
   private observers: MutableObserver[] = []
   // <editor-fold defaultstate="collapsed" desc="ids">
   private readonly plv_media_player_single_video_xcomponent: string = createId()
@@ -43,6 +48,7 @@ export struct PLVMediaPlayerSingleVideoLayout {
   private readonly plv_media_player_single_video_float_action_layout: string = createId()
   private readonly plv_media_player_single_video_layout_root: string = createId()
   private readonly plv_media_player_handle_on_enter_background_component: string = createId()
+  private readonly plv_media_player_auxiliary_layout: string = createId()
 
   // </editor-fold>
 
@@ -53,6 +59,8 @@ export struct PLVMediaPlayerSingleVideoLayout {
     this.setupMediaPlayer()
     this.controllerViewModel.mediaControllerViewState.observe((viewState) => {
       this.isFloatActionLayoutVisible = viewState.isFloatActionLayoutVisible()
+      this.videoWidth = viewState.videoViewLocation.width
+      this.videoHeight = viewState.videoViewLocation.height
     }).pushTo(this.observers)
   }
 
@@ -71,7 +79,8 @@ export struct PLVMediaPlayerSingleVideoLayout {
         XComponent({
           id: `plv_media_player_single_video_xcomponent`,
           type: "surface",
-          libraryname: "plvplayer_xcomponent"
+          libraryname: "plvplayer_xcomponent",
+          controller: this.componentController
         }) {
         }
         .id(this.plv_media_player_single_video_xcomponent)
@@ -88,8 +97,8 @@ export struct PLVMediaPlayerSingleVideoLayout {
         // 播放控制皮肤
         PLVMediaPlayerSingleVideoControllerLayout()
           .id(this.plv_media_player_single_video_controller_layout)
-          .width(this.videoWidth > this.videoHeight ? this.videoWidth : '100%')
-          .height(this.videoWidth > this.videoHeight ? this.videoHeight : '100%')
+          .width('100%')
+          .height('100%')
           .alignRules({
             center: toCenterOf(parent),
             middle: toMiddleOf(parent)
@@ -116,11 +125,17 @@ export struct PLVMediaPlayerSingleVideoLayout {
         .id(this.plv_media_player_handle_on_enter_background_component)
         .visibility(Visibility.None)
 
+      // 广告播放器布局
+      PLVMediaPlayerAuxiliaryLayout()
+        .id(this.plv_media_player_auxiliary_layout)
+
     }
     .id(this.plv_media_player_single_video_layout_root)
     .width('100%')
     .height('100%')
   }
+
+  // <editor-fold defaultstate="collapsed" desc="UI - 更新播放器尺寸">
 
   private observeMediaViewState() {
     this.viewModel.mediaInfoViewState.observe(() => {
@@ -133,7 +148,7 @@ export struct PLVMediaPlayerSingleVideoLayout {
       this.isPortrait = isPortrait
       this.updateVideoSize()
       // 只有横屏有操作锁定，竖屏没有
-      if (!isPortrait) {
+      if (isPortrait) {
         this.controllerViewModel.lockMediaController('unlock')
       }
     }).pushTo(this.observers)
@@ -144,8 +159,8 @@ export struct PLVMediaPlayerSingleVideoLayout {
     if (!viewState) {
       return
     }
-    const containerWidth = px2vp(getDisplayWindowWidth())
-    const containerHeight = this.isPortrait ? containerWidth / 16 * 9 : px2vp(getDisplayWindowHeight())
+    const containerWidth = getDisplayWindowWidth().vp
+    const containerHeight = this.isPortrait ? containerWidth / 16 * 9 : getDisplayWindowHeight().vp
     const containerRatio = containerWidth / containerHeight
     let videoWidth = containerWidth
     let videoHeight = containerHeight
@@ -156,17 +171,25 @@ export struct PLVMediaPlayerSingleVideoLayout {
     } else if (containerRatio < videoRatio) {
       videoHeight = containerWidth / viewState.videoSize.width() * viewState.videoSize.height()
     }
-    this.videoWidth = videoWidth
-    this.videoHeight = videoHeight
+    this.controllerViewModel.updateVideoViewLocation({
+      width: videoWidth,
+      height: videoHeight,
+      offset: {
+        x: 0,
+        y: 0
+      }
+    })
   }
 
   private videoContainerHeight() {
     if (this.isPortrait) {
-      return px2vp(getDisplayWindowWidth() / 16 * 9)
+      return getDisplayWindowWidth().vp / 16 * 9
     } else {
       return '100%'
     }
   }
+
+  // </editor-fold>
 
   aboutToDisappear(): void {
     MutableObserver.disposeAll(this.observers)

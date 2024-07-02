@@ -1,0 +1,12 @@
+{
+  "string": [
+    {
+      "name": "page_show",
+      "value": "page from package"
+    },
+    {
+      "name": "plv_media_player_ui_component_full_screen_hint_text",
+      "value": "全屏观看"
+    }
+  ]
+}

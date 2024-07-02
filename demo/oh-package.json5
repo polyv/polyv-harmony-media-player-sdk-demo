@@ -1,15 +1,16 @@
 {
   "name": "demo",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Please describe the basic information.",
   "main": "",
   "author": "",
   "license": "MIT",
   "dependencies": {
     "scene_single_video": "file:../scene_single_video",
+    "scene_feed_video": "file:../scene_feed_video",
     "media-player-common": "file:../common",
-    "@polyvharmony/media-player-sdk": "2.0.0",
-    "@polyvharmony/media-player-core-ijk": "2.0.0"
+    "@polyvharmony/media-player-sdk": "2.1.0",
+    "@polyvharmony/media-player-core-ijk": "2.1.0"
   }
 }
 

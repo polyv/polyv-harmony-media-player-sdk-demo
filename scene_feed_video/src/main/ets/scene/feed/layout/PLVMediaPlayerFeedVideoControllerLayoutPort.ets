@@ -14,6 +14,7 @@ import {
   PLVMediaPlayerPlayErrorOverlayLayout,
   PLVMediaPlayerProgressTextView,
   PLVMediaPlayerSeekProgressPreviewLayout,
+  PLVMediaPlayerSubtitleTextLayout,
   PLVMediaPlayerSwitchBitRateHintLayout,
   PLVMediaPlayerTitleTextView,
   PLVMPMediaControllerViewModel,
@@ -42,6 +43,7 @@ export struct PLVMediaPlayerFeedVideoControllerLayoutPort {
   private observers: MutableObserver[] = []
   // <editor-fold defaultstate="collapsed" desc="ids">
   private readonly plv_media_player_feed_video_shadow: string = createId()
+  private readonly plv_media_player_subtitle_text_layout: string = createId()
   private readonly plv_media_player_gesture_handle_layout: string = createId()
   private readonly plv_media_player_marquee_layout: string = createId()
   private readonly plv_media_player_audio_mode_cover_layout: string = createId()
@@ -85,6 +87,21 @@ export struct PLVMediaPlayerFeedVideoControllerLayoutPort {
           y: this.videoOffsetY
         })
         .hitTestBehavior(HitTestMode.None)
+
+      // 字幕
+      PLVMediaPlayerSubtitleTextLayout()
+        .id(this.plv_media_player_subtitle_text_layout)
+        .hitTestBehavior(HitTestMode.None)
+        .margin({
+          bottom: 12
+        })
+        .offset({
+          y: this.videoOffsetY
+        })
+        .alignRules({
+          bottom: toBottomOf(this.plv_media_player_feed_video_shadow),
+          middle: toMiddleOf(parent)
+        })
 
       // 手势处理
       PLVMediaPlayerGestureHandleLayoutFeedPort()
@@ -171,6 +188,9 @@ export struct PLVMediaPlayerFeedVideoControllerLayoutPort {
         .alignRules({
           center: toCenterOf(parent),
           middle: toMiddleOf(parent)
+        })
+        .offset({
+          y: this.videoOffsetY
         })
         .hitTestBehavior(HitTestMode.Transparent)
 

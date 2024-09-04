@@ -5,7 +5,6 @@ import { PLVMPMediaControllerViewModel } from '../../modules/mediacontroller/vie
 import {
   PLVMPMediaControllerViewState
 } from '../../modules/mediacontroller/viewmodel/viewstate/PLVMPMediaControllerViewState'
-import { any } from '../../utils/arkts-no-everything'
 import { getDisplayWindowWidth } from '../../utils/PLVDisplayUtils'
 
 @Component
@@ -134,7 +133,7 @@ export struct PLVMediaPlayerGestureHandleLayout {
         if (event === null) {
           return;
         }
-        state.startX = any(event).globalX ?? any(event).localX ?? null
+        state.startX = event.fingerList[0]?.globalX ?? null
         this.videoProgressOnStartDrag = this.mediaViewModel.mediaPlayViewState.value?.currentProgress ?? 0
         this.videoDuration = this.mediaViewModel.mediaPlayViewState.value?.duration ?? 0
         this.controllerViewModel.handleDragGestureSeek('update', this.videoProgressOnStartDrag)
@@ -172,8 +171,8 @@ export struct PLVMediaPlayerGestureHandleLayout {
         if (event === null) {
           break;
         }
-        state.startX = any(event).globalX ?? any(event).localX ?? null
-        state.startY = any(event).globalY ?? any(event).localY ?? null
+        state.startX = event.fingerList[0]?.globalX ?? null
+        state.startY = event.fingerList[0]?.globalY ?? null
         state.lastY = state.startY ?? 0
         state.lastConsumedY = state.lastY
         break;

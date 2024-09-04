@@ -49,7 +49,7 @@ export struct PLVMediaPlayerAudioModeCoverLayoutLand {
           Image(this.audioModeCoverImage ?? $r('app.media.plv_media_player_audio_mode_cover_placeholder'))
             .width(71)
             .height(71)
-            .clip(new Circle().width(71).height(71))
+            .clipShape(new Circle().width(71).height(71))
             .rotate({
               angle: this.audioImageRotation
             })

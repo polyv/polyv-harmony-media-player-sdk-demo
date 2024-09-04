@@ -1,12 +1,12 @@
 {
   "string": [
     {
-      "name": "plv_media_player_ability_label",
-      "value": "PLVHarmonyMediaPlayer"
-    },
-    {
       "name": "NET_REQUEST_PERMISSION",
       "value": "api apply net request permission."
+    },
+    {
+      "name": "plv_media_player_ability_label",
+      "value": "PLVHarmonyMediaPlayer"
     }
   ]
 }

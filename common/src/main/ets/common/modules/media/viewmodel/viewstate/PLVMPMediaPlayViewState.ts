@@ -1,4 +1,4 @@
-import {PLVMediaPlayerState} from '@polyvharmony/media-player-sdk';
+import {PLVMediaPlayerState, PLVVodSubtitleText} from '@polyvharmony/media-player-sdk';
 
 export class PLVMPMediaPlayViewState {
   currentProgress: number = 0
@@ -9,4 +9,5 @@ export class PLVMPMediaPlayViewState {
   // bytes per second
   bufferingSpeed: number = 0
   speed: number = 1
+  subtitleTexts: PLVVodSubtitleText[] = []
 }

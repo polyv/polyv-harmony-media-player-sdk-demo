@@ -22,6 +22,7 @@ import {
   PLVMediaPlayerProgressTextView,
   PLVMediaPlayerSeekProgressPreviewLayout,
   PLVMediaPlayerSpeedTextView,
+  PLVMediaPlayerSubtitleTextLayout,
   PLVMediaPlayerSwitchBitRateHintLayout,
   PLVMediaPlayerTitleTextView,
   PLVMPMediaControllerViewModel,
@@ -44,6 +45,7 @@ export struct PLVMediaPlayerFeedVideoControllerLayoutLand {
   private observers: MutableObserver[] = []
   // <editor-fold defaultstate="collapsed" desc="ids">
   private readonly plv_media_player_feed_video_shadow: string = createId()
+  private readonly plv_media_player_subtitle_text_layout: string = createId()
   private readonly plv_media_player_controller_gradient_mask_layout: string = createId()
   private readonly plv_media_player_gesture_handle_layout: string = createId()
   private readonly plv_media_player_marquee_layout: string = createId()
@@ -88,6 +90,18 @@ export struct PLVMediaPlayerFeedVideoControllerLayoutLand {
           middle: toMiddleOf(parent)
         })
         .hitTestBehavior(HitTestMode.None)
+
+      // 字幕
+      PLVMediaPlayerSubtitleTextLayout()
+        .id(this.plv_media_player_subtitle_text_layout)
+        .hitTestBehavior(HitTestMode.None)
+        .margin({
+          bottom: 34
+        })
+        .alignRules({
+          bottom: toBottomOf(parent),
+          middle: toMiddleOf(parent)
+        })
 
       // 皮肤控件底部渐变遮罩蒙层
       PLVMediaPlayerControllerGradientMaskLayout()

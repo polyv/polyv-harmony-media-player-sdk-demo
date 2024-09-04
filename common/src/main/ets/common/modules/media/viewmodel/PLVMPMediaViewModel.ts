@@ -12,6 +12,7 @@ import {
   PLVMediaPlayerOption,
   PLVMediaPlayerState,
   PLVMediaResource,
+  PLVMediaSubtitle,
   State
 } from '@polyvharmony/media-player-sdk';
 import {PLVMPMediaPlayViewState} from './viewstate/PLVMPMediaPlayViewState';
@@ -97,6 +98,10 @@ export class PLVMPMediaViewModel {
 
   changeMediaOutputMode(outputMode: PLVMediaOutputMode) {
     this.repo.changeMediaOutputMode(outputMode)
+  }
+
+  setShowSubtitles(subtitles: PLVMediaSubtitle[]) {
+    this.repo.setShowSubtitles(subtitles)
   }
 
 }

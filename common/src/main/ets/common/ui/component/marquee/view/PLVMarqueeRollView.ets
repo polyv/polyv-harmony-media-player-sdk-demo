@@ -111,18 +111,18 @@ export struct PLVMarqueeRollView {
       end: endOffsetX
     }
     this.marqueeAnimate = Animator.create(animOption)
-    this.marqueeAnimate.onframe = (value: number) => {
+    this.marqueeAnimate.onFrame = (value: number) => {
       this.isVisible = true
       this.textOffsetX = value
     }
-    this.marqueeAnimate.onfinish = () => {
+    this.marqueeAnimate.onFinish = () => {
       this.isVisible = false
       animOption.delay = this.animateSetting.rollInterval.toMillis()
       this.marqueeAnimate?.reset(animOption)
       this.textOffsetY = random(0, extendNumber(this.containerHeight - textHeight).coerceAtLeast_ext(0))
       this.marqueeAnimate?.play()
     }
-    this.marqueeAnimate.oncancel = () => {
+    this.marqueeAnimate.onCancel = () => {
       this.isVisible = false
     }
 

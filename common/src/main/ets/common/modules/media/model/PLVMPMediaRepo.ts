@@ -6,7 +6,8 @@ import {
   PLVMediaPlayer,
   PLVMediaPlayerOption,
   PLVMediaPlayerPlayingState,
-  PLVMediaResource
+  PLVMediaResource,
+  PLVMediaSubtitle
 } from '@polyvharmony/media-player-sdk';
 import {PLVMPMediaMediator} from '../mediator/PLVMPMediaMediator';
 
@@ -83,6 +84,10 @@ export class PLVMPMediaRepo implements LifecycleAwareDependComponent {
 
   changeMediaOutputMode(outputMode: PLVMediaOutputMode) {
     this.player.changeMediaOutputMode(outputMode)
+  }
+
+  setShowSubtitles(subtitles: PLVMediaSubtitle[]) {
+    this.player.setShowSubtitles(subtitles)
   }
 
   onDestroy(): void {

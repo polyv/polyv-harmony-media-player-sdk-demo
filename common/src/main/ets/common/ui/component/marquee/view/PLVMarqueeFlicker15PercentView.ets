@@ -103,17 +103,17 @@ export struct PLVMarqueeFlicker15PercentView {
       end: endValue
     }
     this.marqueeAnimate = Animator.create(animOption)
-    this.marqueeAnimate.onframe = (value: number) => {
+    this.marqueeAnimate.onFrame = (value: number) => {
       this.textOpacity = maxOpacity - Math.abs(value - maxOpacity)
     }
-    this.marqueeAnimate.onfinish = () => {
+    this.marqueeAnimate.onFinish = () => {
       animOption.delay = this.animateSetting.tweenInterval.toMillis()
       this.marqueeAnimate?.reset(animOption)
       this.textOffsetX = random(0, extendNumber(containerWidth - textWidth).coerceAtLeast_ext(0))
       this.textOffsetY = this.randomTextOffsetY(containerHeight, textHeight)
       this.marqueeAnimate?.play()
     }
-    this.marqueeAnimate.oncancel = () => {
+    this.marqueeAnimate.onCancel = () => {
       this.textOpacity = 0
     }
 

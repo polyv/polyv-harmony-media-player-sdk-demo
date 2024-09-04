@@ -132,18 +132,18 @@ export struct PLVMarqueeRollFlickerView {
       end: endOffsetX
     }
     this.rollAnimate = Animator.create(rollAnimOption)
-    this.rollAnimate.onframe = (value: number) => {
+    this.rollAnimate.onFrame = (value: number) => {
       this.isVisible = true
       this.textOffsetX = value
     }
-    this.rollAnimate.onfinish = () => {
+    this.rollAnimate.onFinish = () => {
       this.isVisible = false
       rollAnimOption.delay = this.animateSetting.rollInterval.toMillis()
       this.rollAnimate?.reset(rollAnimOption)
       this.textOffsetY = random(0, extendNumber(containerHeight - textHeight).coerceAtLeast_ext(0))
       this.rollAnimate?.play()
     }
-    this.rollAnimate.oncancel = () => {
+    this.rollAnimate.onCancel = () => {
       this.isVisible = false
     }
   }
@@ -167,15 +167,15 @@ export struct PLVMarqueeRollFlickerView {
       end: tweenEndValue
     }
     this.tweenAnimate = Animator.create(tweenAnimOption)
-    this.tweenAnimate.onframe = (value: number) => {
+    this.tweenAnimate.onFrame = (value: number) => {
       this.textOpacity = maxOpacity - Math.abs(value - maxOpacity)
     }
-    this.tweenAnimate.onfinish = () => {
+    this.tweenAnimate.onFinish = () => {
       tweenAnimOption.delay = this.animateSetting.tweenInterval.toMillis()
       this.tweenAnimate?.reset(tweenAnimOption)
       this.tweenAnimate?.play()
     }
-    this.tweenAnimate.oncancel = () => {
+    this.tweenAnimate.onCancel = () => {
       this.textOpacity = 0
     }
   }

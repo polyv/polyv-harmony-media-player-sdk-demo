@@ -22,6 +22,7 @@ import {
   PLVMediaPlayerProgressTextView,
   PLVMediaPlayerSeekProgressPreviewLayout,
   PLVMediaPlayerSpeedTextView,
+  PLVMediaPlayerSubtitleTextLayout,
   PLVMediaPlayerSwitchBitRateHintLayout,
   PLVMediaPlayerTitleTextView,
   toBottomOf,
@@ -38,6 +39,7 @@ import { PLVMediaPlayerProgressSliderSingleLand } from '../component/PLVMediaPla
 export struct PLVMediaPlayerSingleVideoControllerLayoutLand {
   @Consume dependScope: DependScope
   // <editor-fold defaultstate="collapsed" desc="ids">
+  private readonly plv_media_player_subtitle_text_layout: string = createId()
   private readonly plv_media_player_controller_gradient_mask_layout: string = createId()
   private readonly plv_media_player_gesture_handle_layout: string = createId()
   private readonly plv_media_player_marquee_layout: string = createId()
@@ -65,6 +67,18 @@ export struct PLVMediaPlayerSingleVideoControllerLayoutLand {
 
   build() {
     RelativeContainer() {
+      // 字幕
+      PLVMediaPlayerSubtitleTextLayout()
+        .id(this.plv_media_player_subtitle_text_layout)
+        .hitTestBehavior(HitTestMode.None)
+        .margin({
+          bottom: 34
+        })
+        .alignRules({
+          bottom: toBottomOf(parent),
+          middle: toMiddleOf(parent)
+        })
+
       // 皮肤控件底部渐变遮罩蒙层
       PLVMediaPlayerControllerGradientMaskLayout()
         .id(this.plv_media_player_controller_gradient_mask_layout)

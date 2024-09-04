@@ -2,6 +2,7 @@ import { DependScope, extendArray, MutableObserver } from '@polyvharmony/media-p
 import { PLVMPMediaControllerViewModel } from '../../modules/mediacontroller/viewmodel/PLVMPMediaControllerViewModel'
 import { createId, parent, toEndOf, toStartOf, toTopOf } from '../../utils/arkts-no-everything'
 import { PLVMediaPlayerMoreLayoutAudioModeActionView } from './PLVMediaPlayerMoreLayoutAudioModeActionView'
+import { PLVMediaPlayerMoreLayoutSubtitleActionView } from './PLVMediaPlayerMoreLayoutSubtitleActionView'
 
 @Component
 export struct PLVMediaPlayerMoreLayoutLand {
@@ -13,6 +14,7 @@ export struct PLVMediaPlayerMoreLayoutLand {
   private readonly plv_media_player_more_action_start_guide_line: string = createId()
   private readonly plv_media_player_more_action_layout_close_layout_mask: string = createId()
   private readonly plv_media_player_more_action_audio_mode_action_view: string = createId()
+  private readonly plv_media_player_more_action_subtitle_action_view: string = createId()
   private readonly plv_media_player_more_action_close_iv: string = createId()
 
   // </editor-fold>
@@ -62,6 +64,22 @@ export struct PLVMediaPlayerMoreLayoutLand {
         })
         .margin({
           top: 48
+        })
+
+      PLVMediaPlayerMoreLayoutSubtitleActionView({
+        iconResourceActive: $r('app.media.plv_media_player_more_subtitle_action_icon_active_land'),
+        iconResourceInactive: $r('app.media.plv_media_player_more_subtitle_action_icon_inactive_land'),
+        textFontColorActive: '#CCFFFFFF',
+        textFontColorInactive: '#CCFFFFFF'
+      })
+        .id(this.plv_media_player_more_action_subtitle_action_view)
+        .alignRules({
+          left: toEndOf(this.plv_media_player_more_action_audio_mode_action_view),
+          top: toTopOf(parent)
+        })
+        .margin({
+          top: 48,
+          left: 28
         })
 
       Image($r('app.media.plv_media_player_float_menu_close_icon'))

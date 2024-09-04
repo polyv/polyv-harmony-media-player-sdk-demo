@@ -92,7 +92,8 @@ function vod(videoId: string): PLVVodMediaResource {
   return {
     videoId: videoId,
     authentication: mockAuthentication,
-    viewerParam: mockViewerParam
+    viewerParam: mockViewerParam,
+    scene: "vod"
   }
 }
 

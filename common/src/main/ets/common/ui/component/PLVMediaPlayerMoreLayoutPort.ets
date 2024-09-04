@@ -9,6 +9,7 @@ import { PLVMPMediaViewModel } from '../../modules/media/viewmodel/PLVMPMediaVie
 import { PLVMPMediaControllerViewModel } from '../../modules/mediacontroller/viewmodel/PLVMPMediaControllerViewModel'
 import { createId, parent, toBottomOf, toEndOf, toTopOf, usePadding } from '../../utils/arkts-no-everything'
 import { PLVMediaPlayerMoreLayoutAudioModeActionView } from './PLVMediaPlayerMoreLayoutAudioModeActionView'
+import { PLVMediaPlayerMoreLayoutSubtitleActionView } from './PLVMediaPlayerMoreLayoutSubtitleActionView'
 
 @Component
 export struct PLVMediaPlayerMoreLayoutPort {
@@ -59,6 +60,7 @@ export struct PLVMediaPlayerMoreLayoutPort {
       Column() {
         Row({ space: 28 }) {
           PLVMediaPlayerMoreLayoutAudioModeActionView()
+          PLVMediaPlayerMoreLayoutSubtitleActionView()
         }
 
         if (this.currentBitRate !== null && this.supportBitRates.length > 0 && this.currentMediaOutputMode !== PLVMediaOutputMode.AUDIO_ONLY) {

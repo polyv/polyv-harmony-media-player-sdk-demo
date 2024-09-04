@@ -96,11 +96,11 @@ export struct PLVMarqueeDoubleMarqueeSubTextView {
       end: 0
     }
     this.marqueeAnimate = Animator.create(animOption)
-    this.marqueeAnimate.onrepeat = () => {
+    this.marqueeAnimate.onRepeat = () => {
       this.textOffsetX = random(0, extendNumber(containerWidth - textWidth).coerceAtLeast_ext(0))
       this.textOffsetY = random(0, extendNumber(containerHeight - textHeight).coerceAtLeast_ext(0))
     }
-    this.marqueeAnimate.oncancel = () => {
+    this.marqueeAnimate.onCancel = () => {
       this.textOpacity = 0
     }
 

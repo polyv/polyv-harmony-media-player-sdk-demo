@@ -1,0 +1,16 @@
+{
+  "string": [
+    {
+      "name": "page_show",
+      "value": "page from package"
+    },
+    {
+      "name": "plv_media_player_download_center_text",
+      "value": "下载中心"
+    },
+    {
+      "name": "plv_media_player_download_center_list_is_empty",
+      "value": "暂无下载内容"
+    }
+  ]
+}

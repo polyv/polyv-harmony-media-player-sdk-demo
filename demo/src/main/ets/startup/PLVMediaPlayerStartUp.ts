@@ -11,6 +11,7 @@ import {PLVMediaPlayerCoreIjkProvider} from '@polyvharmony/media-player-core-ijk
 import {Context} from '@ohos.abilityAccessCtrl';
 import distributedKVStore from '@ohos.data.distributedKVStore';
 import hilog from '@ohos.hilog';
+import {PLVMediaDownloaderManager, PLVMediaDownloadSetting} from '@polyvharmony/media-player-sdk-addon-cache-down';
 
 export class PLVMediaPlayerStartUp {
   private static isInit = false
@@ -23,6 +24,7 @@ export class PLVMediaPlayerStartUp {
     PLVMediaPlayerLogger.loggerImpl = new HiLogImpl()
     PLVKVStore.setupImplement(new PLVKVStoreOhosImpl(context))
     PLVMediaPlayerFactory.getInstance().register(PLVMediaPlayerCoreIjkProvider.getInstance())
+    PLVMediaDownloaderManager.getInstance().init(PLVMediaDownloadSetting.defaultSetting(context))
   }
 }
 

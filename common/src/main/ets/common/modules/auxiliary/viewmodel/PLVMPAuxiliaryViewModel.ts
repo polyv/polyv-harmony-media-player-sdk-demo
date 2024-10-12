@@ -21,9 +21,9 @@ export class PLVMPAuxiliaryViewModel {
     this.repo = repo
     this.useCases = useCases
 
-    this.auxiliaryInfoViewState = this.useCases.updateMediaStateUseCase.auxiliaryInfoViewState
-    this.auxiliaryPlayViewState = this.useCases.updateMediaStateUseCase.auxiliaryPlayViewState
-    this.auxiliaryVideoInfoViewState = this.useCases.updateMediaStateUseCase.auxiliaryVideoInfoViewState
+    this.auxiliaryInfoViewState = this.repo.mediator.auxiliaryInfoViewState
+    this.auxiliaryPlayViewState = this.repo.mediator.auxiliaryPlayViewState
+    this.auxiliaryVideoInfoViewState = this.repo.mediator.auxiliaryVideoInfoViewState
 
     this.repo.auxiliaryMediaPlayer.getAuxiliaryListenerRegistry().onBeforeAdvertListener = this.useCases.beforePlayListener
   }

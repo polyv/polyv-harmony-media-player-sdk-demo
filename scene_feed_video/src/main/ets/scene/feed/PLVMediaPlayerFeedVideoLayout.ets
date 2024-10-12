@@ -112,6 +112,9 @@ export struct PLVMediaPlayerFeedVideoLayout {
       })
       .onLoad((xcomponent) => {
         this.viewModel.setXComponent(xcomponent)
+        this.viewModel.onScreenshot = async () => {
+          return await this.getUIContext().getComponentSnapshot().get(this.plv_media_player_feed_video_xcomponent)
+        }
       })
 
       // 播放控制皮肤

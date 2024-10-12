@@ -11,11 +11,13 @@ export struct PLVMediaPlayerMoreActionImageView {
 
   aboutToAppear(): void {
     this.controllerViewModel.mediaControllerViewState.observe((viewState) => {
-      this.isVisible = viewState.controllerVisible
+      let visible = viewState.controllerVisible
         && !viewState.isMediaStopOverlayVisible()
         && !viewState.progressSliderDragging
         && !viewState.controllerLocking
         && !(viewState.isFloatActionLayoutVisible() && isLandscape())
+      visible = visible || viewState.isMediaStopOverlayVisible()
+      this.isVisible = visible
     }).pushTo(this.observers)
   }
 

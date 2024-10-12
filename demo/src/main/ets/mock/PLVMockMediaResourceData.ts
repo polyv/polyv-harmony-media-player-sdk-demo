@@ -1,12 +1,16 @@
 import {
   error,
   PLVGeneralApiManager,
+  PLVMediaPlayerAppContext,
   PLVMediaResource,
   PLVUrlMediaResource,
   PLVViewerParam,
   PLVVodMainAccountAuthentication,
   PLVVodMediaResource
 } from '@polyvharmony/media-player-sdk';
+import {
+  PLVMediaDownloadSetting
+} from '@polyvharmony/media-player-sdk-addon-cache-down';
 
 const mockAuthentication: PLVVodMainAccountAuthentication = {
   userId: "e97dbe3e64",
@@ -89,11 +93,14 @@ export class PLVMockMediaResourceData {
 }
 
 function vod(videoId: string): PLVVodMediaResource {
+  // 默认下载路径
+  const defaultDownloadRoot = PLVMediaDownloadSetting.defaultSetting(PLVMediaPlayerAppContext.getInstance().appContext!).downloadRootDirectory
   return {
     videoId: videoId,
     authentication: mockAuthentication,
     viewerParam: mockViewerParam,
-    scene: "vod"
+    scene: "vod",
+    localVideoSearchPaths: [defaultDownloadRoot]
   }
 }
 

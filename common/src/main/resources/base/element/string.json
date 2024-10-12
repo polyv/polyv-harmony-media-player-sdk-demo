@@ -91,6 +91,42 @@
     {
       "name": "plv_media_player_ui_component_subtitle_setting_double_subtitle_prefix",
       "value": "显示双语：%s"
+    },
+    {
+      "name": "plv_media_player_ui_component_download_text",
+      "value": "下载"
+    },
+    {
+      "name": "plv_media_player_ui_component_download_text_paused",
+      "value": "暂停中"
+    },
+    {
+      "name": "plv_media_player_ui_component_download_text_downloading",
+      "value": "下载中"
+    },
+    {
+      "name": "plv_media_player_ui_component_download_text_waiting",
+      "value": "等待中"
+    },
+    {
+      "name": "plv_media_player_ui_component_download_text_completed",
+      "value": "已下载"
+    },
+    {
+      "name": "plv_media_player_ui_component_download_text_failed",
+      "value": "下载失败"
+    },
+    {
+      "name": "plv_media_player_ui_component_screenshot_save_success",
+      "value": "视频截图保存成功"
+    },
+    {
+      "name": "plv_media_player_ui_component_screenshot_save_failed",
+      "value": "视频截图保存失败"
+    },
+    {
+      "name": "plv_media_player_ui_component_screenshot_save_to_local",
+      "value": "保存视频截图"
     }
   ]
 }

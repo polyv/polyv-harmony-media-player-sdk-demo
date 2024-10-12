@@ -14,9 +14,9 @@ import {
   isPortrait,
   parent,
   PLVMediaPlayerHandleOnEnterBackgroundComponent,
+  PLVMPDownloadItemViewModel,
   PLVMPMediaControllerViewModel,
   PLVMPMediaViewModel,
-  PLVMPPageControlViewModel,
   PLVOrientationManager,
   toCenterOf,
   toMiddleOf,
@@ -30,11 +30,12 @@ import { PLVMediaPlayerSingleVideoFloatActionLayout } from './layout/PLVMediaPla
 @Component
 export struct PLVMediaPlayerSingleVideoLayout {
   mediaResource?: PLVMediaResource
+  enterFromDownloadCenter: boolean = false
   @Provide dependScope: DependScope = createDependScope(commonItemModule)
   @Consume pageDependScope: DependScope
   private viewModel: PLVMPMediaViewModel = this.dependScope.get(PLVMPMediaViewModel);
   private controllerViewModel: PLVMPMediaControllerViewModel = this.dependScope.get(PLVMPMediaControllerViewModel);
-  private pageControlViewModel: PLVMPPageControlViewModel = this.pageDependScope.get(PLVMPPageControlViewModel)
+  private downloadItemViewModel: PLVMPDownloadItemViewModel = this.dependScope.get(PLVMPDownloadItemViewModel)
   @State videoWidth: number = 0
   @State videoHeight: number = 0
   @State isPortrait: boolean = isPortrait()
@@ -56,6 +57,7 @@ export struct PLVMediaPlayerSingleVideoLayout {
     requireNotNull(this.mediaResource, () => 'mediaResource must not be null')
     this.observeMediaViewState()
     this.observeOrientation()
+    this.downloadItemViewModel.setDownloadActionVisible(!this.enterFromDownloadCenter)
     this.setupMediaPlayer()
     this.controllerViewModel.mediaControllerViewState.observe((viewState) => {
       this.isFloatActionLayoutVisible = viewState.isFloatActionLayoutVisible()
@@ -92,6 +94,9 @@ export struct PLVMediaPlayerSingleVideoLayout {
         })
         .onLoad((xcomponent) => {
           this.viewModel.setXComponent(xcomponent)
+          this.viewModel.onScreenshot = async () => {
+            return await this.getUIContext().getComponentSnapshot().get(this.plv_media_player_single_video_xcomponent)
+          }
         })
 
         // 播放控制皮肤

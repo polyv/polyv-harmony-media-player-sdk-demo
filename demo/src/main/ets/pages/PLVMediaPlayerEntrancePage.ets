@@ -1,14 +1,14 @@
 import { safe, seconds } from '@polyvharmony/media-player-sdk';
 import { promptAction } from '@kit.ArkUI';
-import { PLVMediaPlayerSingleVideoPage } from './PLVMediaPlayerSingleVideoPage';
 import { PLVMockMediaResourceData } from '../mock/PLVMockMediaResourceData';
-import { PLVMediaPlayerFeedVideoPage } from './PLVMediaPlayerFeedVideoPage';
 import {
+  PLVMediaPlayerDownloadCenterPageParam,
   PLVMediaPlayerFeedVideoPageParam,
   PLVMediaPlayerScenes,
   PLVMediaPlayerSingleVideoPageParam,
   whatever
 } from 'media-player-common';
+import { PLVMediaPlayerNavigationPage } from './nav/PLVMediaPlayerNavigationPage';
 
 @Entry
 @Component
@@ -25,6 +25,7 @@ struct PLVMediaPlayerEntrancePage {
         Column({ space: 32 }) {
           FeedVideoEntry()
           SingleVideoEntry()
+          DownloadCenterEntry()
         }
       }
       .width('100%')
@@ -39,12 +40,9 @@ struct PLVMediaPlayerEntrancePage {
 
   @Builder
   private navDestination(name: string, param: whatever) {
-    if (name === PLVMediaPlayerScenes.SINGLE_VIDEO.name) {
-      PLVMediaPlayerSingleVideoPage()
-    }
-    if (name === PLVMediaPlayerScenes.FEED_VIDEO.name) {
-      PLVMediaPlayerFeedVideoPage()
-    }
+    PLVMediaPlayerNavigationPage({
+      navigationName: name
+    })
   }
 }
 
@@ -109,6 +107,30 @@ struct SingleVideoEntry {
       this.navPathStack.pushPath(new NavPathInfo(
         PLVMediaPlayerScenes.SINGLE_VIDEO.name,
         new PLVMediaPlayerSingleVideoPageParam(mediaResource)
+      ))
+    })
+  }
+}
+
+@Component
+struct DownloadCenterEntry {
+  @Consume navPathStack: NavPathStack
+
+  build() {
+    Stack() {
+      Image($r('app.media.plv_media_player_entrance_download_center_bg'))
+      Text($r("app.string.plv_media_player_download_center_text"))
+        .fontColor('#FFFFFF')
+        .fontSize(24)
+        .margin(20)
+    }
+    .alignContent(Alignment.TopStart)
+    .width(212)
+    .height(108)
+    .onClick(() => {
+      this.navPathStack.pushPath(new NavPathInfo(
+        PLVMediaPlayerScenes.DOWNLOAD_CENTER.name,
+        new PLVMediaPlayerDownloadCenterPageParam()
       ))
     })
   }

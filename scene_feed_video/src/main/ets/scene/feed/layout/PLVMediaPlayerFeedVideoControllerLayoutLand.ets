@@ -20,6 +20,7 @@ import {
   PLVMediaPlayerPlayCompleteManualRestartOverlayLayout,
   PLVMediaPlayerPlayErrorOverlayLayout,
   PLVMediaPlayerProgressTextView,
+  PLVMediaPlayerScreenshotImageView,
   PLVMediaPlayerSeekProgressPreviewLayout,
   PLVMediaPlayerSpeedTextView,
   PLVMediaPlayerSubtitleTextLayout,
@@ -68,6 +69,7 @@ export struct PLVMediaPlayerFeedVideoControllerLayoutLand {
   private readonly plv_media_player_switch_bit_rate_hint_layout: string = createId()
   private readonly plv_media_player_brightness_update_hint_layout: string = createId()
   private readonly plv_media_player_seek_progress_preview_layout: string = createId()
+  private readonly plv_media_player_screenshot_iv: string = createId()
 
   // </editor-fold>
 
@@ -253,6 +255,18 @@ export struct PLVMediaPlayerFeedVideoControllerLayoutLand {
         })
         .margin({
           left: 16
+        })
+        .hitTestBehavior(HitTestMode.Transparent)
+
+      // 视频截图按钮
+      PLVMediaPlayerScreenshotImageView()
+        .id(this.plv_media_player_screenshot_iv)
+        .alignRules({
+          center: toCenterOf(parent),
+          end: toEndOf(parent)
+        })
+        .margin({
+          right: 16
         })
         .hitTestBehavior(HitTestMode.Transparent)
 

@@ -19,6 +19,12 @@
       {
         "name": "ohos.permission.GET_NETWORK_INFO",
         "reason": "$string:NET_REQUEST_PERMISSION"
+      },
+      {
+        "name": "ohos.permission.KEEP_BACKGROUND_RUNNING"
+      },
+      {
+        "name": "ohos.permission.PRIVACY_WINDOW"
       }
     ],
     "abilities": [
@@ -30,6 +36,7 @@
         "startWindowIcon": "$media:plv_media_player_app_icon_startwindow",
         "startWindowBackground": "$color:start_window_background",
         "exported": true,
+        "backgroundModes": ["dataTransfer"],
         "skills": [
           {
             "entities": [

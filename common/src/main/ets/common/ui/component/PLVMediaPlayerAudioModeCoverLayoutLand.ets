@@ -1,6 +1,8 @@
 import { DependScope, MutableObserver, PLVMediaOutputMode, seconds } from '@polyvharmony/media-player-sdk'
 import { PLVMPMediaViewModel } from '../../modules/media/viewmodel/PLVMPMediaViewModel'
 import { createId, parent, toCenterOf, toMiddleOf, usePadding } from '../../utils/arkts-no-everything'
+import { readFileAsPixelMap } from '../ext/ImageKitExts'
+import { image } from '@kit.ImageKit'
 
 @Component
 export struct PLVMediaPlayerAudioModeCoverLayoutLand {
@@ -8,7 +10,7 @@ export struct PLVMediaPlayerAudioModeCoverLayoutLand {
   private mediaViewModel: PLVMPMediaViewModel = this.dependScope.get(PLVMPMediaViewModel)
   @State isVisible: boolean = false
   @State audioImageRotation: number = 0
-  @State audioModeCoverImage: string | null = null
+  @State audioModeCoverImage: string | image.PixelMap | null = null
   private observers: MutableObserver[] = []
   // <editor-fold defaultstate="collapsed" desc="ids">
   private readonly plv_media_player_audio_mode_cover_layout_background_land: string = createId()
@@ -17,9 +19,14 @@ export struct PLVMediaPlayerAudioModeCoverLayoutLand {
   // </editor-fold>
 
   aboutToAppear(): void {
-    this.mediaViewModel.mediaInfoViewState.observe((viewState) => {
+    let rememberCoverImage: string | null = null
+    this.mediaViewModel.mediaInfoViewState.observe(async (viewState) => {
       this.isVisible = viewState.outputMode === PLVMediaOutputMode.AUDIO_ONLY
-      this.audioModeCoverImage = viewState.audioModeCoverImage
+      if (rememberCoverImage !== viewState.audioModeCoverImage && viewState.audioModeCoverImage !== null) {
+        rememberCoverImage = viewState.audioModeCoverImage
+        const coverImage = viewState.audioModeCoverImage
+        this.audioModeCoverImage = coverImage == null ? null : coverImage.startsWith("http") ? coverImage : await readFileAsPixelMap(coverImage)
+      }
     }).pushTo(this.observers)
   }
 

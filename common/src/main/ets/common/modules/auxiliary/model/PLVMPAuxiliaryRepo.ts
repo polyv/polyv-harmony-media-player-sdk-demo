@@ -4,16 +4,20 @@ import {
   PLVAuxiliaryMediaPlayer
 } from '@polyvharmony/media-player-sdk';
 import {PLVMPMediaMediator} from "../../media/mediator/PLVMPMediaMediator";
+import {PLVMPAuxiliaryMediator} from "../mediator/PLVMPAuxiliaryMediator";
 
 export class PLVMPAuxiliaryRepo implements LifecycleAwareDependComponent {
 
+  readonly mediator: PLVMPAuxiliaryMediator
   private readonly mediaMediator: PLVMPMediaMediator
 
   readonly auxiliaryMediaPlayer: IPLVAuxiliaryMediaPlayer = new PLVAuxiliaryMediaPlayer()
 
   constructor(
+    mediator: PLVMPAuxiliaryMediator,
     mediaMediator: PLVMPMediaMediator
   ) {
+    this.mediator = mediator
     this.mediaMediator = mediaMediator
   }
 

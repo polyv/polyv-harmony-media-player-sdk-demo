@@ -3,6 +3,7 @@ import {
   DerivedState,
   isLiteralTrue,
   LifecycleAwareDependComponent,
+  MutableObserver,
   PLVMediaOutputMode,
   PLVMediaPlayer,
   PLVMediaPlayerPlayingState,
@@ -12,37 +13,33 @@ import {
 } from '@polyvharmony/media-player-sdk';
 import {PLVMPMediaPlayViewState} from '../viewstate/PLVMPMediaPlayViewState';
 import {PLVMPMediaInfoViewState, PLVMPSubtitleTextStyle} from '../viewstate/PLVMPMediaInfoViewState';
-import {UpdateBufferingSpeedUseCase} from "./UpdateBufferingSpeedUseCase";
 
 export class UpdateMediaStateUseCase implements LifecycleAwareDependComponent {
 
   private readonly repo: PLVMPMediaRepo
-  private readonly updateBufferingSpeedUseCase: UpdateBufferingSpeedUseCase
 
-  readonly mediaPlayViewState: DerivedState<PLVMPMediaPlayViewState>;
-  readonly mediaInfoViewState: DerivedState<PLVMPMediaInfoViewState>;
+  private observers: MutableObserver[] = []
 
   constructor(
-    repo: PLVMPMediaRepo,
-    updateBufferingSpeedUseCase: UpdateBufferingSpeedUseCase
+    repo: PLVMPMediaRepo
   ) {
     this.repo = repo
-    this.updateBufferingSpeedUseCase = updateBufferingSpeedUseCase
 
-    this.mediaPlayViewState = new DerivedState(() => {
+    new DerivedState(() => {
       const viewState = new PLVMPMediaPlayViewState();
       viewState.currentProgress = this.repo.player.getStateListenerRegistry().progressState.value ?? 0
       viewState.duration = this.repo.player.getStateListenerRegistry().durationState.value ?? 0
       viewState.isPlaying = this.repo.player.getStateListenerRegistry().playingState.value === PLVMediaPlayerPlayingState.PLAYING
       viewState.playerState = this.repo.player.getStateListenerRegistry().playerState.value ?? PLVMediaPlayerState.STATE_IDLE
       viewState.isBuffering = this.repo.player.getStateListenerRegistry().isBuffering.value ?? false
-      viewState.bufferingSpeed = this.updateBufferingSpeedUseCase.bufferingSpeed.value ?? 0
+      viewState.bufferingSpeed = this.repo.mediator.bufferingSpeed.value ?? 0
       viewState.speed = this.repo.player.getStateListenerRegistry().speed.value ?? 1
       viewState.subtitleTexts = this.repo.player.getBusinessListenerRegistry().vodCurrentSubTitleTexts.value ?? []
       return viewState;
-    })
+    }).relayTo(this.repo.mediator.mediaPlayViewState)
+      .pushTo(this.observers);
 
-    this.mediaInfoViewState = new DerivedState(() => {
+    new DerivedState(() => {
       const viewState = new PLVMPMediaInfoViewState();
       viewState.title = this.repo.player.getBusinessListenerRegistry().vodVideoJson.value?.title ?? ""
       viewState.videoSize = this.repo.player.getStateListenerRegistry().videoSize.value ?? new Rect()
@@ -58,7 +55,8 @@ export class UpdateMediaStateUseCase implements LifecycleAwareDependComponent {
       viewState.topSubtitleTextStyle = this.getSubtitleTextStyle(this.repo.player, "top")
       viewState.bottomSubtitleTextStyle = this.getSubtitleTextStyle(this.repo.player, "bottom")
       return viewState;
-    })
+    }).relayTo(this.repo.mediator.mediaInfoViewState)
+      .pushTo(this.observers);
   }
 
   private getSupportSubtitles(player: PLVMediaPlayer): PLVMediaSubtitle[][] {
@@ -96,8 +94,8 @@ export class UpdateMediaStateUseCase implements LifecycleAwareDependComponent {
   }
 
   onDestroy() {
-    this.mediaPlayViewState.destroy()
-    this.mediaInfoViewState.destroy()
+    MutableObserver.disposeAll(this.observers)
+    this.observers = []
   }
 
 }

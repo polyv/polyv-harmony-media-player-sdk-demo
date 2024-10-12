@@ -1,7 +1,6 @@
 import {
   extendArray,
   LifecycleAwareDependComponent,
-  MutableEvent,
   MutableObserver,
   PLVMediaPlayerOnInfoEvent,
   seconds
@@ -22,7 +21,6 @@ const INDICATE_BUFFERING_COUNT_TOO_MORE_THRESHOLD = 2;
 export class ObserveNetworkPoorUseCase implements LifecycleAwareDependComponent {
 
   private readonly repo: PLVMPMediaRepo
-  readonly networkPoorEvent = new MutableEvent<number>()
   private bufferingEvents: BufferingEventVO[] = []
   private lastSeekTimestamp: number = 0
   private isIndicatedNetworkPoor: boolean = false
@@ -84,7 +82,7 @@ export class ObserveNetworkPoorUseCase implements LifecycleAwareDependComponent 
     this.dropExpireBufferingCache()
     const isNetworkPoor = this.checkBufferTooLong() || this.checkBufferTooMore()
     if (isNetworkPoor && !this.isIndicatedNetworkPoor) {
-      this.networkPoorEvent.value = Date.now()
+      this.repo.mediator.networkPoorEvent.value = Date.now()
       this.isIndicatedNetworkPoor = true
     }
   }

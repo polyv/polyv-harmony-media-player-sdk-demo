@@ -20,7 +20,7 @@ export class PLVMPProgressImageRepo {
   }
 
   async getProgressImage(): Promise<PLVMPProgressImageData | null> {
-    const mediaInfo = this.mediaMediator.mediaInfo?.apply(null)
+    const mediaInfo = this.mediaMediator.mediaInfoViewState.value
     if (mediaInfo === undefined || mediaInfo.progressPreviewImage === null) {
       return null
     }

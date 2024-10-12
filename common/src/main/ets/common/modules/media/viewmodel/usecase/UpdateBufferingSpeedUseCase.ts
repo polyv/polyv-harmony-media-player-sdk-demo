@@ -1,10 +1,9 @@
-import {LifecycleAwareDependComponent, MutableState} from '@polyvharmony/media-player-sdk'
+import {extendNumber, LifecycleAwareDependComponent} from '@polyvharmony/media-player-sdk'
 import {PLVMPMediaRepo} from "../../model/PLVMPMediaRepo";
 
 export class UpdateBufferingSpeedUseCase implements LifecycleAwareDependComponent {
 
   private readonly repo: PLVMPMediaRepo
-  readonly bufferingSpeed: MutableState<number> = new MutableState<number>()
 
   private trafficSpeedIntervalId: number | null = null
   private lastTrafficCount: number = 0
@@ -33,7 +32,7 @@ export class UpdateBufferingSpeedUseCase implements LifecycleAwareDependComponen
       this.lastTrafficCount = newTrafficCount
       this.lastTrafficTimestamp = newTrafficTimestamp
 
-      this.bufferingSpeed.value = speed
+      this.repo.mediator.bufferingSpeed.value = extendNumber(speed).coerceAtLeast_ext(0)
     }, 500)
   }
 

@@ -21,11 +21,11 @@ export class PLVMPMediaControllerViewModel implements LifecycleAwareDependCompon
   private readonly repo: PLVMPMediaControllerRepo
   private readonly useCases: PLVMPMediaControllerUseCases
 
-  readonly mediaControllerViewState = new MutableState<PLVMPMediaControllerViewState>(new PLVMPMediaControllerViewState())
+  readonly mediaControllerViewState: MutableState<PLVMPMediaControllerViewState>
   // 亮度更新事件，范围 0.0 ~ 1.0
-  readonly brightnessUpdateEvent = new MutableEvent<number>()
+  readonly brightnessUpdateEvent: MutableEvent<number>
   // 音量更新事件，范围 0 ~ 100
-  readonly volumeUpdateEvent = new MutableEvent<number>()
+  readonly volumeUpdateEvent: MutableEvent<number>
 
   private observers: MutableObserver[] = []
 
@@ -35,6 +35,9 @@ export class PLVMPMediaControllerViewModel implements LifecycleAwareDependCompon
   ) {
     this.repo = repo
     this.useCases = useCases
+    this.mediaControllerViewState = this.repo.mediator.mediaControllerViewState
+    this.brightnessUpdateEvent = this.repo.mediator.brightnessUpdateEvent
+    this.volumeUpdateEvent = this.repo.mediator.volumeUpdateEvent
 
     this.observeSeekFinishEvent()
     this.observeMediaStopState()
@@ -189,13 +192,13 @@ export class PLVMPMediaControllerViewModel implements LifecycleAwareDependCompon
   }
 
   private observeMediaStopState() {
-    this.useCases.updateMediaStopOverlayUseCase.businessErrorState.observe((error) => {
+    this.repo.mediator.businessErrorState.observe((error) => {
       this.mediaControllerViewState.mutate({
         errorOverlayLayoutVisible: error !== null
       })
     }).pushTo(this.observers)
 
-    this.useCases.updateMediaStopOverlayUseCase.playCompleteState.observe((complete) => {
+    this.repo.mediator.playCompleteState.observe((complete) => {
       this.mediaControllerViewState.mutate({
         completeOverlayLayoutVisible: complete
       })

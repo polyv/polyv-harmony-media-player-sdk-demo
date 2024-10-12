@@ -1,6 +1,7 @@
 import {PLVMPMediaRepo} from '../model/PLVMPMediaRepo';
 import {PLVMPMediaUseCases} from './usecase/PLVMPMediaUseCases';
 import {
+  LifecycleAwareDependComponent,
   MutableEvent,
   MutableState,
   PLVMediaBitRate,
@@ -17,12 +18,11 @@ import {
 } from '@polyvharmony/media-player-sdk';
 import {PLVMPMediaPlayViewState} from './viewstate/PLVMPMediaPlayViewState';
 import {PLVMPMediaInfoViewState} from './viewstate/PLVMPMediaInfoViewState';
-import {PLVMPMediaMediator} from "../mediator/PLVMPMediaMediator";
+import {image} from '@kit.ImageKit';
 
-export class PLVMPMediaViewModel {
+export class PLVMPMediaViewModel implements LifecycleAwareDependComponent {
 
   private readonly repo: PLVMPMediaRepo
-  private readonly mediator: PLVMPMediaMediator
   private readonly useCases: PLVMPMediaUseCases
 
   readonly mediaPlayViewState: State<PLVMPMediaPlayViewState>
@@ -35,25 +35,23 @@ export class PLVMPMediaViewModel {
   readonly onCompleteEvent: MutableEvent<PLVMediaPlayerOnCompletedEvent>
   readonly playerState: MutableState<PLVMediaPlayerState>
 
+  onScreenshot: (() => Promise<image.PixelMap>) | null = null
+
   constructor(
     repo: PLVMPMediaRepo,
-    mediator: PLVMPMediaMediator,
     useCases: PLVMPMediaUseCases
   ) {
     this.repo = repo
-    this.mediator = mediator
     this.useCases = useCases
-    this.mediaPlayViewState = this.useCases.updateMediaStateUseCase.mediaPlayViewState
-    this.mediaInfoViewState = this.useCases.updateMediaStateUseCase.mediaInfoViewState
-    this.networkPoorEvent = this.useCases.observeNetworkPoorUseCase.networkPoorEvent
-    this.onChangeBitRateEvent = this.repo.onChangeBitRateEvent
-    this.onPreparedEvent = this.repo.player.getEventListenerRegistry().onPrepared
-    this.onAutoContinueEvent = this.repo.player.getBusinessListenerRegistry().onAutoContinueEvent
-    this.onInfoEvent = this.repo.player.getEventListenerRegistry().onInfo
-    this.onCompleteEvent = this.repo.player.getEventListenerRegistry().onCompleted
-    this.playerState = this.repo.player.getStateListenerRegistry().playerState
-
-    this.mediator.mediaInfo = () => this.mediaInfoViewState.value
+    this.mediaPlayViewState = this.repo.mediator.mediaPlayViewState
+    this.mediaInfoViewState = this.repo.mediator.mediaInfoViewState
+    this.networkPoorEvent = this.repo.mediator.networkPoorEvent
+    this.onChangeBitRateEvent = this.repo.mediator.onChangeBitRateEvent
+    this.onPreparedEvent = this.repo.mediator.onPreparedEvent
+    this.onAutoContinueEvent = this.repo.mediator.onAutoContinueEvent
+    this.onInfoEvent = this.repo.mediator.onInfoEvent
+    this.onCompleteEvent = this.repo.mediator.onCompleteEvent
+    this.playerState = this.repo.mediator.playerState
   }
 
   setMediaResource(mediaResource: PLVMediaResource) {
@@ -102,6 +100,10 @@ export class PLVMPMediaViewModel {
 
   setShowSubtitles(subtitles: PLVMediaSubtitle[]) {
     this.repo.setShowSubtitles(subtitles)
+  }
+
+  onDestroy(): void {
+    this.onScreenshot = null
   }
 
 }

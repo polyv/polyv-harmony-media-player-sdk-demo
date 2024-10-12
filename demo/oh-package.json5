@@ -1,16 +1,18 @@
 {
   "name": "demo",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "Please describe the basic information.",
   "main": "",
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "scene_download_center": "file:../scene_download_center",
     "scene_single_video": "file:../scene_single_video",
     "scene_feed_video": "file:../scene_feed_video",
     "media-player-common": "file:../common",
-    "@polyvharmony/media-player-sdk": "2.2.0",
-    "@polyvharmony/media-player-core-ijk": "2.2.0"
+    "@polyvharmony/media-player-sdk": "2.3.0",
+    "@polyvharmony/media-player-core-ijk": "2.3.0",
+    "@polyvharmony/media-player-sdk-addon-cache-down": "2.3.0"
   }
 }
 

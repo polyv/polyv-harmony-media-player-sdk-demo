@@ -37,6 +37,10 @@
       ]
     },
     {
+      "name": "scene_download_center",
+      "srcPath": "./scene_download_center"
+    },
+    {
       "name": "scene_single_video",
       "srcPath": "./scene_single_video"
     },

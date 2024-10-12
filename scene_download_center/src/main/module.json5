@@ -1,0 +1,10 @@
+{
+  "module": {
+    "name": "scene_download_center",
+    "type": "har",
+    "deviceTypes": [
+      "default",
+      "tablet"
+    ]
+  }
+}

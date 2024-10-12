@@ -4,10 +4,14 @@ import {PLVMPMediaMediator} from '../../media/mediator/PLVMPMediaMediator';
 import {PLVMPMediaControllerUseCases} from "../viewmodel/usecase/PLVMPMediaControllerUseCases";
 import {PLVMPMediaControllerRepo} from "../model/PLVMPMediaControllerRepo";
 import {UpdateMediaStopOverlayUseCase} from "../viewmodel/usecase/UpdateMediaStopOverlayUseCase";
+import {PLVMPMediaControllerMediator} from "../mediator/PLVMPMediaControllerMediator";
 
 export const mediaControllerModule = new DependModule()
 
+mediaControllerModule.provide(PLVMPMediaControllerMediator, () => new PLVMPMediaControllerMediator())
+
 mediaControllerModule.provide(PLVMPMediaControllerRepo, (scope) => new PLVMPMediaControllerRepo(
+  scope.get(PLVMPMediaControllerMediator),
   scope.get(PLVMPMediaMediator)
 ))
 

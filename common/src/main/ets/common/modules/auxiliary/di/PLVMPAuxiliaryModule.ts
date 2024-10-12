@@ -5,10 +5,14 @@ import {PLVMPMediaMediator} from "../../media/mediator/PLVMPMediaMediator";
 import {PLVMPAuxiliaryUseCases} from "../viewmodel/usecases/PLVMPAuxiliaryUseCases";
 import {AuxiliaryUpdateMediaStateUseCase} from "../viewmodel/usecases/AuxiliaryUpdateMediaStateUseCase";
 import {AuxiliaryBeforePlayListener} from "../viewmodel/usecases/AuxiliaryBeforePlayListener";
+import {PLVMPAuxiliaryMediator} from "../mediator/PLVMPAuxiliaryMediator";
 
 export const auxiliaryModule = new DependModule()
 
+auxiliaryModule.provide(PLVMPAuxiliaryMediator, () => new PLVMPAuxiliaryMediator())
+
 auxiliaryModule.provide(PLVMPAuxiliaryRepo, (scope) => new PLVMPAuxiliaryRepo(
+  scope.get(PLVMPAuxiliaryMediator),
   scope.get(PLVMPMediaMediator)
 ))
 

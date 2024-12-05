@@ -36,7 +36,9 @@
         "startWindowIcon": "$media:plv_media_player_app_icon_startwindow",
         "startWindowBackground": "$color:start_window_background",
         "exported": true,
-        "backgroundModes": ["dataTransfer"],
+        "backgroundModes": [
+          "dataTransfer"
+        ],
         "skills": [
           {
             "entities": [

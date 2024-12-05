@@ -1,4 +1,4 @@
-import { safe, seconds } from '@polyvharmony/media-player-sdk';
+import { runCatching, seconds } from '@polyvharmony/media-player-sdk';
 import { promptAction } from '@kit.ArkUI';
 import { PLVMockMediaResourceData } from '../mock/PLVMockMediaResourceData';
 import {
@@ -62,7 +62,7 @@ struct FeedVideoEntry {
     .width(212)
     .height(108)
     .onClick(async () => {
-      const mediaResourcesResult = await safe(PLVMockMediaResourceData.getInstance().getMediaResources())
+      const mediaResourcesResult = await runCatching(PLVMockMediaResourceData.getInstance().getMediaResources())
       if (mediaResourcesResult.success === false) {
         promptAction.showToast({
           message: `${$r('app.string.plv_media_player_fail_to_load_media_resource')}: ${mediaResourcesResult.error}`,
@@ -95,7 +95,7 @@ struct SingleVideoEntry {
     .width(212)
     .height(108)
     .onClick(async () => {
-      const mediaResourcesResult = await safe(PLVMockMediaResourceData.getInstance().getMediaResources())
+      const mediaResourcesResult = await runCatching(PLVMockMediaResourceData.getInstance().getMediaResources())
       if (mediaResourcesResult.success === false) {
         promptAction.showToast({
           message: `${$r('app.string.plv_media_player_fail_to_load_media_resource')}: ${mediaResourcesResult.error}`,

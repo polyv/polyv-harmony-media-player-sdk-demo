@@ -24,7 +24,7 @@ export struct PLVMediaPlayerMoreLayoutDownloadActionView {
   @State isShowDownloadProgress: boolean = false
   @State downloadProgress: number = 0
   @State downloadProgressText: string = "0%"
-  @State isVisible: boolean = true
+  @State isVisible: boolean = false
   private observers: MutableObserver[] = []
 
   aboutToAppear(): void {

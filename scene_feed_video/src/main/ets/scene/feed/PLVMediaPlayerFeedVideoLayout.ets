@@ -74,9 +74,10 @@ export struct PLVMediaPlayerFeedVideoLayout {
   private setupMediaPlayer() {
     this.viewModel.setAutoContinue(true)
     this.viewModel.setPlayerOption([
+      PLVMediaPlayerOptionEnum.ENABLE_ACCURATE_SEEK.value("1"),
+      PLVMediaPlayerOptionEnum.SKIP_ACCURATE_SEEK_AT_START.value("1"),
       PLVMediaPlayerOptionEnum.START_ON_PREPARED.value("0"),
       PLVMediaPlayerOptionEnum.RENDER_ON_PREPARED.value("1"),
-      PLVMediaPlayerOptionEnum.ENABLE_ACCURATE_SEEK.value("1")
     ])
     this.viewModel.setMediaResource(this.mediaResource)
   }

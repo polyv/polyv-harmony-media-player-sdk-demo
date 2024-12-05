@@ -1,4 +1,4 @@
-import { DependScope, lateInit, logger, MutableObserver, safe } from '@polyvharmony/media-player-sdk'
+import { DependScope, lateInit, logger, MutableObserver, runCatching } from '@polyvharmony/media-player-sdk'
 import { PLVMPMediaViewModel } from '../../modules/media/viewmodel/PLVMPMediaViewModel'
 import { PLVMPMediaControllerViewModel } from '../../modules/mediacontroller/viewmodel/PLVMPMediaControllerViewModel'
 import { isLandscape } from '../../utils/PLVDisplayUtils'
@@ -34,7 +34,7 @@ export struct PLVMediaPlayerScreenshotImageView {
       .padding(8)
       .visibility(this.isVisible ? Visibility.Visible : Visibility.None)
       .onClick(async () => {
-        const result = await safe(this.screenshot())
+        const result = await runCatching(this.screenshot())
         if (!result.success) {
           logger.error(TAG, `screenshot failed: ${any(result).error}`)
         }
@@ -90,7 +90,7 @@ struct SaveImageDialog {
         text: SaveDescription.SAVE_IMAGE
       })
         .onClick(async () => {
-          const result = await safe(this.saveImage())
+          const result = await runCatching(this.saveImage())
           if (result.success) {
             promptAction.showToast({ message: $r('app.string.plv_media_player_ui_component_screenshot_save_success') })
           } else {

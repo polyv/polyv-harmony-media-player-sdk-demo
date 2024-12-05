@@ -1,11 +1,11 @@
 import {PLVMPProgressImageData} from "../vo/PLVMPProgressImageData";
-import {safe} from '@polyvharmony/media-player-sdk';
+import {runCatching} from '@polyvharmony/media-player-sdk';
 import http from '@ohos.net.http';
 
 export class PLVMPProgressImageNetworkDataSource {
 
   async getProgressImage(url: string): Promise<PLVMPProgressImageData | null> {
-    const networkResult = await safe(this.getHttpProgressImage(url))
+    const networkResult = await runCatching(this.getHttpProgressImage(url))
     if (!networkResult.success || networkResult.data === null) {
       return null
     }

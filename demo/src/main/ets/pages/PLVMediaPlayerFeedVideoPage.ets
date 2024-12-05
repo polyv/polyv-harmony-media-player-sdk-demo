@@ -1,22 +1,24 @@
 import {
-    createId, PLVMediaPlayerFeedVideoPageParam,
-    PLVMediaPlayerScenes,
-    PLVMPPageControlViewModel,
-    PLVOrientationManager,
-    PLVOrientationManagerObserver
+  createId,
+  PLVMediaPlayerFeedVideoPageParam,
+  PLVMediaPlayerScenes,
+  PLVMPPageControlViewModel,
+  PLVOrientationManager,
+  PLVOrientationManagerObserver
 } from 'media-player-common';
 import common from '@ohos.app.ability.common';
 import {
-    IPLVMediaPlayerFeedResourceDataSource,
-    PLVMediaPlayerFeedSwiperDataSource,
-    PLVMediaPlayerFeedVideoLayout
+  IPLVMediaPlayerFeedResourceDataSource,
+  PLVMediaPlayerFeedSwiperDataSource,
+  PLVMediaPlayerFeedVideoLayout
 } from 'scene_feed_video';
 import {
-    DependScope,
-    getUniqueKey,
-    PLVMediaResource,
-    requireNotNull,
-    safe
+  DependScope,
+  Disposable,
+  getUniqueKey,
+  PLVMediaResource,
+  requireNotNull,
+  runCatching
 } from '@polyvharmony/media-player-sdk';
 import { PLVMockFeedResourceDataSource } from '../mock/PLVMockFeedResourceDataSource';
 import window from '@ohos.window';
@@ -30,12 +32,13 @@ export struct PLVMediaPlayerFeedVideoPage {
   private pageControlViewModel: PLVMPPageControlViewModel = this.pageDependScope.get(PLVMPPageControlViewModel)
   private feedDataSource: IPLVMediaPlayerFeedResourceDataSource = new PLVMockFeedResourceDataSource();
   private swiperDataSource: PLVMediaPlayerFeedSwiperDataSource = new PLVMediaPlayerFeedSwiperDataSource(this.feedDataSource, this.param.initialMediaSources)
+  private onBackPressDisposable: Disposable | undefined = undefined
   private readonly plv_media_player_feed_video_background: string = createId()
 
   aboutToAppear(): void {
     requireNotNull(this.param, () => "param is null")
-
-    safe(async () => {
+    this.onBackPressDisposable = this.pageControlViewModel.onBackPressHandler.register(10, () => this.onBackPress())
+    runCatching(async () => {
       const windowInstance = await window.getLastWindow(this.context)
       windowInstance.setWindowKeepScreenOn(true)
     })
@@ -87,7 +90,8 @@ export struct PLVMediaPlayerFeedVideoPage {
   }
 
   aboutToDisappear(): void {
-    safe(async () => {
+    this.onBackPressDisposable?.dispose()
+    runCatching(async () => {
       const windowInstance = await window.getLastWindow(this.context)
       windowInstance.setWindowKeepScreenOn(false)
     })

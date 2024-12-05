@@ -1,4 +1,4 @@
-import { extendArray, PLVMediaResource, safe } from '@polyvharmony/media-player-sdk';
+import { extendArray, PLVMediaResource, runCatching } from '@polyvharmony/media-player-sdk';
 import { getDisplayWindowHeight } from 'media-player-common';
 import { IPLVMediaPlayerFeedResourceDataSource } from './IPLVMediaPlayerFeedResourceDataSource';
 
@@ -75,7 +75,7 @@ export class PLVMediaPlayerFeedSwiperDataSource implements IDataSource {
   }
 
   private async loadDataFromIndex(index: number): Promise<void> {
-    const loadResult = await safe(this.upstreamDataSource.onLoadMoreData(index))
+    const loadResult = await runCatching(this.upstreamDataSource.onLoadMoreData(index))
     if (loadResult.success && loadResult.data.length > 0) {
       this.data.push(...loadResult.data);
       this.dataChangeListeners.forEach(listener => listener.onDataAdd(index));
@@ -95,7 +95,7 @@ export class PLVMediaPlayerFeedSwiperDataSource implements IDataSource {
   }
 
   private async refreshData(): Promise<void> {
-    const loadResult = await safe(this.upstreamDataSource.onLoadMoreData(0))
+    const loadResult = await runCatching(this.upstreamDataSource.onLoadMoreData(0))
     if (loadResult.success && loadResult.data.length > 0) {
       this.data.length = 0
       this.data.push(...loadResult.data);

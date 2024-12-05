@@ -8,9 +8,7 @@ import {
   PLVVodMainAccountAuthentication,
   PLVVodMediaResource
 } from '@polyvharmony/media-player-sdk';
-import {
-  PLVMediaDownloadSetting
-} from '@polyvharmony/media-player-sdk-addon-cache-down';
+import {PLVMediaDownloadSetting} from '@polyvharmony/media-player-sdk-addon-cache-down';
 
 const mockAuthentication: PLVVodMainAccountAuthentication = {
   userId: "e97dbe3e64",

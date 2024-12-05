@@ -45,6 +45,11 @@ export struct PLVMediaPlayerNavigationPage {
     .onShown(() => this.navOnPageShow())
     .onHidden(() => this.navOnPageHide())
     .onDisAppear(() => this.navAboutToDisappear())
+    .onBackPressed(() => this.navOnBackPressed())
+  }
+
+  navOnBackPressed(): boolean {
+    return this.pageControlViewModel.onBackPressHandler.onBackPress()
   }
 
   navOnPageHide(): void {

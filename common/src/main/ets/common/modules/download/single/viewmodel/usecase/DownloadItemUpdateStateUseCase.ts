@@ -4,7 +4,8 @@ import {
   LifecycleAwareDependComponent,
   MutableObserver,
   MutableState,
-  PLVMediaBitRate
+  PLVMediaBitRate,
+  runCatching
 } from "@polyvharmony/media-player-sdk";
 import {PLVMPDownloadItemViewState} from "../viewstate/PLVMPDownloadItemViewState";
 import {
@@ -30,7 +31,11 @@ export class DownloadItemUpdateStateUseCase implements LifecycleAwareDependCompo
       if (mediaResource === undefined) {
         return null
       }
-      const downloader = PLVMediaDownloaderManager.getInstance().getDownloader(mediaResource, bitRate)
+      const downloaderResult = runCatching(() => PLVMediaDownloaderManager.getInstance().getDownloader(mediaResource, bitRate))
+      if (downloaderResult.success === false) {
+        return null
+      }
+      const downloader = downloaderResult.data
       return new PLVMPDownloadItemViewState(
         downloader,
         downloader.listenerRegistry.progress.value ?? 0,

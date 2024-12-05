@@ -5,7 +5,7 @@ import {
   MutableObserver,
   MutableState,
   PLVMediaPlayerOnInfoEvent,
-  safe
+  runCatching
 } from '@polyvharmony/media-player-sdk';
 import {
   PLVMPMediaControllerFloatAction,
@@ -114,14 +114,14 @@ export class PLVMPMediaControllerViewModel implements LifecycleAwareDependCompon
   }
 
   async changeBrightness(direction: 'up' | 'down') {
-    const currentBrightnessResult = await safe(PLVBrightnessManager.getInstance().getBrightness())
+    const currentBrightnessResult = await runCatching(PLVBrightnessManager.getInstance().getBrightness())
     if (!currentBrightnessResult.success || currentBrightnessResult.data === undefined) {
       return
     }
     const currentBrightness = currentBrightnessResult.data < 0 ? 0.5 : currentBrightnessResult.data
     let nextBrightness = direction === 'up' ? currentBrightness + 0.1 : currentBrightness - 0.1
     nextBrightness = extendNumber(nextBrightness).coerceIn_ext(0, 1)
-    const updateResult = await safe(PLVBrightnessManager.getInstance().setBrightness(nextBrightness))
+    const updateResult = await runCatching(PLVBrightnessManager.getInstance().setBrightness(nextBrightness))
     if (updateResult.success) {
       this.brightnessUpdateEvent.value = nextBrightness
     }

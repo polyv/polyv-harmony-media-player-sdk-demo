@@ -1,20 +1,16 @@
-import {
-    DependScope,
-    extendArray,
-    MutableObserver, PLVMediaSubtitle
-} from '@polyvharmony/media-player-sdk'
+import { DependScope, extendArray, MutableObserver, PLVMediaSubtitle } from '@polyvharmony/media-player-sdk'
 import { PLVMPMediaViewModel } from '../../modules/media/viewmodel/PLVMPMediaViewModel'
 import { PLVMPMediaControllerViewModel } from '../../modules/mediacontroller/viewmodel/PLVMPMediaControllerViewModel'
 import {
-    createId,
-    parent,
-    toBottomOf,
-    toCenterOf,
-    toEndOf,
-    toMiddleOf,
-    toStartOf,
-    toTopOf,
-    usePadding
+  createId,
+  parent,
+  toBottomOf,
+  toCenterOf,
+  toEndOf,
+  toMiddleOf,
+  toStartOf,
+  toTopOf,
+  usePadding
 } from '../../utils/arkts-no-everything'
 
 @Component

@@ -5,7 +5,7 @@ import {
   PLVMediaPlayerAppContext,
   PLVMediaPlayerFactory,
   PLVMediaPlayerLogger,
-  safe
+  runCatching
 } from '@polyvharmony/media-player-sdk';
 import {PLVMediaPlayerCoreIjkProvider} from '@polyvharmony/media-player-core-ijk';
 import {Context} from '@ohos.abilityAccessCtrl';
@@ -65,7 +65,7 @@ class PLVKVStoreOhosImpl implements IPLVKVStore {
       await this.ensureKvStore()
     }
 
-    const result = await safe(this.kvStore?.get(key))
+    const result = await runCatching(this.kvStore?.get(key))
     if (result.success) {
       return result.data as string
     } else {

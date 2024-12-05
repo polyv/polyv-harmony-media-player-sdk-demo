@@ -1,4 +1,4 @@
-import {DependModule, safe} from '@polyvharmony/media-player-sdk';
+import {DependModule, runCatching} from '@polyvharmony/media-player-sdk';
 import {PLVMPMediaRepo} from '../model/PLVMPMediaRepo';
 import {PLVMPMediaViewModel} from '../viewmodel/PLVMPMediaViewModel';
 import {PLVMPMediaUseCases} from '../viewmodel/usecase/PLVMPMediaUseCases';
@@ -41,5 +41,5 @@ mediaModule.provide(PLVMPMediaViewModel, (scope) => new PLVMPMediaViewModel(
 ))
 
 mediaModule.afterCreate(PLVMPMediaMediator, (scope) => {
-  safe(() => scope.get(PLVMPMediaViewModel))
+  runCatching(() => scope.get(PLVMPMediaViewModel))
 })

@@ -4,27 +4,40 @@ import {
   PLVKVStore,
   PLVMediaPlayerAppContext,
   PLVMediaPlayerFactory,
+  PLVMediaPlayerHttpDns,
   PLVMediaPlayerLogger,
   runCatching
 } from '@polyvharmony/media-player-sdk';
-import {PLVMediaPlayerCoreIjkProvider} from '@polyvharmony/media-player-core-ijk';
-import {Context} from '@ohos.abilityAccessCtrl';
+import { PLVMediaPlayerCoreIjkProvider } from '@polyvharmony/media-player-core-ijk';
+import { Context } from '@ohos.abilityAccessCtrl';
 import distributedKVStore from '@ohos.data.distributedKVStore';
 import hilog from '@ohos.hilog';
-import {PLVMediaDownloaderManager, PLVMediaDownloadSetting} from '@polyvharmony/media-player-sdk-addon-cache-down';
+import { PLVMediaDownloaderManager, PLVMediaDownloadSetting } from '@polyvharmony/media-player-sdk-addon-cache-down';
+import { PLVLocalDnsService } from '@polyvharmony/httpdns-impl-local';
+import { PLVHttpDnsService } from '@polyvharmony/httpdns-impl-ali';
+import { PLVHttpDnsManager } from '@polyvharmony/httpdns-api';
 
 export class PLVMediaPlayerStartUp {
   private static isInit = false
 
   static start(context: Context) {
-    if (this.isInit) return
-    this.isInit = true
+    if (PLVMediaPlayerStartUp.isInit) {
+      return
+    }
+    PLVMediaPlayerStartUp.isInit = true
 
     PLVMediaPlayerAppContext.getInstance().setupAppContext(context)
     PLVMediaPlayerLogger.loggerImpl = new HiLogImpl()
     PLVKVStore.setupImplement(new PLVKVStoreOhosImpl(context))
     PLVMediaPlayerFactory.getInstance().register(PLVMediaPlayerCoreIjkProvider.getInstance())
     PLVMediaDownloaderManager.getInstance().init(PLVMediaDownloadSetting.defaultSetting(context))
+
+    PLVHttpDnsManager.getInstance().logger = (tag: string, message: string) => {
+      hilog.info(0x0000, tag, message.substring(0, 1000))
+    }
+    PLVMediaPlayerHttpDns.getInstance().register(PLVLocalDnsService.getInstance())
+    PLVMediaPlayerHttpDns.getInstance().register(PLVHttpDnsService.getInstance())
+    PLVMediaPlayerHttpDns.getInstance().enable = true
   }
 }
 

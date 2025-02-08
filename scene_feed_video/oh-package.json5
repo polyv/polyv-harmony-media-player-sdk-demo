@@ -1,12 +1,12 @@
 {
   "name": "scene_feed_video",
-  "version": "2.3.2",
+  "version": "2.4.0",
   "description": "Please describe the basic information.",
   "main": "Index.ets",
   "author": "",
   "license": "MIT",
   "dependencies": {
     "media-player-common": "file:../common",
-    "@polyvharmony/media-player-sdk": "2.3.2"
+    "@polyvharmony/media-player-sdk": "2.4.0"
   }
 }

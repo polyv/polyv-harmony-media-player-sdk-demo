@@ -1,5 +1,5 @@
 export class PLVMPMediaControllerViewState {
-  controllerVisible: boolean = true
+  controllerVisible: boolean = false
   controllerLocking: boolean = false
   progressSliderDragging: boolean = false
   progressSliderDragPosition: number = 0

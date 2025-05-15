@@ -89,7 +89,7 @@ struct DownloadingListItem {
       const size = bytes(viewState.fileSize).toSuitableUnit()
       this.bitRateWithSize = `${viewState.bitRate.name}:${size.value.toFixed(1)} ${size.unit.abbr}`
       this.progress = viewState.progress * 100
-      this.isClickToDownload = viewState.downloadStatus.canStartDownload()
+      this.isClickToDownload = !viewState.downloadStatus.isRunningDownload()
       const progressText = `${this.progress.toFixed(1)}%`
       const downloadSpeed = bytes(viewState.downloadBytesPerSecond).toSuitableUnit()
       const downloadSpeedText = `(${downloadSpeed.value.toFixed(1)} ${downloadSpeed.unit.abbr}/s)`

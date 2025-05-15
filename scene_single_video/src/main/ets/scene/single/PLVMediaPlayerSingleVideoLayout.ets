@@ -4,7 +4,8 @@ import {
   MutableObserver,
   PLVMediaPlayerOptionEnum,
   PLVMediaResource,
-  requireNotNull
+  requireNotNull,
+  seconds
 } from '@polyvharmony/media-player-sdk';
 import {
   commonItemModule,
@@ -157,6 +158,7 @@ export struct PLVMediaPlayerSingleVideoLayout {
       if (isPortrait) {
         this.controllerViewModel.lockMediaController('unlock')
       }
+      this.controllerViewModel.showControllerForDuration(seconds(5))
     }).pushTo(this.observers)
   }
 

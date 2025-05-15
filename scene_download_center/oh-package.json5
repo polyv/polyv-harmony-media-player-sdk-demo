@@ -1,13 +1,13 @@
 {
   "name": "scene_download_center",
-  "version": "2.5.0",
+  "version": "2.5.1",
   "description": "Please describe the basic information.",
   "main": "Index.ets",
   "author": "",
   "license": "MIT",
   "dependencies": {
     "media-player-common": "file:../common",
-    "@polyvharmony/media-player-sdk": "2.5.0",
-    "@polyvharmony/media-player-sdk-addon-cache-down": "2.5.0"
+    "@polyvharmony/media-player-sdk": "2.5.1",
+    "@polyvharmony/media-player-sdk-addon-cache-down": "2.5.1"
   }
 }

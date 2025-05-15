@@ -27,7 +27,7 @@ export struct PLVMediaPlayerBufferingSpeedLayout {
     }).pushTo(this.observers)
 
     this.mediaViewModel.playerState.observe((playerState: PLVMediaPlayerState) => {
-      this.isPreparing = playerState === PLVMediaPlayerState.STATE_PREPARING || playerState === PLVMediaPlayerState.STATE_PREPARED
+      this.isPreparing = playerState === PLVMediaPlayerState.STATE_PREPARING
       this.updateVisible()
     }).pushTo(this.observers)
   }

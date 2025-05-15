@@ -1,11 +1,13 @@
 import {
+  Duration,
   extendNumber,
   LifecycleAwareDependComponent,
   MutableEvent,
   MutableObserver,
   MutableState,
   PLVMediaPlayerOnInfoEvent,
-  runCatching
+  runCatching,
+  seconds
 } from '@polyvharmony/media-player-sdk';
 import {
   PLVMPMediaControllerFloatAction,
@@ -26,6 +28,8 @@ export class PLVMPMediaControllerViewModel implements LifecycleAwareDependCompon
   readonly brightnessUpdateEvent: MutableEvent<number>
   // 音量更新事件，范围 0 ~ 100
   readonly volumeUpdateEvent: MutableEvent<number>
+
+  private showControllerForDurationTimeout: number = -1
 
   private observers: MutableObserver[] = []
 
@@ -82,10 +86,32 @@ export class PLVMPMediaControllerViewModel implements LifecycleAwareDependCompon
   }
 
   changeControllerVisible(toVisible?: boolean) {
+    clearTimeout(this.showControllerForDurationTimeout)
     const currentVisible = this.mediaControllerViewState.value?.controllerVisible ?? false
     this.mediaControllerViewState.mutate({
       controllerVisible: toVisible ?? !currentVisible
     })
+  }
+
+  showControllerForDuration(duration: Duration) {
+    clearTimeout(this.showControllerForDurationTimeout)
+    this.mediaControllerViewState.mutate({
+      controllerVisible: true
+    })
+    this.showControllerForDurationTimeout = setTimeout(() => {
+      this.mediaControllerViewState.mutate({
+        controllerVisible: false
+      })
+    }, duration.toMillis())
+  }
+
+  onClickChangeControllerVisible() {
+    const currentVisible = this.mediaControllerViewState.value?.controllerVisible ?? false
+    if (currentVisible) {
+      this.changeControllerVisible(false)
+    } else {
+      this.showControllerForDuration(seconds(5))
+    }
   }
 
   handleLongPressSpeeding(event: 'start' | 'end') {

@@ -4,7 +4,8 @@ import {
   MutableObserver,
   PLVMediaPlayerOptionEnum,
   PLVMediaResource,
-  requireNotNull
+  requireNotNull,
+  seconds
 } from '@polyvharmony/media-player-sdk';
 import {
   commonItemModule,
@@ -62,6 +63,8 @@ export struct PLVMediaPlayerFeedVideoLayout {
     this.observeMediaViewState()
     this.observeOrientation()
     this.setupMediaPlayer()
+
+    this.controllerViewModel.changeControllerVisible(true)
 
     this.controllerViewModel.mediaControllerViewState.observe((viewState) => {
       this.isFloatActionLayoutVisible = viewState.isFloatActionLayoutVisible()
@@ -173,6 +176,8 @@ export struct PLVMediaPlayerFeedVideoLayout {
       if (isPortrait) {
         this.controllerViewModel.lockMediaController('unlock')
         this.controllerViewModel.changeControllerVisible(true);
+      } else {
+        this.controllerViewModel.showControllerForDuration(seconds(5))
       }
     }).pushTo(this.observers)
   }

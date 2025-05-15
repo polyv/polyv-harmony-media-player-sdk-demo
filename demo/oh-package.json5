@@ -1,6 +1,6 @@
 {
   "name": "demo",
-  "version": "2.5.0",
+  "version": "2.5.1",
   "description": "Please describe the basic information.",
   "main": "",
   "author": "",
@@ -10,12 +10,12 @@
     "scene_single_video": "file:../scene_single_video",
     "scene_feed_video": "file:../scene_feed_video",
     "media-player-common": "file:../common",
-    "@polyvharmony/media-player-sdk": "2.5.0",
-    "@polyvharmony/media-player-core-ijk": "2.5.0",
-    "@polyvharmony/media-player-sdk-addon-cache-down": "2.5.0",
-    "@polyvharmony/httpdns-api": "1.0.2",
-    "@polyvharmony/httpdns-impl-local": "1.0.2",
-    "@polyvharmony/httpdns-impl-ali": "1.0.2"
+    "@polyvharmony/media-player-sdk": "2.5.1",
+    "@polyvharmony/media-player-core-ijk": "2.5.1",
+    "@polyvharmony/media-player-sdk-addon-cache-down": "2.5.1",
+    "@polyvharmony/httpdns-api": "1.0.3",
+    "@polyvharmony/httpdns-impl-local": "1.0.3",
+    "@polyvharmony/httpdns-impl-ali": "1.0.3"
   }
 }
 

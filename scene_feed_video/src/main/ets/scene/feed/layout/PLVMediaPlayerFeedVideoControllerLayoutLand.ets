@@ -1,7 +1,7 @@
 import { createDependScope, DependScope, MutableObserver } from '@polyvharmony/media-player-sdk'
 import {
   commonItemModule,
-  createId,
+  defineIds,
   parent,
   PLVMediaPlayerAudioModeCoverLayoutLand,
   PLVMediaPlayerAutoContinueHintLayout,
@@ -44,34 +44,33 @@ export struct PLVMediaPlayerFeedVideoControllerLayoutLand {
   @State videoWidth: number = 0
   @State videoHeight: number = 0
   private observers: MutableObserver[] = []
-  // <editor-fold defaultstate="collapsed" desc="ids">
-  private readonly plv_media_player_feed_video_shadow: string = createId()
-  private readonly plv_media_player_subtitle_text_layout: string = createId()
-  private readonly plv_media_player_controller_gradient_mask_layout: string = createId()
-  private readonly plv_media_player_gesture_handle_layout: string = createId()
-  private readonly plv_media_player_marquee_layout: string = createId()
-  private readonly plv_media_player_audio_mode_cover_layout: string = createId()
-  private readonly plv_media_player_buffering_speed_layout: string = createId()
-  private readonly plv_media_player_complete_overlay_layout: string = createId()
-  private readonly plv_media_player_error_overlay_layout: string = createId()
-  private readonly plv_media_player_back_iv: string = createId()
-  private readonly plv_media_player_title_tv: string = createId()
-  private readonly plv_media_player_more_action_iv: string = createId()
-  private readonly plv_media_player_play_button: string = createId()
-  private readonly plv_media_player_progress_text_view: string = createId()
-  private readonly plv_media_player_progress_slider: string = createId()
-  private readonly plv_media_player_bit_rate_text_view: string = createId()
-  private readonly plv_media_player_speed_text_view: string = createId()
-  private readonly plv_media_player_lock_controller_iv: string = createId()
-  private readonly plv_media_player_network_poor_indicate_layout: string = createId()
-  private readonly plv_media_player_long_press_speed_hint_layout: string = createId()
-  private readonly plv_media_player_auto_continue_hint_layout: string = createId()
-  private readonly plv_media_player_switch_bit_rate_hint_layout: string = createId()
-  private readonly plv_media_player_brightness_update_hint_layout: string = createId()
-  private readonly plv_media_player_seek_progress_preview_layout: string = createId()
-  private readonly plv_media_player_screenshot_iv: string = createId()
-
-  // </editor-fold>
+  private readonly ids = defineIds(
+    'plv_media_player_feed_video_shadow',
+    'plv_media_player_subtitle_text_layout',
+    'plv_media_player_controller_gradient_mask_layout',
+    'plv_media_player_gesture_handle_layout',
+    'plv_media_player_marquee_layout',
+    'plv_media_player_audio_mode_cover_layout',
+    'plv_media_player_buffering_speed_layout',
+    'plv_media_player_complete_overlay_layout',
+    'plv_media_player_error_overlay_layout',
+    'plv_media_player_back_iv',
+    'plv_media_player_title_tv',
+    'plv_media_player_more_action_iv',
+    'plv_media_player_play_button',
+    'plv_media_player_progress_text_view',
+    'plv_media_player_progress_slider',
+    'plv_media_player_bit_rate_text_view',
+    'plv_media_player_speed_text_view',
+    'plv_media_player_lock_controller_iv',
+    'plv_media_player_network_poor_indicate_layout',
+    'plv_media_player_long_press_speed_hint_layout',
+    'plv_media_player_auto_continue_hint_layout',
+    'plv_media_player_switch_bit_rate_hint_layout',
+    'plv_media_player_brightness_update_hint_layout',
+    'plv_media_player_seek_progress_preview_layout',
+    'plv_media_player_screenshot_iv'
+  )
 
   aboutToAppear(): void {
     this.controllerViewModel.mediaControllerViewState.observe((viewState) => {
@@ -84,7 +83,7 @@ export struct PLVMediaPlayerFeedVideoControllerLayoutLand {
     RelativeContainer() {
       // 视频播放器视图位置在皮肤上的映射
       Shape()
-        .id(this.plv_media_player_feed_video_shadow)
+        .id(this.ids.plv_media_player_feed_video_shadow)
         .width(this.videoWidth)
         .height(this.videoHeight)
         .alignRules({
@@ -95,7 +94,7 @@ export struct PLVMediaPlayerFeedVideoControllerLayoutLand {
 
       // 字幕
       PLVMediaPlayerSubtitleTextLayout()
-        .id(this.plv_media_player_subtitle_text_layout)
+        .id(this.ids.plv_media_player_subtitle_text_layout)
         .hitTestBehavior(HitTestMode.None)
         .margin({
           bottom: 34
@@ -107,39 +106,39 @@ export struct PLVMediaPlayerFeedVideoControllerLayoutLand {
 
       // 皮肤控件底部渐变遮罩蒙层
       PLVMediaPlayerControllerGradientMaskLayout()
-        .id(this.plv_media_player_controller_gradient_mask_layout)
+        .id(this.ids.plv_media_player_controller_gradient_mask_layout)
         .hitTestBehavior(HitTestMode.None)
 
       // 播放器跑马灯
       PLVMediaPlayerMarqueeLayout()
-        .id(this.plv_media_player_marquee_layout)
+        .id(this.ids.plv_media_player_marquee_layout)
         .hitTestBehavior(HitTestMode.None)
 
       // 手势处理
       PLVMediaPlayerGestureHandleLayout()
-        .id(this.plv_media_player_gesture_handle_layout)
+        .id(this.ids.plv_media_player_gesture_handle_layout)
 
       // 音频模式
       PLVMediaPlayerAudioModeCoverLayoutLand()
-        .id(this.plv_media_player_audio_mode_cover_layout)
+        .id(this.ids.plv_media_player_audio_mode_cover_layout)
         .hitTestBehavior(HitTestMode.Transparent)
 
       // 缓冲加载速度显示
       PLVMediaPlayerBufferingSpeedLayout()
-        .id(this.plv_media_player_buffering_speed_layout)
+        .id(this.ids.plv_media_player_buffering_speed_layout)
         .hitTestBehavior(HitTestMode.None)
 
       // 播放结束覆盖层
       PLVMediaPlayerPlayCompleteManualRestartOverlayLayout()
-        .id(this.plv_media_player_complete_overlay_layout)
+        .id(this.ids.plv_media_player_complete_overlay_layout)
 
       // 播放异常覆盖层
       PLVMediaPlayerPlayErrorOverlayLayout()
-        .id(this.plv_media_player_error_overlay_layout)
+        .id(this.ids.plv_media_player_error_overlay_layout)
 
       // 返回按钮
       PLVMediaPlayerBackImageView()
-        .id(this.plv_media_player_back_iv)
+        .id(this.ids.plv_media_player_back_iv)
         .width(28)
         .height(28)
         .margin(usePadding({
@@ -154,17 +153,17 @@ export struct PLVMediaPlayerFeedVideoControllerLayoutLand {
 
       // 视频标题
       PLVMediaPlayerTitleTextView()
-        .id(this.plv_media_player_title_tv)
+        .id(this.ids.plv_media_player_title_tv)
         .alignRules({
-          center: toCenterOf(this.plv_media_player_back_iv),
-          left: toEndOf(this.plv_media_player_back_iv),
-          right: toStartOf(this.plv_media_player_more_action_iv)
+          center: toCenterOf(this.ids.plv_media_player_back_iv),
+          left: toEndOf(this.ids.plv_media_player_back_iv),
+          right: toStartOf(this.ids.plv_media_player_more_action_iv)
         })
         .hitTestBehavior(HitTestMode.Transparent)
 
       // 更多按钮
       PLVMediaPlayerMoreActionImageView()
-        .id(this.plv_media_player_more_action_iv)
+        .id(this.ids.plv_media_player_more_action_iv)
         .width(28)
         .height(28)
         .alignRules({
@@ -179,7 +178,7 @@ export struct PLVMediaPlayerFeedVideoControllerLayoutLand {
 
       // 播放/暂停按钮
       PLVMediaPlayerPlayButton()
-        .id(this.plv_media_player_play_button)
+        .id(this.ids.plv_media_player_play_button)
         .width(24)
         .height(24)
         .margin(usePadding({
@@ -194,10 +193,10 @@ export struct PLVMediaPlayerFeedVideoControllerLayoutLand {
 
       // 播放进度文本
       PLVMediaPlayerProgressTextView()
-        .id(this.plv_media_player_progress_text_view)
+        .id(this.ids.plv_media_player_progress_text_view)
         .alignRules({
-          left: toEndOf(this.plv_media_player_play_button),
-          center: toCenterOf(this.plv_media_player_play_button)
+          left: toEndOf(this.ids.plv_media_player_play_button),
+          center: toCenterOf(this.ids.plv_media_player_play_button)
         })
         .margin({
           left: 9
@@ -206,7 +205,7 @@ export struct PLVMediaPlayerFeedVideoControllerLayoutLand {
 
       // 播放进度条
       PLVMediaPlayerProgressSliderFeedLand()
-        .id(this.plv_media_player_progress_slider)
+        .id(this.ids.plv_media_player_progress_slider)
         .width('100%')
         .height(14)
         .padding(usePadding({
@@ -216,13 +215,13 @@ export struct PLVMediaPlayerFeedVideoControllerLayoutLand {
           bottom: 6
         })
         .alignRules({
-          bottom: toTopOf(this.plv_media_player_play_button)
+          bottom: toTopOf(this.ids.plv_media_player_play_button)
         })
         .hitTestBehavior(HitTestMode.Transparent)
 
       // 清晰度
       PLVMediaPlayerBitRateTextView()
-        .id(this.plv_media_player_bit_rate_text_view)
+        .id(this.ids.plv_media_player_bit_rate_text_view)
         .alignRules({
           right: toEndOf(parent),
           bottom: toBottomOf(parent)
@@ -235,9 +234,9 @@ export struct PLVMediaPlayerFeedVideoControllerLayoutLand {
 
       // 倍速
       PLVMediaPlayerSpeedTextView()
-        .id(this.plv_media_player_speed_text_view)
+        .id(this.ids.plv_media_player_speed_text_view)
         .alignRules({
-          right: toStartOf(this.plv_media_player_bit_rate_text_view),
+          right: toStartOf(this.ids.plv_media_player_bit_rate_text_view),
           bottom: toBottomOf(parent)
         })
         .margin({
@@ -248,7 +247,7 @@ export struct PLVMediaPlayerFeedVideoControllerLayoutLand {
 
       // 横屏操作锁定按钮
       PLVMediaPlayerLockControllerImageView()
-        .id(this.plv_media_player_lock_controller_iv)
+        .id(this.ids.plv_media_player_lock_controller_iv)
         .alignRules({
           left: toStartOf(parent),
           center: toCenterOf(parent)
@@ -260,7 +259,7 @@ export struct PLVMediaPlayerFeedVideoControllerLayoutLand {
 
       // 视频截图按钮
       PLVMediaPlayerScreenshotImageView()
-        .id(this.plv_media_player_screenshot_iv)
+        .id(this.ids.plv_media_player_screenshot_iv)
         .alignRules({
           center: toCenterOf(parent),
           end: toEndOf(parent)
@@ -272,10 +271,10 @@ export struct PLVMediaPlayerFeedVideoControllerLayoutLand {
 
       // 弱网提示
       PLVMediaPlayerNetworkPoorIndicateLayout()
-        .id(this.plv_media_player_network_poor_indicate_layout)
+        .id(this.ids.plv_media_player_network_poor_indicate_layout)
         .alignRules({
           right: toEndOf(parent),
-          bottom: toTopOf(this.plv_media_player_bit_rate_text_view)
+          bottom: toTopOf(this.ids.plv_media_player_bit_rate_text_view)
         })
         .margin({
           right: 15,
@@ -284,7 +283,7 @@ export struct PLVMediaPlayerFeedVideoControllerLayoutLand {
 
       // 长按快进控制提示
       PLVMediaPlayerLongPressSpeedHintLayout()
-        .id(this.plv_media_player_long_press_speed_hint_layout)
+        .id(this.ids.plv_media_player_long_press_speed_hint_layout)
         .alignRules({
           top: toTopOf(parent),
           middle: toMiddleOf(parent)
@@ -295,10 +294,10 @@ export struct PLVMediaPlayerFeedVideoControllerLayoutLand {
 
       // 自动续播提示条
       PLVMediaPlayerAutoContinueHintLayout()
-        .id(this.plv_media_player_auto_continue_hint_layout)
+        .id(this.ids.plv_media_player_auto_continue_hint_layout)
         .alignRules({
           left: toStartOf(parent),
-          bottom: toTopOf(this.plv_media_player_progress_slider)
+          bottom: toTopOf(this.ids.plv_media_player_progress_slider)
         })
         .margin({
           left: 12,
@@ -307,7 +306,7 @@ export struct PLVMediaPlayerFeedVideoControllerLayoutLand {
 
       // 切换清晰度提示条
       PLVMediaPlayerSwitchBitRateHintLayout()
-        .id(this.plv_media_player_switch_bit_rate_hint_layout)
+        .id(this.ids.plv_media_player_switch_bit_rate_hint_layout)
         .alignRules({
           top: toTopOf(parent),
           middle: toMiddleOf(parent)
@@ -318,7 +317,7 @@ export struct PLVMediaPlayerFeedVideoControllerLayoutLand {
 
       // 亮度/音量 调节提示
       PLVMediaPlayerBrightnessVolumeUpdateHintLayout()
-        .id(this.plv_media_player_brightness_update_hint_layout)
+        .id(this.ids.plv_media_player_brightness_update_hint_layout)
         .margin({
           top: 28
         })
@@ -329,12 +328,12 @@ export struct PLVMediaPlayerFeedVideoControllerLayoutLand {
 
       // 拖动进度条时进度预览
       PLVMediaPlayerSeekProgressPreviewLayout()
-        .id(this.plv_media_player_seek_progress_preview_layout)
+        .id(this.ids.plv_media_player_seek_progress_preview_layout)
         .margin({
           bottom: 8
         })
         .alignRules({
-          bottom: toTopOf(this.plv_media_player_progress_slider),
+          bottom: toTopOf(this.ids.plv_media_player_progress_slider),
           middle: toMiddleOf(parent)
         })
 

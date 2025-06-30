@@ -1,11 +1,11 @@
-import {LifecycleAwareDependComponent, MutableObserver} from '@polyvharmony/media-player-sdk';
+import { LifecycleAwareDependComponent, MutableObserver, watchStates } from '@polyvharmony/media-player-sdk';
 import {
   PLVMediaDownloader,
   PLVMediaDownloaderManager,
   PLVMediaDownloadStatusDownloading,
   PLVMediaDownloadStatusWaiting
 } from '@polyvharmony/media-player-sdk-addon-cache-down';
-import {PLVBackgroundTaskManager} from '../../../../utils/PLVBackgroundTaskManager';
+import { PLVBackgroundTaskManager } from '../../../../utils/PLVBackgroundTaskManager';
 import backgroundTaskManager from '@ohos.resourceschedule.backgroundTaskManager';
 
 export class DownloadRequestBackgroundTaskUseCase implements LifecycleAwareDependComponent {
@@ -14,35 +14,19 @@ export class DownloadRequestBackgroundTaskUseCase implements LifecycleAwareDepen
   private observers: MutableObserver[] = []
 
   constructor() {
-    PLVMediaDownloaderManager.getInstance().downloaderList.observe(() => this.onDownloaderUpdated())
-  }
-
-  private onDownloaderUpdated() {
-    const list = PLVMediaDownloaderManager.getInstance().downloaderList.value ?? []
-
-    MutableObserver.disposeAll(this.observers)
-    this.observers = []
-
-    list.forEach(downloader => {
-      const downloading = this.isDownloading(downloader)
-      downloader.listenerRegistry.status.observe(() => {
-        if (downloading != this.isDownloading(downloader)) {
-          this.onDownloaderUpdated()
+    watchStates(() => {
+      const list = PLVMediaDownloaderManager.getInstance().downloaderList.value ?? []
+      const newAnyDownloading = list.some(downloader => this.isDownloading(downloader))
+      if (newAnyDownloading !== this.isAnyDownloading) {
+        this.isAnyDownloading = newAnyDownloading
+        if (this.isAnyDownloading) {
+          PLVBackgroundTaskManager.getInstance().pushBackgroundTask(backgroundTaskManager.BackgroundMode.DATA_TRANSFER)
+        } else {
+          PLVBackgroundTaskManager.getInstance()
+            .removeBackgroundTask(backgroundTaskManager.BackgroundMode.DATA_TRANSFER)
         }
-      }).pushTo(this.observers)
-    })
-
-    const newAnyDownloading = list.some(downloader => this.isDownloading(downloader))
-
-    if (newAnyDownloading !== this.isAnyDownloading) {
-      this.isAnyDownloading = newAnyDownloading
-      if (this.isAnyDownloading) {
-        PLVBackgroundTaskManager.getInstance().pushBackgroundTask(backgroundTaskManager.BackgroundMode.DATA_TRANSFER)
-      } else {
-        PLVBackgroundTaskManager.getInstance().removeBackgroundTask(backgroundTaskManager.BackgroundMode.DATA_TRANSFER)
       }
-    }
-
+    }).pushTo(this.observers)
   }
 
   onDestroy(): void {

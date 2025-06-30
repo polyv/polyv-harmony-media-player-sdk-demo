@@ -4,7 +4,7 @@ import {
   PLVMediaDownloadStatusWaiting
 } from '@polyvharmony/media-player-sdk-addon-cache-down';
 import {
-  createId,
+  defineIds,
   downloadStatusText,
   formatDuration,
   parent,
@@ -67,16 +67,15 @@ struct DownloadingListItem {
   @State progress: number = 0
   @State isClickToDownload: boolean = true
   @State downloadStatusText: string = ""
-  // <editor-fold defaultstate="collapsed" desc="ids">
-  private readonly plv_media_player_download_item_cover_image: string = createId()
-  private readonly plv_media_player_download_item_duration: string = createId()
-  private readonly plv_media_player_download_item_title: string = createId()
-  private readonly plv_media_player_download_item_bit_rate_with_size: string = createId()
-  private readonly plv_media_player_download_item_progress_bar: string = createId()
-  private readonly plv_media_player_download_item_download_icon: string = createId()
-  private readonly plv_media_player_download_item_download_status: string = createId()
-
-  // </editor-fold>
+  private readonly ids = defineIds(
+    'plv_media_player_download_item_cover_image',
+    'plv_media_player_download_item_duration',
+    'plv_media_player_download_item_title',
+    'plv_media_player_download_item_bit_rate_with_size',
+    'plv_media_player_download_item_progress_bar',
+    'plv_media_player_download_item_download_icon',
+    'plv_media_player_download_item_download_status'
+  )
 
   aboutToAppear(): void {
     this.viewState.observe((viewState) => {
@@ -108,7 +107,7 @@ struct DownloadingListItem {
       Row() {
         RelativeContainer() {
           Image(this.coverImagePixelMap ?? $r("app.media.plv_media_player_download_item_default_cover_image"))
-            .id(this.plv_media_player_download_item_cover_image)
+            .id(this.ids.plv_media_player_download_item_cover_image)
             .width(104)
             .height(58)
             .borderRadius(4)
@@ -117,12 +116,12 @@ struct DownloadingListItem {
             })
 
           Text(this.duration)
-            .id(this.plv_media_player_download_item_duration)
+            .id(this.ids.plv_media_player_download_item_duration)
             .fontSize(12)
             .fontColor('#FFFFFF')
             .alignRules({
-              end: toEndOf(this.plv_media_player_download_item_cover_image),
-              bottom: toBottomOf(this.plv_media_player_download_item_cover_image)
+              end: toEndOf(this.ids.plv_media_player_download_item_cover_image),
+              bottom: toBottomOf(this.ids.plv_media_player_download_item_cover_image)
             })
             .margin({
               right: 4,
@@ -130,13 +129,13 @@ struct DownloadingListItem {
             })
 
           Text(this.title)
-            .id(this.plv_media_player_download_item_title)
+            .id(this.ids.plv_media_player_download_item_title)
             .fontSize(14)
             .fontColor('#FFFFFF')
             .alignRules({
-              top: toTopOf(this.plv_media_player_download_item_cover_image),
-              start: toEndOf(this.plv_media_player_download_item_cover_image),
-              end: toStartOf(this.plv_media_player_download_item_bit_rate_with_size)
+              top: toTopOf(this.ids.plv_media_player_download_item_cover_image),
+              start: toEndOf(this.ids.plv_media_player_download_item_cover_image),
+              end: toStartOf(this.ids.plv_media_player_download_item_bit_rate_with_size)
             })
             .maxLines(1)
             .textOverflow({ overflow: TextOverflow.Ellipsis })
@@ -146,7 +145,7 @@ struct DownloadingListItem {
             }))
 
           Text(this.bitRateWithSize)
-            .id(this.plv_media_player_download_item_bit_rate_with_size)
+            .id(this.ids.plv_media_player_download_item_bit_rate_with_size)
             .fontSize(12)
             .fontColor('#66FFFFFF')
             .alignRules({
@@ -162,7 +161,7 @@ struct DownloadingListItem {
             total: 100,
             type: ProgressType.Linear
           })
-            .id(this.plv_media_player_download_item_progress_bar)
+            .id(this.ids.plv_media_player_download_item_progress_bar)
             .color('#3F76FC')
             .backgroundColor('#33FFFFFF')
             .style({
@@ -171,9 +170,9 @@ struct DownloadingListItem {
             })
             .borderRadius(2)
             .alignRules({
-              bottom: toTopOf(this.plv_media_player_download_item_download_status),
-              start: toEndOf(this.plv_media_player_download_item_cover_image),
-              end: toStartOf(this.plv_media_player_download_item_download_icon)
+              bottom: toTopOf(this.ids.plv_media_player_download_item_download_status),
+              start: toEndOf(this.ids.plv_media_player_download_item_cover_image),
+              end: toStartOf(this.ids.plv_media_player_download_item_download_icon)
             })
             .margin(usePadding({
               horizontal: 8,
@@ -182,12 +181,12 @@ struct DownloadingListItem {
             }))
 
           Image(this.isClickToDownload ? $r('app.media.plv_media_player_download_item_download_icon_to_start') : $r('app.media.plv_media_player_download_item_download_icon_to_pause'))
-            .id(this.plv_media_player_download_item_download_icon)
+            .id(this.ids.plv_media_player_download_item_download_icon)
             .width(20)
             .height(20)
             .alignRules({
               end: toEndOf(parent),
-              top: toBottomOf(this.plv_media_player_download_item_bit_rate_with_size)
+              top: toBottomOf(this.ids.plv_media_player_download_item_bit_rate_with_size)
             })
             .margin({
               top: 8
@@ -201,12 +200,12 @@ struct DownloadingListItem {
             })
 
           Text(this.downloadStatusText)
-            .id(this.plv_media_player_download_item_download_status)
+            .id(this.ids.plv_media_player_download_item_download_status)
             .fontSize(12)
             .fontColor('#66FFFFFF')
             .alignRules({
-              start: toEndOf(this.plv_media_player_download_item_cover_image),
-              bottom: toBottomOf(this.plv_media_player_download_item_cover_image)
+              start: toEndOf(this.ids.plv_media_player_download_item_cover_image),
+              bottom: toBottomOf(this.ids.plv_media_player_download_item_cover_image)
             })
             .margin({
               left: 8

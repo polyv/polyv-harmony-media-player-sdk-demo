@@ -1,6 +1,6 @@
 import { DependScope, MutableObserver } from '@polyvharmony/media-player-sdk'
 import { PLVMPMediaControllerViewModel } from '../../modules/mediacontroller/viewmodel/PLVMPMediaControllerViewModel'
-import { createId, parent, toBottomOf, toTopOf } from '../../utils/arkts-no-everything'
+import { defineIds, parent, toBottomOf, toTopOf } from '../../utils/arkts-no-everything'
 import { isLandscape } from '../../utils/PLVDisplayUtils'
 
 @Component
@@ -10,11 +10,10 @@ export struct PLVMediaPlayerControllerGradientMaskLayout {
   private controllerViewModel: PLVMPMediaControllerViewModel = this.dependScope.get(PLVMPMediaControllerViewModel)
   @State isVisible: boolean = false
   private observers: MutableObserver[] = []
-  // <editor-fold defaultstate="collapsed" desc="ids">
-  private readonly plv_media_player_controller_gradient_mask_top: string = createId()
-  private readonly plv_media_player_controller_gradient_mask_bottom: string = createId()
-
-  // </editor-fold>
+  private readonly ids = defineIds(
+    'plv_media_player_controller_gradient_mask_top',
+    'plv_media_player_controller_gradient_mask_bottom'
+  )
 
   aboutToAppear(): void {
     this.controllerViewModel.mediaControllerViewState.observe((viewState) => {
@@ -29,7 +28,7 @@ export struct PLVMediaPlayerControllerGradientMaskLayout {
   build() {
     RelativeContainer() {
       Shape()
-        .id(this.plv_media_player_controller_gradient_mask_top)
+        .id(this.ids.plv_media_player_controller_gradient_mask_top)
         .width('100%')
         .height(this.maskHeight)
         .linearGradient({
@@ -41,7 +40,7 @@ export struct PLVMediaPlayerControllerGradientMaskLayout {
         })
 
       Shape()
-        .id(this.plv_media_player_controller_gradient_mask_bottom)
+        .id(this.ids.plv_media_player_controller_gradient_mask_bottom)
         .width('100%')
         .height(this.maskHeight)
         .linearGradient({

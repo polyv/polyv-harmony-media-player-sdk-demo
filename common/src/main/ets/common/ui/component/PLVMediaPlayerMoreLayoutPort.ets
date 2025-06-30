@@ -7,7 +7,7 @@ import {
 } from '@polyvharmony/media-player-sdk'
 import { PLVMPMediaViewModel } from '../../modules/media/viewmodel/PLVMPMediaViewModel'
 import { PLVMPMediaControllerViewModel } from '../../modules/mediacontroller/viewmodel/PLVMPMediaControllerViewModel'
-import { createId, parent, toBottomOf, toEndOf, toTopOf, usePadding } from '../../utils/arkts-no-everything'
+import { defineIds, parent, toBottomOf, toEndOf, toTopOf, usePadding } from '../../utils/arkts-no-everything'
 import { PLVMediaPlayerMoreLayoutAudioModeActionView } from './PLVMediaPlayerMoreLayoutAudioModeActionView'
 import { PLVMediaPlayerMoreLayoutDownloadActionView } from './PLVMediaPlayerMoreLayoutDownloadActionView'
 import { PLVMediaPlayerMoreLayoutSubtitleActionView } from './PLVMediaPlayerMoreLayoutSubtitleActionView'
@@ -24,12 +24,11 @@ export struct PLVMediaPlayerMoreLayoutPort {
   @State supportBitRates: PLVMediaBitRate[] = []
   @State currentMediaOutputMode: PLVMediaOutputMode = PLVMediaOutputMode.AUDIO_VIDEO
   private observers: MutableObserver[] = []
-  // <editor-fold defaultstate="collapsed" desc="ids">
-  private readonly plv_media_player_more_action_layout_close_layout_mask_port: string = createId()
-  private readonly plv_media_player_more_action_layout_container: string = createId()
-  private readonly plv_media_player_more_action_close_iv_port: string = createId()
-
-  // </editor-fold>
+  private readonly ids = defineIds(
+    'plv_media_player_more_action_layout_close_layout_mask_port',
+    'plv_media_player_more_action_layout_container',
+    'plv_media_player_more_action_close_iv_port'
+  )
 
   aboutToAppear(): void {
     this.controllerViewModel.mediaControllerViewState.observe((viewState) => {
@@ -51,7 +50,7 @@ export struct PLVMediaPlayerMoreLayoutPort {
     RelativeContainer() {
       Column() {
       }
-      .id(this.plv_media_player_more_action_layout_close_layout_mask_port)
+      .id(this.ids.plv_media_player_more_action_layout_close_layout_mask_port)
       .width('100%')
       .height('100%')
       .onClick(() => {
@@ -127,7 +126,7 @@ export struct PLVMediaPlayerMoreLayoutPort {
         .alignItems(VerticalAlign.Center)
 
       }
-      .id(this.plv_media_player_more_action_layout_container)
+      .id(this.ids.plv_media_player_more_action_layout_container)
       .width('100%')
       .alignItems(HorizontalAlign.Start)
       .padding(usePadding({
@@ -144,7 +143,7 @@ export struct PLVMediaPlayerMoreLayoutPort {
       })
 
       Image($r('app.media.plv_media_player_float_menu_close_icon'))
-        .id(this.plv_media_player_more_action_close_iv_port)
+        .id(this.ids.plv_media_player_more_action_close_iv_port)
         .width(48)
         .height(48)
         .padding(12)
@@ -153,8 +152,8 @@ export struct PLVMediaPlayerMoreLayoutPort {
           right: 8
         })
         .alignRules({
-          top: toTopOf(this.plv_media_player_more_action_layout_container),
-          right: toEndOf(this.plv_media_player_more_action_layout_container)
+          top: toTopOf(this.ids.plv_media_player_more_action_layout_container),
+          right: toEndOf(this.ids.plv_media_player_more_action_layout_container)
         })
         .onClick(() => {
           this.controllerViewModel.popFloatActionLayout()

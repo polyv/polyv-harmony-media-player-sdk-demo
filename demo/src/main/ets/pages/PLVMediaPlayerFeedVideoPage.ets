@@ -1,5 +1,5 @@
 import {
-  createId,
+  defineIds,
   PLVMediaPlayerFeedVideoPageParam,
   PLVMediaPlayerScenes,
   PLVMPPageControlViewModel,
@@ -33,7 +33,9 @@ export struct PLVMediaPlayerFeedVideoPage {
   private feedDataSource: IPLVMediaPlayerFeedResourceDataSource = new PLVMockFeedResourceDataSource();
   private swiperDataSource: PLVMediaPlayerFeedSwiperDataSource = new PLVMediaPlayerFeedSwiperDataSource(this.feedDataSource, this.param.initialMediaSources)
   private onBackPressDisposable: Disposable | undefined = undefined
-  private readonly plv_media_player_feed_video_background: string = createId()
+  private readonly ids = defineIds(
+    'plv_media_player_feed_video_background'
+  )
 
   aboutToAppear(): void {
     requireNotNull(this.param, () => "param is null")
@@ -48,7 +50,7 @@ export struct PLVMediaPlayerFeedVideoPage {
     Stack() {
       // 背景图
       Image($r('app.media.plv_media_player_video_item_background_portrait'))
-        .id(this.plv_media_player_feed_video_background)
+        .id(this.ids.plv_media_player_feed_video_background)
         .objectFit(ImageFit.Cover)
         .expandSafeArea()
 

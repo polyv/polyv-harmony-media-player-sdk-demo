@@ -1,5 +1,5 @@
-import {PLVMPMediaControllerRepo} from "../../model/PLVMPMediaControllerRepo";
-import {LifecycleAwareDependComponent, MutableObserver, PLVMediaPlayerState} from '@polyvharmony/media-player-sdk';
+import { PLVMPMediaControllerRepo } from '../../model/PLVMPMediaControllerRepo';
+import { LifecycleAwareDependComponent, MutableObserver, PLVMediaPlayerState } from '@polyvharmony/media-player-sdk';
 
 export class UpdateMediaStopOverlayUseCase implements LifecycleAwareDependComponent {
 
@@ -25,7 +25,7 @@ export class UpdateMediaStopOverlayUseCase implements LifecycleAwareDependCompon
   private observeCompleteState() {
     this.repo.mediaMediator.playerState?.observe((playerState) => {
       this.repo.mediator.playCompleteState.value = playerState === PLVMediaPlayerState.STATE_COMPLETED
-    })
+    }).pushTo(this.observers)
   }
 
   onDestroy() {

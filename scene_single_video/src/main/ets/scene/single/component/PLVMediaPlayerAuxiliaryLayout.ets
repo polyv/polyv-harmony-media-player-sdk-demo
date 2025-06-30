@@ -1,6 +1,6 @@
 import { DependScope, MutableObserver } from '@polyvharmony/media-player-sdk'
 import {
-  createId,
+  defineIds,
   getDisplayWindowHeight,
   getDisplayWindowWidth,
   isPortrait,
@@ -25,12 +25,11 @@ export struct PLVMediaPlayerAuxiliaryLayout {
   @State videoHeight: number = 0
   @State isPortrait: boolean = isPortrait()
   private observers: MutableObserver[] = []
-  // <editor-fold defaultstate="collapsed" desc="ids">
-  private readonly plv_media_player_auxiliary_advert_image: string = createId()
-  private readonly plv_media_player_auxiliary_advert_video_xcomponent: string = createId()
-  private readonly plv_media_player_auxiliary_count_down_text_view: string = createId()
-
-  // </editor-fold>
+  private readonly ids = defineIds(
+    'plv_media_player_auxiliary_advert_image',
+    'plv_media_player_auxiliary_advert_video_xcomponent',
+    'plv_media_player_auxiliary_count_down_text_view'
+  )
 
   aboutToAppear(): void {
     this.auxiliaryViewModel.bind()
@@ -58,7 +57,7 @@ export struct PLVMediaPlayerAuxiliaryLayout {
         libraryname: "plvplayer_xcomponent"
       }) {
       }
-      .id(this.plv_media_player_auxiliary_advert_video_xcomponent)
+      .id(this.ids.plv_media_player_auxiliary_advert_video_xcomponent)
       .width(this.videoWidth)
       .height(this.videoHeight)
       .alignRules({
@@ -72,7 +71,7 @@ export struct PLVMediaPlayerAuxiliaryLayout {
       // 图片类型广告
       if (this.isImage) {
         Image(this.imageUrl)
-          .id(this.plv_media_player_auxiliary_advert_image)
+          .id(this.ids.plv_media_player_auxiliary_advert_image)
           .width('100%')
           .height('100%')
           .backgroundColor('#000000')
@@ -85,7 +84,7 @@ export struct PLVMediaPlayerAuxiliaryLayout {
 
       // 广告倒计时
       PLVMediaPlayerAuxiliaryCountDownTextView()
-        .id(this.plv_media_player_auxiliary_count_down_text_view)
+        .id(this.ids.plv_media_player_auxiliary_count_down_text_view)
         .alignRules({
           right: toEndOf(parent),
           top: toTopOf(parent)

@@ -2,7 +2,7 @@ import { DependScope, extendArray, MutableObserver, PLVMediaSubtitle } from '@po
 import { PLVMPMediaViewModel } from '../../modules/media/viewmodel/PLVMPMediaViewModel'
 import { PLVMPMediaControllerViewModel } from '../../modules/mediacontroller/viewmodel/PLVMPMediaControllerViewModel'
 import {
-  createId,
+  defineIds,
   parent,
   toBottomOf,
   toCenterOf,
@@ -23,15 +23,14 @@ export struct PLVMediaPlayerMoreSubtitleSettingLayoutLand {
   @State currentSubtitle: PLVMediaSubtitle[] | null = null
   private lastSelectedSubtitle: PLVMediaSubtitle[] | null = null
   private observers: MutableObserver[] = []
-  // <editor-fold defaultstate="collapsed" desc="ids">
-  private readonly plv_media_player_more_action_start_guide_line: string = createId()
-  private readonly plv_media_player_more_action_layout_close_layout_mask: string = createId()
-  private readonly plv_media_player_more_action_close_iv: string = createId()
-  private readonly plv_media_player_more_action_show_subtitle_toggle_label: string = createId()
-  private readonly plv_media_player_more_action_show_subtitle_toggle: string = createId()
-  private readonly plv_media_player_more_action_subtitle_container: string = createId()
-
-  // </editor-fold>
+  private readonly ids = defineIds(
+    'plv_media_player_more_action_start_guide_line',
+    'plv_media_player_more_action_layout_close_layout_mask',
+    'plv_media_player_more_action_close_iv',
+    'plv_media_player_more_action_show_subtitle_toggle_label',
+    'plv_media_player_more_action_show_subtitle_toggle',
+    'plv_media_player_more_action_subtitle_container'
+  )
 
   aboutToAppear(): void {
     this.controllerViewModel.mediaControllerViewState.observe((viewState) => {
@@ -53,7 +52,7 @@ export struct PLVMediaPlayerMoreSubtitleSettingLayoutLand {
     RelativeContainer() {
       Column() {
       }
-      .id(this.plv_media_player_more_action_layout_close_layout_mask)
+      .id(this.ids.plv_media_player_more_action_layout_close_layout_mask)
       .width('100%')
       .height('100%')
       .linearGradient({
@@ -69,7 +68,7 @@ export struct PLVMediaPlayerMoreSubtitleSettingLayoutLand {
 
       Shape() {
       }
-      .id(this.plv_media_player_more_action_start_guide_line)
+      .id(this.ids.plv_media_player_more_action_start_guide_line)
       .width('60%')
       .height('100%')
       .alignRules({
@@ -78,7 +77,7 @@ export struct PLVMediaPlayerMoreSubtitleSettingLayoutLand {
       .hitTestBehavior(HitTestMode.None)
 
       Image($r('app.media.plv_media_player_float_menu_close_icon'))
-        .id(this.plv_media_player_more_action_close_iv)
+        .id(this.ids.plv_media_player_more_action_close_iv)
         .width(48)
         .height(48)
         .padding(12)
@@ -96,26 +95,26 @@ export struct PLVMediaPlayerMoreSubtitleSettingLayoutLand {
         })
 
       Text($r("app.string.plv_media_player_ui_component_subtitle_setting_show_switch_label"))
-        .id(this.plv_media_player_more_action_show_subtitle_toggle_label)
+        .id(this.ids.plv_media_player_more_action_show_subtitle_toggle_label)
         .fontSize(14)
         .fontColor("#FFFFFF")
         .alignRules({
           top: toTopOf(parent),
-          left: toEndOf(this.plv_media_player_more_action_start_guide_line)
+          left: toEndOf(this.ids.plv_media_player_more_action_start_guide_line)
         })
         .margin({
           top: 74
         })
 
       Toggle({ type: ToggleType.Switch, isOn: this.isSubtitleEnable })
-        .id(this.plv_media_player_more_action_show_subtitle_toggle)
+        .id(this.ids.plv_media_player_more_action_show_subtitle_toggle)
         .width(38)
         .height(24)
         .selectedColor('#3F76FC')
         .switchPointColor('#FFFFFF')
         .alignRules({
-          center: toCenterOf(this.plv_media_player_more_action_show_subtitle_toggle_label),
-          left: toEndOf(this.plv_media_player_more_action_show_subtitle_toggle_label)
+          center: toCenterOf(this.ids.plv_media_player_more_action_show_subtitle_toggle_label),
+          left: toEndOf(this.ids.plv_media_player_more_action_show_subtitle_toggle_label)
         })
         .margin({
           left: 20
@@ -161,13 +160,13 @@ export struct PLVMediaPlayerMoreSubtitleSettingLayoutLand {
         }
         .visibility(this.isSubtitleEnable ? Visibility.Visible : Visibility.None)
       }
-      .id(this.plv_media_player_more_action_subtitle_container)
+      .id(this.ids.plv_media_player_more_action_subtitle_container)
       .width('40%')
       .height(240)
       .scrollBar(BarState.Off)
       .alignRules({
-        top: toBottomOf(this.plv_media_player_more_action_show_subtitle_toggle_label),
-        left: toStartOf(this.plv_media_player_more_action_show_subtitle_toggle_label)
+        top: toBottomOf(this.ids.plv_media_player_more_action_show_subtitle_toggle_label),
+        left: toStartOf(this.ids.plv_media_player_more_action_show_subtitle_toggle_label)
       })
       .margin(usePadding({
         top: 24

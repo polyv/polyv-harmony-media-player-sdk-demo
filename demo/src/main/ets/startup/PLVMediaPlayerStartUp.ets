@@ -1,11 +1,11 @@
 import {
   IPLVKVStore,
   Logger,
+  PLVCommonLogger,
   PLVKVStore,
   PLVMediaPlayerAppContext,
   PLVMediaPlayerFactory,
   PLVMediaPlayerHttpDns,
-  PLVMediaPlayerLogger,
   runCatching
 } from '@polyvharmony/media-player-sdk';
 import { PLVMediaPlayerCoreIjkProvider } from '@polyvharmony/media-player-core-ijk';
@@ -27,13 +27,13 @@ export class PLVMediaPlayerStartUp {
     PLVMediaPlayerStartUp.isInit = true
 
     PLVMediaPlayerAppContext.getInstance().setupAppContext(context)
-    PLVMediaPlayerLogger.loggerImpl = new HiLogImpl()
+    PLVCommonLogger.loggerImpl = new HiLogImpl()
     PLVKVStore.setupImplement(new PLVKVStoreOhosImpl(context))
     PLVMediaPlayerFactory.getInstance().register(PLVMediaPlayerCoreIjkProvider.getInstance())
     PLVMediaDownloaderManager.getInstance().init(PLVMediaDownloadSetting.defaultSetting(context))
 
     PLVHttpDnsManager.getInstance().logger = (tag: string, message: string) => {
-      hilog.info(0x0000, tag, message.substring(0, 1000))
+      chunkString(message, 1000, (msg) => hilog.info(0x0000, tag, msg))
     }
     PLVMediaPlayerHttpDns.getInstance().register(PLVLocalDnsService.getInstance())
     PLVMediaPlayerHttpDns.getInstance().register(PLVHttpDnsService.getInstance())
@@ -43,19 +43,19 @@ export class PLVMediaPlayerStartUp {
 
 class HiLogImpl implements Logger {
   debug(tag: string, message: string) {
-    hilog.debug(0x0000, tag, message.substring(0, 1000))
+    chunkString(message, 1000, (msg) => hilog.debug(0x0000, tag, msg))
   }
 
   info(tag: string, message: string) {
-    hilog.info(0x0000, tag, message.substring(0, 1000))
+    chunkString(message, 1000, (msg) => hilog.info(0x0000, tag, msg))
   }
 
   warn(tag: string, message: string) {
-    hilog.warn(0x0000, tag, message.substring(0, 1000))
+    chunkString(message, 1000, (msg) => hilog.warn(0x0000, tag, msg))
   }
 
   error(tag: string, message: string) {
-    hilog.error(0x0000, tag, message.substring(0, 1000))
+    chunkString(message, 1000, (msg) => hilog.error(0x0000, tag, msg))
   }
 }
 
@@ -100,5 +100,15 @@ class PLVKVStoreOhosImpl implements IPLVKVStore {
     this.kvStore = await this.kvStoreManager?.getKVStore(PLVKVStoreOhosImpl.kvStoreId, {
       securityLevel: distributedKVStore.SecurityLevel.S1
     }) as distributedKVStore.DeviceKVStore
+  }
+}
+
+function chunkString(src: string, chunkSize: number, action: (chunk: string) => void) {
+  let index = 0
+  while (index < src.length) {
+    const take = Math.min(src.length - index, chunkSize)
+    const chunk = src.substring(index, index + take)
+    action(chunk)
+    index += take
   }
 }

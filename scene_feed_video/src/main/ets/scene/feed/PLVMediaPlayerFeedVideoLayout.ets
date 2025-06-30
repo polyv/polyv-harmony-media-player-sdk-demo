@@ -9,7 +9,7 @@ import {
 } from '@polyvharmony/media-player-sdk';
 import {
   commonItemModule,
-  createId,
+  defineIds,
   getDisplayWindowHeight,
   getDisplayWindowWidth,
   isPortrait,
@@ -44,17 +44,16 @@ export struct PLVMediaPlayerFeedVideoLayout {
   @State isFloatActionLayoutVisible: boolean = false
   private componentController: XComponentController = new XComponentController()
   private observers: MutableObserver[] = []
-  // <editor-fold defaultstate="collapsed" desc="ids">
-  private readonly plv_media_player_feed_video_background: string = createId()
-  private readonly plv_media_player_feed_video_xcomponent: string = createId()
-  private readonly plv_media_player_feed_video_controller_layout: string = createId()
-  private readonly plv_media_player_feed_video_float_action_layout: string = createId()
-  private readonly plv_media_player_handle_on_enter_background_component: string = createId()
-  private readonly plv_media_player_play_complete_auto_restart_component: string = createId()
-  private readonly plv_media_player_feed_video_state_handle_component: string = createId()
-  private readonly plv_media_player_feed_video_layout_root: string = createId()
-
-  // </editor-fold>
+  private readonly ids = defineIds(
+    'plv_media_player_feed_video_background',
+    'plv_media_player_feed_video_xcomponent',
+    'plv_media_player_feed_video_controller_layout',
+    'plv_media_player_feed_video_float_action_layout',
+    'plv_media_player_handle_on_enter_background_component',
+    'plv_media_player_play_complete_auto_restart_component',
+    'plv_media_player_feed_video_state_handle_component',
+    'plv_media_player_feed_video_layout_root'
+  )
 
   aboutToAppear(): void {
     requireNotNull(this.mediaResource, () => 'mediaResource must not be null')
@@ -90,7 +89,7 @@ export struct PLVMediaPlayerFeedVideoLayout {
       // 背景 横屏时使用黑色背景
       if (!this.isPortrait) {
         Shape()
-          .id(this.plv_media_player_feed_video_background)
+          .id(this.ids.plv_media_player_feed_video_background)
           .width('100%')
           .height('100%')
           .backgroundColor('#000000')
@@ -104,7 +103,7 @@ export struct PLVMediaPlayerFeedVideoLayout {
         controller: this.componentController
       }) {
       }
-      .id(this.plv_media_player_feed_video_xcomponent)
+      .id(this.ids.plv_media_player_feed_video_xcomponent)
       .width(this.videoWidth)
       .height(this.videoHeight)
       .alignRules({
@@ -117,20 +116,20 @@ export struct PLVMediaPlayerFeedVideoLayout {
       .onLoad((xcomponent) => {
         this.viewModel.setXComponent(xcomponent)
         this.viewModel.onScreenshot = async () => {
-          return await this.getUIContext().getComponentSnapshot().get(this.plv_media_player_feed_video_xcomponent)
+          return await this.getUIContext().getComponentSnapshot().get(this.ids.plv_media_player_feed_video_xcomponent)
         }
       })
 
       // 播放控制皮肤
       PLVMediaPlayerFeedVideoControllerLayout()
-        .id(this.plv_media_player_feed_video_controller_layout)
+        .id(this.ids.plv_media_player_feed_video_controller_layout)
         .width('100%')
         .height('100%')
 
       // 更多功能弹层布局
       if (this.isFloatActionLayoutVisible) {
         PLVMediaPlayerFeedVideoFloatActionLayout()
-          .id(this.plv_media_player_feed_video_float_action_layout)
+          .id(this.ids.plv_media_player_feed_video_float_action_layout)
           .width('100%')
           .height('100%')
           .gesture(
@@ -143,19 +142,19 @@ export struct PLVMediaPlayerFeedVideoLayout {
 
       // 进入后台播放处理逻辑
       PLVMediaPlayerHandleOnEnterBackgroundComponent()
-        .id(this.plv_media_player_handle_on_enter_background_component)
+        .id(this.ids.plv_media_player_handle_on_enter_background_component)
 
       // 播放完成自动重新播放逻辑
       PLVMediaPlayerPlayCompleteAutoRestartComponent()
-        .id(this.plv_media_player_play_complete_auto_restart_component)
+        .id(this.ids.plv_media_player_play_complete_auto_restart_component)
 
       // 响应 Feed 流滑动时控制播放暂停处理逻辑
       PLVMediaPlayerFeedVideoStateHandleComponent({
         mediaResourceIndex: this.mediaResourceIndex
       })
-        .id(this.plv_media_player_feed_video_state_handle_component)
+        .id(this.ids.plv_media_player_feed_video_state_handle_component)
     }
-    .id(this.plv_media_player_feed_video_layout_root)
+    .id(this.ids.plv_media_player_feed_video_layout_root)
     .width('100%')
     .height('100%')
   }

@@ -1,7 +1,7 @@
 import { DependScope, extendArray, MutableObserver, PLVMediaBitRate } from '@polyvharmony/media-player-sdk'
 import { PLVMPMediaViewModel } from '../../modules/media/viewmodel/PLVMPMediaViewModel'
 import { PLVMPMediaControllerViewModel } from '../../modules/mediacontroller/viewmodel/PLVMPMediaControllerViewModel'
-import { createId, parent, toCenterOf, toEndOf, toTopOf, usePadding } from '../../utils/arkts-no-everything'
+import { defineIds, parent, toCenterOf, toEndOf, toTopOf, usePadding } from '../../utils/arkts-no-everything'
 
 @Component
 export struct PLVMediaPlayerBitRateSelectLayoutLand {
@@ -12,12 +12,11 @@ export struct PLVMediaPlayerBitRateSelectLayoutLand {
   @State currentBitRate: PLVMediaBitRate | null = null
   @State supportBitRates: PLVMediaBitRate[] = []
   private observers: MutableObserver[] = []
-  // <editor-fold defaultstate="collapsed" desc="ids">
-  private readonly plv_media_player_bit_rate_select_layout_close_layout_mask_land: string = createId()
-  private readonly plv_media_player_bit_rate_select_content: string = createId()
-  private readonly plv_media_player_bit_rate_select_close_iv_land: string = createId()
-
-  // </editor-fold>
+  private readonly ids = defineIds(
+    'plv_media_player_bit_rate_select_layout_close_layout_mask_land',
+    'plv_media_player_bit_rate_select_content',
+    'plv_media_player_bit_rate_select_close_iv_land'
+  )
 
   aboutToAppear(): void {
     this.controllerViewModel.mediaControllerViewState.observe((viewState) => {
@@ -27,14 +26,14 @@ export struct PLVMediaPlayerBitRateSelectLayoutLand {
     this.mediaViewModel.mediaInfoViewState.observe((viewState) => {
       this.currentBitRate = viewState.bitRate
       this.supportBitRates = viewState.supportBitRates
-    })
+    }).pushTo(this.observers)
   }
 
   build() {
     RelativeContainer() {
       Column() {
       }
-      .id(this.plv_media_player_bit_rate_select_layout_close_layout_mask_land)
+      .id(this.ids.plv_media_player_bit_rate_select_layout_close_layout_mask_land)
       .width('100%')
       .height('100%')
       .linearGradient({
@@ -64,7 +63,7 @@ export struct PLVMediaPlayerBitRateSelectLayoutLand {
             })
         }, (bitRate: PLVMediaBitRate) => bitRate.name)
       }
-      .id(this.plv_media_player_bit_rate_select_content)
+      .id(this.ids.plv_media_player_bit_rate_select_content)
       .alignRules({
         center: toCenterOf(parent),
         right: toEndOf(parent)
@@ -74,7 +73,7 @@ export struct PLVMediaPlayerBitRateSelectLayoutLand {
       })
 
       Image($r('app.media.plv_media_player_float_menu_close_icon'))
-        .id(this.plv_media_player_bit_rate_select_close_iv_land)
+        .id(this.ids.plv_media_player_bit_rate_select_close_iv_land)
         .width(48)
         .height(48)
         .padding(12)

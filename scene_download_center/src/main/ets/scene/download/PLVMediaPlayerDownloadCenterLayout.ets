@@ -6,7 +6,7 @@ import {
   PLVMediaPlayerAppContext
 } from '@polyvharmony/media-player-sdk';
 import {
-  createId,
+  defineIds,
   parent,
   PLVMPDownloadListViewModel,
   PLVMPPageControlViewModel,
@@ -33,15 +33,14 @@ export struct PLVMediaPlayerDownloadCenterLayout {
   @State downloadingCountText: string = ""
   @State downloadListEmptyHintVisible: boolean = false
   private observers: MutableObserver[] = []
-  // <editor-fold defaultstate="collapsed" desc="ids">
-  private readonly plv_media_player_download_center_background: string = createId()
-  private readonly plv_media_player_download_back_icon: string = createId()
-  private readonly plv_media_player_download_title: string = createId()
-  private readonly plv_media_player_download_tab_layout: string = createId()
-  private readonly plv_media_player_download_tab_swiper: string = createId()
-  private readonly plv_media_player_download_list_is_empty_layout: string = createId()
-
-  // </editor-fold>
+  private readonly ids = defineIds(
+    'plv_media_player_download_center_background',
+    'plv_media_player_download_back_icon',
+    'plv_media_player_download_title',
+    'plv_media_player_download_tab_layout',
+    'plv_media_player_download_tab_swiper',
+    'plv_media_player_download_list_is_empty_layout'
+  )
 
   aboutToAppear(): void {
     this.downloadListViewModel.downloadedList.observe((viewState) => {
@@ -78,14 +77,14 @@ export struct PLVMediaPlayerDownloadCenterLayout {
     RelativeContainer() {
       Stack() {
       }
-      .id(this.plv_media_player_download_center_background)
+      .id(this.ids.plv_media_player_download_center_background)
       .width('100%')
       .height('100%')
       .backgroundColor('#172449')
       .expandSafeArea()
 
       Image($r('app.media.plv_media_player_back_icon'))
-        .id(this.plv_media_player_download_back_icon)
+        .id(this.ids.plv_media_player_download_back_icon)
         .width(28)
         .height(28)
         .margin({
@@ -102,12 +101,12 @@ export struct PLVMediaPlayerDownloadCenterLayout {
         })
 
       Text($r('app.string.plv_media_player_download_center_text'))
-        .id(this.plv_media_player_download_title)
+        .id(this.ids.plv_media_player_download_title)
         .fontColor('#FFFFFF')
         .fontSize(16)
         .alignRules({
-          start: toEndOf(this.plv_media_player_download_back_icon),
-          center: toCenterOf(this.plv_media_player_download_back_icon)
+          start: toEndOf(this.ids.plv_media_player_download_back_icon),
+          center: toCenterOf(this.ids.plv_media_player_download_back_icon)
         })
 
       Row({ space: 20 }) {
@@ -147,14 +146,14 @@ export struct PLVMediaPlayerDownloadCenterLayout {
         .padding(12)
         .onClick(() => this.currentSelectTab.value = 1)
       }
-      .id(this.plv_media_player_download_tab_layout)
+      .id(this.ids.plv_media_player_download_tab_layout)
       .margin({
         left: 16,
         top: 18
       })
       .alignRules({
         start: toStartOf(parent),
-        top: toBottomOf(this.plv_media_player_download_back_icon)
+        top: toBottomOf(this.ids.plv_media_player_download_back_icon)
       })
 
       Swiper(this.tabSwiperController) {
@@ -171,10 +170,10 @@ export struct PLVMediaPlayerDownloadCenterLayout {
       .loop(false)
       .disableSwipe(true)
       .vertical(false)
-      .id(this.plv_media_player_download_tab_swiper)
+      .id(this.ids.plv_media_player_download_tab_swiper)
       .width('100%')
       .alignRules({
-        top: toBottomOf(this.plv_media_player_download_tab_layout),
+        top: toBottomOf(this.ids.plv_media_player_download_tab_layout),
         bottom: toBottomOf(parent)
       })
       .margin({
@@ -199,7 +198,7 @@ export struct PLVMediaPlayerDownloadCenterLayout {
             top: 12
           })
       }
-      .id(this.plv_media_player_download_list_is_empty_layout)
+      .id(this.ids.plv_media_player_download_list_is_empty_layout)
       .visibility(this.downloadListEmptyHintVisible ? Visibility.Visible : Visibility.None)
       .alignRules({
         middle: toMiddleOf(parent),

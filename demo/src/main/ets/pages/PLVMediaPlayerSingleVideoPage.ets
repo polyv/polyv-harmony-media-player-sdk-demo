@@ -1,7 +1,7 @@
 import { PLVMediaPlayerSingleVideoLayout } from 'scene_single_video';
 import { DependScope, Disposable, requireNotNull, runCatching } from '@polyvharmony/media-player-sdk';
 import {
-  createId,
+  defineIds,
   PLVMediaPlayerScenes,
   PLVMediaPlayerSingleVideoPageParam,
   PLVMPPageControlViewModel,
@@ -19,7 +19,9 @@ export struct PLVMediaPlayerSingleVideoPage {
   private context = getContext(this) as common.UIAbilityContext
   private pageControlViewModel: PLVMPPageControlViewModel = this.pageDependScope.get(PLVMPPageControlViewModel)
   private onBackPressDisposable: Disposable | undefined = undefined
-  private readonly plv_media_player_single_video_background: string = createId()
+  private readonly ids = defineIds(
+    'plv_media_player_single_video_background'
+  )
 
   aboutToAppear(): void {
     requireNotNull(this.param, () => "param is null")
@@ -34,7 +36,7 @@ export struct PLVMediaPlayerSingleVideoPage {
     Stack() {
       // 背景图
       Image($r('app.media.plv_media_player_video_item_background_portrait'))
-        .id(this.plv_media_player_single_video_background)
+        .id(this.ids.plv_media_player_single_video_background)
         .objectFit(ImageFit.Cover)
         .expandSafeArea(undefined, [SafeAreaEdge.BOTTOM])
 

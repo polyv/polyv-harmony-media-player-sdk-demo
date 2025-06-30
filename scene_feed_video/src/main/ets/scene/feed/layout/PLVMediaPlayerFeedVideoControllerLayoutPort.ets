@@ -1,7 +1,7 @@
 import { createDependScope, DependScope, MutableObserver } from '@polyvharmony/media-player-sdk'
 import {
   commonItemModule,
-  createId,
+  defineIds,
   parent,
   PLVMediaPlayerAudioModeCoverLayoutPort,
   PLVMediaPlayerAutoContinueHintLayout,
@@ -41,28 +41,27 @@ export struct PLVMediaPlayerFeedVideoControllerLayoutPort {
   @State videoHeight: number = 0
   @State videoOffsetY: number = 0
   private observers: MutableObserver[] = []
-  // <editor-fold defaultstate="collapsed" desc="ids">
-  private readonly plv_media_player_feed_video_shadow: string = createId()
-  private readonly plv_media_player_subtitle_text_layout: string = createId()
-  private readonly plv_media_player_gesture_handle_layout: string = createId()
-  private readonly plv_media_player_marquee_layout: string = createId()
-  private readonly plv_media_player_audio_mode_cover_layout: string = createId()
-  private readonly plv_media_player_buffering_speed_layout: string = createId()
-  private readonly plv_media_player_error_overlay_layout: string = createId()
-  private readonly plv_media_player_back_iv: string = createId()
-  private readonly plv_media_player_title_tv: string = createId()
-  private readonly plv_media_player_more_action_iv: string = createId()
-  private readonly plv_media_player_play_button: string = createId()
-  private readonly plv_media_player_progress_text_view: string = createId()
-  private readonly plv_media_player_switch_full_screen_btn: string = createId()
-  private readonly plv_media_player_progress_slider: string = createId()
-  private readonly plv_media_player_network_poor_indicate_layout: string = createId()
-  private readonly plv_media_player_long_press_speed_hint_layout: string = createId()
-  private readonly plv_media_player_auto_continue_hint_layout: string = createId()
-  private readonly plv_media_player_switch_bit_rate_hint_layout: string = createId()
-  private readonly plv_media_player_seek_progress_preview_layout: string = createId()
-
-  // </editor-fold>
+  private readonly ids = defineIds(
+    'plv_media_player_feed_video_shadow',
+    'plv_media_player_subtitle_text_layout',
+    'plv_media_player_gesture_handle_layout',
+    'plv_media_player_marquee_layout',
+    'plv_media_player_audio_mode_cover_layout',
+    'plv_media_player_buffering_speed_layout',
+    'plv_media_player_error_overlay_layout',
+    'plv_media_player_back_iv',
+    'plv_media_player_title_tv',
+    'plv_media_player_more_action_iv',
+    'plv_media_player_play_button',
+    'plv_media_player_progress_text_view',
+    'plv_media_player_switch_full_screen_btn',
+    'plv_media_player_progress_slider',
+    'plv_media_player_network_poor_indicate_layout',
+    'plv_media_player_long_press_speed_hint_layout',
+    'plv_media_player_auto_continue_hint_layout',
+    'plv_media_player_switch_bit_rate_hint_layout',
+    'plv_media_player_seek_progress_preview_layout'
+  )
 
   aboutToAppear(): void {
     this.controllerViewModel.mediaControllerViewState.observe((viewState) => {
@@ -76,7 +75,7 @@ export struct PLVMediaPlayerFeedVideoControllerLayoutPort {
     RelativeContainer() {
       // 视频播放器视图位置在皮肤上的映射
       Shape()
-        .id(this.plv_media_player_feed_video_shadow)
+        .id(this.ids.plv_media_player_feed_video_shadow)
         .width(this.videoWidth)
         .height(this.videoHeight)
         .alignRules({
@@ -90,7 +89,7 @@ export struct PLVMediaPlayerFeedVideoControllerLayoutPort {
 
       // 字幕
       PLVMediaPlayerSubtitleTextLayout()
-        .id(this.plv_media_player_subtitle_text_layout)
+        .id(this.ids.plv_media_player_subtitle_text_layout)
         .hitTestBehavior(HitTestMode.None)
         .margin({
           bottom: 12
@@ -99,25 +98,25 @@ export struct PLVMediaPlayerFeedVideoControllerLayoutPort {
           y: this.videoOffsetY
         })
         .alignRules({
-          bottom: toBottomOf(this.plv_media_player_feed_video_shadow),
+          bottom: toBottomOf(this.ids.plv_media_player_feed_video_shadow),
           middle: toMiddleOf(parent)
         })
 
       // 手势处理
       PLVMediaPlayerGestureHandleLayoutFeedPort()
-        .id(this.plv_media_player_gesture_handle_layout)
+        .id(this.ids.plv_media_player_gesture_handle_layout)
 
       // 播放器跑马灯
       PLVMediaPlayerMarqueeLayout()
-        .id(this.plv_media_player_marquee_layout)
+        .id(this.ids.plv_media_player_marquee_layout)
         .hitTestBehavior(HitTestMode.None)
 
       // 音频模式
       PLVMediaPlayerAudioModeCoverLayoutPort()
-        .id(this.plv_media_player_audio_mode_cover_layout)
+        .id(this.ids.plv_media_player_audio_mode_cover_layout)
         .alignRules({
-          top: toTopOf(this.plv_media_player_feed_video_shadow),
-          bottom: toBottomOf(this.plv_media_player_feed_video_shadow)
+          top: toTopOf(this.ids.plv_media_player_feed_video_shadow),
+          bottom: toBottomOf(this.ids.plv_media_player_feed_video_shadow)
         })
         .offset({
           y: this.videoOffsetY
@@ -126,10 +125,10 @@ export struct PLVMediaPlayerFeedVideoControllerLayoutPort {
 
       // 缓冲加载速度显示
       PLVMediaPlayerBufferingSpeedLayout()
-        .id(this.plv_media_player_buffering_speed_layout)
+        .id(this.ids.plv_media_player_buffering_speed_layout)
         .alignRules({
-          top: toTopOf(this.plv_media_player_feed_video_shadow),
-          bottom: toBottomOf(this.plv_media_player_feed_video_shadow)
+          top: toTopOf(this.ids.plv_media_player_feed_video_shadow),
+          bottom: toBottomOf(this.ids.plv_media_player_feed_video_shadow)
         })
         .offset({
           y: this.videoOffsetY
@@ -138,11 +137,11 @@ export struct PLVMediaPlayerFeedVideoControllerLayoutPort {
 
       // 播放异常覆盖层
       PLVMediaPlayerPlayErrorOverlayLayout()
-        .id(this.plv_media_player_error_overlay_layout)
+        .id(this.ids.plv_media_player_error_overlay_layout)
 
       // 返回按钮
       PLVMediaPlayerBackImageView()
-        .id(this.plv_media_player_back_iv)
+        .id(this.ids.plv_media_player_back_iv)
         .width(28)
         .height(28)
         .margin(usePadding({
@@ -157,17 +156,17 @@ export struct PLVMediaPlayerFeedVideoControllerLayoutPort {
 
       // 视频标题
       PLVMediaPlayerTitleTextView()
-        .id(this.plv_media_player_title_tv)
+        .id(this.ids.plv_media_player_title_tv)
         .alignRules({
-          center: toCenterOf(this.plv_media_player_back_iv),
-          left: toEndOf(this.plv_media_player_back_iv),
-          right: toStartOf(this.plv_media_player_more_action_iv)
+          center: toCenterOf(this.ids.plv_media_player_back_iv),
+          left: toEndOf(this.ids.plv_media_player_back_iv),
+          right: toStartOf(this.ids.plv_media_player_more_action_iv)
         })
         .hitTestBehavior(HitTestMode.Transparent)
 
       // 更多按钮
       PLVMediaPlayerMoreActionImageView()
-        .id(this.plv_media_player_more_action_iv)
+        .id(this.ids.plv_media_player_more_action_iv)
         .width(28)
         .height(28)
         .alignRules({
@@ -182,7 +181,7 @@ export struct PLVMediaPlayerFeedVideoControllerLayoutPort {
 
       // 播放/暂停按钮
       PLVMediaPlayerPlayButtonFeedPort()
-        .id(this.plv_media_player_play_button)
+        .id(this.ids.plv_media_player_play_button)
         .width(80)
         .height(80)
         .alignRules({
@@ -196,7 +195,7 @@ export struct PLVMediaPlayerFeedVideoControllerLayoutPort {
 
       // 播放进度文本
       PLVMediaPlayerProgressTextView()
-        .id(this.plv_media_player_progress_text_view)
+        .id(this.ids.plv_media_player_progress_text_view)
         .margin({
           left: 16,
           bottom: 16
@@ -209,7 +208,7 @@ export struct PLVMediaPlayerFeedVideoControllerLayoutPort {
 
       // 切换全屏按钮
       PLVMediaPlayerSwitchToFullScreenButtonFeedPort()
-        .id(this.plv_media_player_switch_full_screen_btn)
+        .id(this.ids.plv_media_player_switch_full_screen_btn)
         .margin({
           top: 8
         })
@@ -217,14 +216,14 @@ export struct PLVMediaPlayerFeedVideoControllerLayoutPort {
           y: this.videoOffsetY
         })
         .alignRules({
-          top: toBottomOf(this.plv_media_player_feed_video_shadow),
+          top: toBottomOf(this.ids.plv_media_player_feed_video_shadow),
           middle: toMiddleOf(parent)
         })
         .hitTestBehavior(HitTestMode.Transparent)
 
       // 播放进度条
       PLVMediaPlayerProgressSliderFeedPort()
-        .id(this.plv_media_player_progress_slider)
+        .id(this.ids.plv_media_player_progress_slider)
         .width('100%')
         .height(14)
         .padding(usePadding({
@@ -234,14 +233,14 @@ export struct PLVMediaPlayerFeedVideoControllerLayoutPort {
           bottom: 9
         })
         .alignRules({
-          bottom: toTopOf(this.plv_media_player_progress_text_view)
+          bottom: toTopOf(this.ids.plv_media_player_progress_text_view)
         })
 
       // 弱网提示
       PLVMediaPlayerNetworkPoorIndicateLayout()
-        .id(this.plv_media_player_network_poor_indicate_layout)
+        .id(this.ids.plv_media_player_network_poor_indicate_layout)
         .alignRules({
-          top: toBottomOf(this.plv_media_player_more_action_iv),
+          top: toBottomOf(this.ids.plv_media_player_more_action_iv),
           right: toEndOf(parent)
         })
         .margin({
@@ -250,7 +249,7 @@ export struct PLVMediaPlayerFeedVideoControllerLayoutPort {
 
       // 长按快进控制提示
       PLVMediaPlayerLongPressSpeedHintLayout()
-        .id(this.plv_media_player_long_press_speed_hint_layout)
+        .id(this.ids.plv_media_player_long_press_speed_hint_layout)
         .alignRules({
           middle: toMiddleOf(parent),
           bottom: toBottomOf(parent)
@@ -261,10 +260,10 @@ export struct PLVMediaPlayerFeedVideoControllerLayoutPort {
 
       // 自动续播提示条
       PLVMediaPlayerAutoContinueHintLayout()
-        .id(this.plv_media_player_auto_continue_hint_layout)
+        .id(this.ids.plv_media_player_auto_continue_hint_layout)
         .alignRules({
           left: toStartOf(parent),
-          bottom: toTopOf(this.plv_media_player_progress_slider)
+          bottom: toTopOf(this.ids.plv_media_player_progress_slider)
         })
         .margin({
           left: 12,
@@ -273,7 +272,7 @@ export struct PLVMediaPlayerFeedVideoControllerLayoutPort {
 
       // 切换清晰度提示条
       PLVMediaPlayerSwitchBitRateHintLayout()
-        .id(this.plv_media_player_switch_bit_rate_hint_layout)
+        .id(this.ids.plv_media_player_switch_bit_rate_hint_layout)
         .alignRules({
           top: toTopOf(parent),
           middle: toMiddleOf(parent)
@@ -284,12 +283,12 @@ export struct PLVMediaPlayerFeedVideoControllerLayoutPort {
 
       // 拖动进度条时进度预览
       PLVMediaPlayerSeekProgressPreviewLayout()
-        .id(this.plv_media_player_seek_progress_preview_layout)
+        .id(this.ids.plv_media_player_seek_progress_preview_layout)
         .margin({
           bottom: 8
         })
         .alignRules({
-          bottom: toTopOf(this.plv_media_player_progress_slider),
+          bottom: toTopOf(this.ids.plv_media_player_progress_slider),
           middle: toMiddleOf(parent)
         })
 

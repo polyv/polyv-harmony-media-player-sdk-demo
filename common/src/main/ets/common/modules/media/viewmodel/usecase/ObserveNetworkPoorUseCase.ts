@@ -4,8 +4,8 @@ import {
   MutableObserver,
   PLVMediaPlayerOnInfoEvent,
   seconds
-} from '@polyvharmony/media-player-sdk'
-import {PLVMPMediaRepo} from "../../model/PLVMPMediaRepo";
+} from '@polyvharmony/media-player-sdk';
+import { PLVMPMediaRepo } from '../../model/PLVMPMediaRepo';
 
 // <editor-fold defaultstate="collapsed" desc="常量">
 
@@ -49,6 +49,7 @@ export class ObserveNetworkPoorUseCase implements LifecycleAwareDependComponent 
     this.repo.player.getEventListenerRegistry().onPrepared.observe(() => {
       this.reset()
     })
+      .pushTo(this.observers)
   }
 
   private onBufferingStart() {

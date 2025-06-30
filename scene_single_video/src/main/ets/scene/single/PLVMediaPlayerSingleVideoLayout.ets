@@ -9,7 +9,7 @@ import {
 } from '@polyvharmony/media-player-sdk';
 import {
   commonItemModule,
-  createId,
+  defineIds,
   getDisplayWindowHeight,
   getDisplayWindowWidth,
   isPortrait,
@@ -43,16 +43,15 @@ export struct PLVMediaPlayerSingleVideoLayout {
   @State isFloatActionLayoutVisible: boolean = false
   private componentController: XComponentController = new XComponentController()
   private observers: MutableObserver[] = []
-  // <editor-fold defaultstate="collapsed" desc="ids">
-  private readonly plv_media_player_single_video_xcomponent: string = createId()
-  private readonly plv_media_player_single_video_controller_layout: string = createId()
-  private readonly plv_media_player_single_video_container: string = createId()
-  private readonly plv_media_player_single_video_float_action_layout: string = createId()
-  private readonly plv_media_player_single_video_layout_root: string = createId()
-  private readonly plv_media_player_handle_on_enter_background_component: string = createId()
-  private readonly plv_media_player_auxiliary_layout: string = createId()
-
-  // </editor-fold>
+  private readonly ids = defineIds(
+    'plv_media_player_single_video_xcomponent',
+    'plv_media_player_single_video_controller_layout',
+    'plv_media_player_single_video_container',
+    'plv_media_player_single_video_float_action_layout',
+    'plv_media_player_single_video_layout_root',
+    'plv_media_player_handle_on_enter_background_component',
+    'plv_media_player_auxiliary_layout'
+  )
 
   aboutToAppear(): void {
     requireNotNull(this.mediaResource, () => 'mediaResource must not be null')
@@ -87,7 +86,7 @@ export struct PLVMediaPlayerSingleVideoLayout {
           controller: this.componentController
         }) {
         }
-        .id(this.plv_media_player_single_video_xcomponent)
+        .id(this.ids.plv_media_player_single_video_xcomponent)
         .width(this.videoWidth)
         .height(this.videoHeight)
         .alignRules({
@@ -97,13 +96,15 @@ export struct PLVMediaPlayerSingleVideoLayout {
         .onLoad((xcomponent) => {
           this.viewModel.setXComponent(xcomponent)
           this.viewModel.onScreenshot = async () => {
-            return await this.getUIContext().getComponentSnapshot().get(this.plv_media_player_single_video_xcomponent)
+            return await this.getUIContext()
+              .getComponentSnapshot()
+              .get(this.ids.plv_media_player_single_video_xcomponent)
           }
         })
 
         // 播放控制皮肤
         PLVMediaPlayerSingleVideoControllerLayout()
-          .id(this.plv_media_player_single_video_controller_layout)
+          .id(this.ids.plv_media_player_single_video_controller_layout)
           .width('100%')
           .height('100%')
           .alignRules({
@@ -111,7 +112,7 @@ export struct PLVMediaPlayerSingleVideoLayout {
             middle: toMiddleOf(parent)
           })
       }
-      .id(this.plv_media_player_single_video_container)
+      .id(this.ids.plv_media_player_single_video_container)
       .width('100%')
       .height(this.videoContainerHeight())
       .alignRules({
@@ -122,22 +123,22 @@ export struct PLVMediaPlayerSingleVideoLayout {
       // 更多功能弹层布局
       if (this.isFloatActionLayoutVisible) {
         PLVMediaPlayerSingleVideoFloatActionLayout()
-          .id(this.plv_media_player_single_video_float_action_layout)
+          .id(this.ids.plv_media_player_single_video_float_action_layout)
           .width('100%')
           .height('100%')
       }
 
       // 进入后台播放处理逻辑
       PLVMediaPlayerHandleOnEnterBackgroundComponent()
-        .id(this.plv_media_player_handle_on_enter_background_component)
+        .id(this.ids.plv_media_player_handle_on_enter_background_component)
         .visibility(Visibility.None)
 
       // 广告播放器布局
       PLVMediaPlayerAuxiliaryLayout()
-        .id(this.plv_media_player_auxiliary_layout)
+        .id(this.ids.plv_media_player_auxiliary_layout)
 
     }
-    .id(this.plv_media_player_single_video_layout_root)
+    .id(this.ids.plv_media_player_single_video_layout_root)
     .width('100%')
     .height('100%')
   }

@@ -1,6 +1,6 @@
 import { DependScope, extendArray, MutableObserver } from '@polyvharmony/media-player-sdk'
 import { PLVMPMediaControllerViewModel } from '../../modules/mediacontroller/viewmodel/PLVMPMediaControllerViewModel'
-import { createId, parent, toEndOf, toStartOf, toTopOf } from '../../utils/arkts-no-everything'
+import { defineIds, parent, toEndOf, toStartOf, toTopOf } from '../../utils/arkts-no-everything'
 import { PLVMediaPlayerMoreLayoutAudioModeActionView } from './PLVMediaPlayerMoreLayoutAudioModeActionView'
 import { PLVMediaPlayerMoreLayoutDownloadActionView } from './PLVMediaPlayerMoreLayoutDownloadActionView'
 import { PLVMediaPlayerMoreLayoutSubtitleActionView } from './PLVMediaPlayerMoreLayoutSubtitleActionView'
@@ -11,15 +11,14 @@ export struct PLVMediaPlayerMoreLayoutLand {
   private controllerViewModel: PLVMPMediaControllerViewModel = this.dependScope.get(PLVMPMediaControllerViewModel)
   @State isVisible: boolean = false
   private observers: MutableObserver[] = []
-  // <editor-fold defaultstate="collapsed" desc="ids">
-  private readonly plv_media_player_more_action_start_guide_line: string = createId()
-  private readonly plv_media_player_more_action_layout_close_layout_mask: string = createId()
-  private readonly plv_media_player_more_action_audio_mode_action_view: string = createId()
-  private readonly plv_media_player_more_action_subtitle_action_view: string = createId()
-  private readonly plv_media_player_more_action_download_action_view: string = createId()
-  private readonly plv_media_player_more_action_close_iv: string = createId()
-
-  // </editor-fold>
+  private readonly ids = defineIds(
+    'plv_media_player_more_action_start_guide_line',
+    'plv_media_player_more_action_layout_close_layout_mask',
+    'plv_media_player_more_action_audio_mode_action_view',
+    'plv_media_player_more_action_subtitle_action_view',
+    'plv_media_player_more_action_download_action_view',
+    'plv_media_player_more_action_close_iv'
+  )
 
   aboutToAppear(): void {
     this.controllerViewModel.mediaControllerViewState.observe((viewState) => {
@@ -31,7 +30,7 @@ export struct PLVMediaPlayerMoreLayoutLand {
     RelativeContainer() {
       Column() {
       }
-      .id(this.plv_media_player_more_action_layout_close_layout_mask)
+      .id(this.ids.plv_media_player_more_action_layout_close_layout_mask)
       .width('100%')
       .height('100%')
       .linearGradient({
@@ -47,7 +46,7 @@ export struct PLVMediaPlayerMoreLayoutLand {
 
       Shape() {
       }
-      .id(this.plv_media_player_more_action_start_guide_line)
+      .id(this.ids.plv_media_player_more_action_start_guide_line)
       .width('56%')
       .height('100%')
       .alignRules({
@@ -59,9 +58,9 @@ export struct PLVMediaPlayerMoreLayoutLand {
         iconResourceInactive: $r('app.media.plv_media_player_more_audio_mode_action_icon_inactive_land'),
         textFontColorInactive: '#CCFFFFFF'
       })
-        .id(this.plv_media_player_more_action_audio_mode_action_view)
+        .id(this.ids.plv_media_player_more_action_audio_mode_action_view)
         .alignRules({
-          left: toEndOf(this.plv_media_player_more_action_start_guide_line),
+          left: toEndOf(this.ids.plv_media_player_more_action_start_guide_line),
           top: toTopOf(parent)
         })
         .margin({
@@ -74,9 +73,9 @@ export struct PLVMediaPlayerMoreLayoutLand {
         textFontColorActive: '#CCFFFFFF',
         textFontColorInactive: '#CCFFFFFF'
       })
-        .id(this.plv_media_player_more_action_subtitle_action_view)
+        .id(this.ids.plv_media_player_more_action_subtitle_action_view)
         .alignRules({
-          left: toEndOf(this.plv_media_player_more_action_audio_mode_action_view),
+          left: toEndOf(this.ids.plv_media_player_more_action_audio_mode_action_view),
           top: toTopOf(parent)
         })
         .margin({
@@ -88,9 +87,9 @@ export struct PLVMediaPlayerMoreLayoutLand {
         iconResource: $r("app.media.plv_media_player_more_download_action_icon_land"),
         textFontColor: "#CCFFFFFF"
       })
-        .id(this.plv_media_player_more_action_download_action_view)
+        .id(this.ids.plv_media_player_more_action_download_action_view)
         .alignRules({
-          left: toEndOf(this.plv_media_player_more_action_subtitle_action_view),
+          left: toEndOf(this.ids.plv_media_player_more_action_subtitle_action_view),
           top: toTopOf(parent)
         })
         .margin({
@@ -99,7 +98,7 @@ export struct PLVMediaPlayerMoreLayoutLand {
         })
 
       Image($r('app.media.plv_media_player_float_menu_close_icon'))
-        .id(this.plv_media_player_more_action_close_iv)
+        .id(this.ids.plv_media_player_more_action_close_iv)
         .width(48)
         .height(48)
         .padding(12)

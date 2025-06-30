@@ -1,4 +1,4 @@
-import {PLVMPDownloadListRepo} from "../model/PLVMPDownloadListRepo";
+import { PLVMPDownloadListRepo } from '../model/PLVMPDownloadListRepo';
 import {
   PLVMediaDownloader,
   PLVMediaDownloaderManager,
@@ -8,60 +8,44 @@ import {
   PLVMediaDownloadStatusNotStarted,
   PLVMediaDownloadStatusPaused,
   PLVMediaDownloadStatusWaiting
-} from "@polyvharmony/media-player-sdk-addon-cache-down";
+} from '@polyvharmony/media-player-sdk-addon-cache-down';
 import {
   DerivedState,
   LifecycleAwareDependComponent,
   MutableObserver,
   PLVMediaBitRate,
   seconds,
-  State
-} from "@polyvharmony/media-player-sdk";
-import {PLVMPDownloadListItemViewState, PLVMPDownloadListViewState} from "../viewstate/PLVMPDownloadListViewState";
+  State,
+  watchStates
+} from '@polyvharmony/media-player-sdk';
+import { PLVMPDownloadListItemViewState, PLVMPDownloadListViewState } from '../viewstate/PLVMPDownloadListViewState';
 
 export class DownloadUpdateListUseCase implements LifecycleAwareDependComponent {
-
-  private observersAnyDownloaderStatusChanged: MutableObserver[] = []
+  private observers: MutableObserver[] = []
 
   constructor(
     private readonly repo: PLVMPDownloadListRepo
   ) {
-    PLVMediaDownloaderManager.getInstance().downloaderList.observe(() => this.updateDownloadList())
-  }
+    watchStates(() => {
+      const list = PLVMediaDownloaderManager.getInstance().downloaderList.value ?? []
 
-  private updateDownloadList() {
-    const list = PLVMediaDownloaderManager.getInstance().downloaderList.value ?? []
+      const downloading = list
+        .filter(it => this.isDownloading(it))
+        .map((downloader) => {
+          return this.convertDownloadItemState(downloader)
+        })
 
-    MutableObserver.disposeAll(this.observersAnyDownloaderStatusChanged)
-    this.observersAnyDownloaderStatusChanged = []
+      const downloaded = list
+        .filter(it => this.isDownloadCompleted(it))
+        .map(it => this.convertDownloadItemState(it))
 
-    list.forEach(downloader => {
-      const downloading = this.isDownloading(downloader)
-      const downloadCompleted = this.isDownloadCompleted(downloader)
-      downloader.listenerRegistry.status.observe(() => {
-        if (downloading != this.isDownloading(downloader) || downloadCompleted != this.isDownloadCompleted(downloader)) {
-          this.updateDownloadList()
-        }
-      }).pushTo(this.observersAnyDownloaderStatusChanged)
-    })
-
-    const downloading = list
-      .filter(it => this.isDownloading(it))
-      .map((downloader) => {
-        return this.convertDownloadItemState(downloader)
-      })
-
-    const downloaded = list
-      .filter(it => this.isDownloadCompleted(it))
-      .map(it => this.convertDownloadItemState(it))
-
-    this.repo.mediator.downloadingList.value = new PLVMPDownloadListViewState(downloading)
-    this.repo.mediator.downloadedList.value = new PLVMPDownloadListViewState(downloaded)
+      this.repo.mediator.downloadingList.value = new PLVMPDownloadListViewState(downloading)
+      this.repo.mediator.downloadedList.value = new PLVMPDownloadListViewState(downloaded)
+    }).pushTo(this.observers)
   }
 
   onDestroy(): void {
-    MutableObserver.disposeAll(this.observersAnyDownloaderStatusChanged)
-    this.observersAnyDownloaderStatusChanged = []
+    MutableObserver.disposeAll(this.observers)
   }
 
   private isDownloading(downloader: PLVMediaDownloader): boolean {

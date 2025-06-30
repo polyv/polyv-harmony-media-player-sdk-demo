@@ -1,7 +1,7 @@
 import { bytes, DependScope, lateInit, MutableObserver, State as PLVState } from '@polyvharmony/media-player-sdk';
 import { PLVMediaDownloader } from '@polyvharmony/media-player-sdk-addon-cache-down';
 import {
-  createId,
+  defineIds,
   formatDuration,
   parent,
   PLVMediaPlayerScenes,
@@ -66,12 +66,11 @@ struct DownloadCompletedListItem {
   @State duration: string = ""
   @State title: string = ""
   @State bitRateWithSize: string = ""
-  // <editor-fold defaultstate="collapsed" desc="ids">
-  private readonly plv_media_player_download_item_cover_image: string = createId()
-  private readonly plv_media_player_download_item_duration: string = createId()
-  private readonly plv_media_player_download_item_description_column: string = createId()
-
-  // </editor-fold>
+  private readonly ids = defineIds(
+    'plv_media_player_download_item_cover_image',
+    'plv_media_player_download_item_duration',
+    'plv_media_player_download_item_description_column'
+  )
 
   aboutToAppear(): void {
     this.viewState.observe((viewState) => {
@@ -92,7 +91,7 @@ struct DownloadCompletedListItem {
       Row() {
         RelativeContainer() {
           Image(this.coverImagePixelMap ?? $r("app.media.plv_media_player_download_item_default_cover_image"))
-            .id(this.plv_media_player_download_item_cover_image)
+            .id(this.ids.plv_media_player_download_item_cover_image)
             .width(104)
             .height(58)
             .borderRadius(4)
@@ -104,12 +103,12 @@ struct DownloadCompletedListItem {
             })
 
           Text(this.duration)
-            .id(this.plv_media_player_download_item_duration)
+            .id(this.ids.plv_media_player_download_item_duration)
             .fontSize(12)
             .fontColor('#FFFFFF')
             .alignRules({
-              end: toEndOf(this.plv_media_player_download_item_cover_image),
-              bottom: toBottomOf(this.plv_media_player_download_item_cover_image)
+              end: toEndOf(this.ids.plv_media_player_download_item_cover_image),
+              bottom: toBottomOf(this.ids.plv_media_player_download_item_cover_image)
             })
             .margin({
               right: 4,
@@ -131,12 +130,12 @@ struct DownloadCompletedListItem {
                 top: 5
               })
           }
-          .id(this.plv_media_player_download_item_description_column)
+          .id(this.ids.plv_media_player_download_item_description_column)
           .alignItems(HorizontalAlign.Start)
           .alignRules({
-            start: toEndOf(this.plv_media_player_download_item_cover_image),
+            start: toEndOf(this.ids.plv_media_player_download_item_cover_image),
             end: toEndOf(parent),
-            center: toCenterOf(this.plv_media_player_download_item_cover_image)
+            center: toCenterOf(this.ids.plv_media_player_download_item_cover_image)
           })
           .margin({
             left: 8

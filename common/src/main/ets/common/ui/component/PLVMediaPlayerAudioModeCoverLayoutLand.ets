@@ -1,6 +1,6 @@
 import { DependScope, MutableObserver, PLVMediaOutputMode, seconds } from '@polyvharmony/media-player-sdk'
 import { PLVMPMediaViewModel } from '../../modules/media/viewmodel/PLVMPMediaViewModel'
-import { createId, parent, toCenterOf, toMiddleOf, usePadding } from '../../utils/arkts-no-everything'
+import { defineIds, parent, toCenterOf, toMiddleOf, usePadding } from '../../utils/arkts-no-everything'
 import { readFileAsPixelMap } from '../ext/ImageKitExts'
 import { image } from '@kit.ImageKit'
 
@@ -12,11 +12,10 @@ export struct PLVMediaPlayerAudioModeCoverLayoutLand {
   @State audioImageRotation: number = 0
   @State audioModeCoverImage: string | image.PixelMap | null = null
   private observers: MutableObserver[] = []
-  // <editor-fold defaultstate="collapsed" desc="ids">
-  private readonly plv_media_player_audio_mode_cover_layout_background_land: string = createId()
-  private readonly plv_media_player_audio_mode_cover_layout_content_land: string = createId()
-
-  // </editor-fold>
+  private readonly ids = defineIds(
+    'plv_media_player_audio_mode_cover_layout_background_land',
+    'plv_media_player_audio_mode_cover_layout_content_land'
+  )
 
   aboutToAppear(): void {
     let rememberCoverImage: string | null = null
@@ -45,7 +44,7 @@ export struct PLVMediaPlayerAudioModeCoverLayoutLand {
             colors: [['#333F76FC', 0], ['#1A3F76FC', 1]]
           })
       }
-      .id(this.plv_media_player_audio_mode_cover_layout_background_land)
+      .id(this.ids.plv_media_player_audio_mode_cover_layout_background_land)
 
       Row() {
         Stack() {
@@ -105,7 +104,7 @@ export struct PLVMediaPlayerAudioModeCoverLayoutLand {
           left: 24
         })
       }
-      .id(this.plv_media_player_audio_mode_cover_layout_content_land)
+      .id(this.ids.plv_media_player_audio_mode_cover_layout_content_land)
       .alignRules({
         center: toCenterOf(parent),
         middle: toMiddleOf(parent)

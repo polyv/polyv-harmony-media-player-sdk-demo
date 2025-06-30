@@ -46,7 +46,7 @@ export struct PLVMediaPlayerProgressSliderSinglePort {
       this.dragProgress = viewState.progressSliderDragPosition
       this.waitDragSeekFinish = viewState.progressSliderWaitSeekFinish
       this.updateSliderProgress()
-    })
+    }).pushTo(this.observers)
 
     this.controllerViewModel.mediaControllerViewState.observe((viewState) => {
       this.isVisible = viewState.controllerVisible

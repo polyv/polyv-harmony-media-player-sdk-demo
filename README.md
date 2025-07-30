@@ -2,7 +2,7 @@ polyv-harmony-media-player-sdk-demo
 ===
 
 [![build passing](https://img.shields.io/badge/build-passing-brightgreen.svg)](#)
-[![GitHub release](https://img.shields.io/badge/release-2.6.0-blue.svg)](https://github.com/polyv/polyv-harmony-media-player-sdk-demo/releases/tag/2.6.0)
+[![GitHub release](https://img.shields.io/badge/release-2.6.1-blue.svg)](https://github.com/polyv/polyv-harmony-media-player-sdk-demo/releases/tag/2.6.1)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->

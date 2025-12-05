@@ -41,7 +41,8 @@ struct PLVMediaPlayerEntrancePage {
   @Builder
   private navDestination(name: string, param: whatever) {
     PLVMediaPlayerNavigationPage({
-      navigationName: name
+      navigationName: name,
+      param: param
     })
   }
 }

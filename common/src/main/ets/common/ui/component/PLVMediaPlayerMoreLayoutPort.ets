@@ -19,7 +19,7 @@ export struct PLVMediaPlayerMoreLayoutPort {
   private controllerViewModel: PLVMPMediaControllerViewModel = this.dependScope.get(PLVMPMediaControllerViewModel)
   @State isVisible: boolean = false
   @State currentSpeed: number = 1
-  private supportSpeeds: number[] = [0.5, 1.0, 1.5, 2.0]
+  private supportSpeeds: string[] = ["0.5", "0.75", "1", "1.25", "1.5", "2", "3"]
   @State currentBitRate: PLVMediaBitRate | null = null
   @State supportBitRates: PLVMediaBitRate[] = []
   @State currentMediaOutputMode: PLVMediaOutputMode = PLVMediaOutputMode.AUDIO_VIDEO
@@ -98,6 +98,7 @@ export struct PLVMediaPlayerMoreLayoutPort {
           .alignItems(VerticalAlign.Center)
         }
 
+
         Row() {
           Text($r('app.string.plv_media_player_ui_component_speed_hint_text_portrait'))
             .fontColor('#CC333333')
@@ -105,20 +106,28 @@ export struct PLVMediaPlayerMoreLayoutPort {
             .margin({
               right: 47
             })
-          ForEach(this.supportSpeeds, (speed: number) => {
-            Text(`${speed.toFixed(1)}x`)
-              .width(40)
-              .height(17)
-              .fontSize(12)
-              .fontColor(this.currentSpeed === speed ? '#3F76FC' : '#333333')
-              .margin({
-                right: 28
-              })
-              .onClick(() => {
-                this.mediaViewModel.setSpeed(speed)
-                this.controllerViewModel.popFloatActionLayout()
-              })
-          }, (speed: number) => speed.toString())
+
+          Scroll() {
+            Row() {
+              ForEach(this.supportSpeeds, (speed: string) => {
+                Text(`${speed}x`)
+                  .width(40)
+                  .height(17)
+                  .fontSize(12)
+                  .fontColor(this.currentSpeed === parseFloat(speed) ? '#3F76FC' : '#333333')
+                  .margin({
+                    right: 28
+                  })
+                  .onClick(() => {
+                    this.mediaViewModel.setSpeed(parseFloat(speed))
+                    this.controllerViewModel.popFloatActionLayout()
+                  })
+              }, (speed: number) => speed.toString())
+            }
+          }
+          .width(248)
+          .scrollable(ScrollDirection.Horizontal)
+          .scrollBar(BarState.Off)
         }
         .margin({
           top: 20

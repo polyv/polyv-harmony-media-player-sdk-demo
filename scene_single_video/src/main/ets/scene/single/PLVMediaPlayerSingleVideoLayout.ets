@@ -14,16 +14,19 @@ import {
   getDisplayWindowWidth,
   isPortrait,
   parent,
+  PLVFoldableManager,
   PLVMediaPlayerHandleOnEnterBackgroundComponent,
   PLVMPDownloadItemViewModel,
   PLVMPMediaControllerViewModel,
   PLVMPMediaViewModel,
   PLVOrientationManager,
+  toBottomOf,
   toCenterOf,
   toMiddleOf,
   toTopOf
 } from 'media-player-common';
 import { PLVMediaPlayerAuxiliaryLayout } from './component/PLVMediaPlayerAuxiliaryLayout';
+import { PLVMediaPlayerRecommendVideoLayout } from './component/PLVMediaPlayerRecommendVideoLayout';
 import { PLVMediaPlayerSingleVideoControllerLayout } from './layout/PLVMediaPlayerSingleVideoControllerLayout';
 import { PLVMediaPlayerSingleVideoFloatActionLayout } from './layout/PLVMediaPlayerSingleVideoFloatActionLayout';
 
@@ -31,12 +34,14 @@ import { PLVMediaPlayerSingleVideoFloatActionLayout } from './layout/PLVMediaPla
 @Component
 export struct PLVMediaPlayerSingleVideoLayout {
   mediaResource?: PLVMediaResource
+  recommendVideos: PLVMediaResource[] = []
   enterFromDownloadCenter: boolean = false
   @Provide dependScope: DependScope = createDependScope(commonItemModule)
   @Consume pageDependScope: DependScope
   private viewModel: PLVMPMediaViewModel = this.dependScope.get(PLVMPMediaViewModel);
   private controllerViewModel: PLVMPMediaControllerViewModel = this.dependScope.get(PLVMPMediaControllerViewModel);
   private downloadItemViewModel: PLVMPDownloadItemViewModel = this.dependScope.get(PLVMPDownloadItemViewModel)
+  @State containerHeight: number = 0
   @State videoWidth: number = 0
   @State videoHeight: number = 0
   @State isPortrait: boolean = isPortrait()
@@ -50,13 +55,15 @@ export struct PLVMediaPlayerSingleVideoLayout {
     'plv_media_player_single_video_float_action_layout',
     'plv_media_player_single_video_layout_root',
     'plv_media_player_handle_on_enter_background_component',
-    'plv_media_player_auxiliary_layout'
+    'plv_media_player_auxiliary_layout',
+    'plv_media_player_recommend_video_layout'
   )
 
   aboutToAppear(): void {
     requireNotNull(this.mediaResource, () => 'mediaResource must not be null')
     this.observeMediaViewState()
     this.observeOrientation()
+    this.observeFoldable()
     this.downloadItemViewModel.setDownloadActionVisible(!this.enterFromDownloadCenter)
     this.setupMediaPlayer()
     this.controllerViewModel.mediaControllerViewState.observe((viewState) => {
@@ -114,11 +121,22 @@ export struct PLVMediaPlayerSingleVideoLayout {
       }
       .id(this.ids.plv_media_player_single_video_container)
       .width('100%')
-      .height(this.videoContainerHeight())
+      .height(this.containerHeight)
       .alignRules({
         top: toTopOf(parent)
       })
       .backgroundColor('#000000')
+
+      // 推荐视频
+      PLVMediaPlayerRecommendVideoLayout({
+        recommendVideos: this.recommendVideos
+      })
+        .id(this.ids.plv_media_player_recommend_video_layout)
+        .width('100%')
+        .alignRules({
+          top: toBottomOf(this.ids.plv_media_player_single_video_container),
+          bottom: toBottomOf(parent)
+        })
 
       // 更多功能弹层布局
       if (this.isFloatActionLayoutVisible) {
@@ -163,13 +181,28 @@ export struct PLVMediaPlayerSingleVideoLayout {
     }).pushTo(this.observers)
   }
 
+  private observeFoldable() {
+    PLVFoldableManager.getInstance().foldStatus.observe(() => {
+      this.updateVideoSize()
+    }).pushTo(this.observers)
+  }
+
+  private updateContainerHeight() {
+    if (this.isPortrait) {
+      this.containerHeight = getDisplayWindowWidth().vp / 16 * 9
+    } else {
+      this.containerHeight = getDisplayWindowHeight().vp
+    }
+    return this.containerHeight
+  }
+
   private updateVideoSize() {
     const viewState = this.viewModel.mediaInfoViewState.value
     if (!viewState) {
       return
     }
     const containerWidth = getDisplayWindowWidth().vp
-    const containerHeight = this.isPortrait ? containerWidth / 16 * 9 : getDisplayWindowHeight().vp
+    const containerHeight = this.updateContainerHeight()
     const containerRatio = containerWidth / containerHeight
     let videoWidth = containerWidth
     let videoHeight = containerHeight
@@ -188,14 +221,6 @@ export struct PLVMediaPlayerSingleVideoLayout {
         y: 0
       }
     })
-  }
-
-  private videoContainerHeight() {
-    if (this.isPortrait) {
-      return getDisplayWindowWidth().vp / 16 * 9
-    } else {
-      return '100%'
-    }
   }
 
   // </editor-fold>

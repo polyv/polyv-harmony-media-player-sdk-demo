@@ -111,7 +111,6 @@ export struct PLVMediaPlayerMoreLayoutDownloadActionView {
       || status instanceof PLVMediaDownloadStatusError) {
       gotoDownloadingTab = true
     }
-    navPathStack.removeByName(PLVMediaPlayerScenes.DOWNLOAD_CENTER.name)
     navPathStack.pushPath(new NavPathInfo(
       PLVMediaPlayerScenes.DOWNLOAD_CENTER.name,
       new PLVMediaPlayerDownloadCenterPageParam(gotoDownloadingTab ? 1 : 0)

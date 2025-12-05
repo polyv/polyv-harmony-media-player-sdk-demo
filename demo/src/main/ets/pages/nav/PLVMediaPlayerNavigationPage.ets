@@ -2,8 +2,12 @@ import { createDependScope, DependScope, lateInit } from '@polyvharmony/media-pl
 import {
   commonPageModule,
   PLVAbilityContexts,
+  PLVMediaPlayerDownloadCenterPageParam,
+  PLVMediaPlayerFeedVideoPageParam,
   PLVMediaPlayerScenes,
-  PLVMPPageControlViewModel
+  PLVMediaPlayerSingleVideoPageParam,
+  PLVMPPageControlViewModel,
+  whatever
 } from 'media-player-common'
 import { common } from '@kit.AbilityKit'
 import { PLVMediaPlayerFeedVideoPage } from '../PLVMediaPlayerFeedVideoPage'
@@ -13,6 +17,7 @@ import { PLVMediaPlayerSingleVideoPage } from '../PLVMediaPlayerSingleVideoPage'
 @Component
 export struct PLVMediaPlayerNavigationPage {
   navigationName: string = lateInit()
+  param: whatever = lateInit()
   @Consume navPathStack: NavPathStack
   @Provide pageDependScope: DependScope = createDependScope(commonPageModule)
   private pageControlViewModel: PLVMPPageControlViewModel = this.pageDependScope.get(PLVMPPageControlViewModel)
@@ -30,13 +35,19 @@ export struct PLVMediaPlayerNavigationPage {
   build() {
     NavDestination() {
       if (this.navigationName == PLVMediaPlayerScenes.SINGLE_VIDEO.name) {
-        PLVMediaPlayerSingleVideoPage()
+        PLVMediaPlayerSingleVideoPage({
+          param: this.param as PLVMediaPlayerSingleVideoPageParam
+        })
       }
       if (this.navigationName == PLVMediaPlayerScenes.FEED_VIDEO.name) {
-        PLVMediaPlayerFeedVideoPage()
+        PLVMediaPlayerFeedVideoPage({
+          param: this.param as PLVMediaPlayerFeedVideoPageParam
+        })
       }
       if (this.navigationName == PLVMediaPlayerScenes.DOWNLOAD_CENTER.name) {
-        PLVMediaPlayerDownloadCenterPage()
+        PLVMediaPlayerDownloadCenterPage({
+          param: this.param as PLVMediaPlayerDownloadCenterPageParam
+        })
       }
     }
     .hideTitleBar(true)

@@ -1,7 +1,6 @@
 import {
   defineIds,
   PLVMediaPlayerFeedVideoPageParam,
-  PLVMediaPlayerScenes,
   PLVMPPageControlViewModel,
   PLVOrientationManager,
   PLVOrientationManagerObserver
@@ -15,8 +14,9 @@ import {
 import {
   DependScope,
   Disposable,
-  getUniqueKey,
+  lateInit,
   PLVMediaResource,
+  PLVMediaResources,
   requireNotNull,
   runCatching
 } from '@polyvharmony/media-player-sdk';
@@ -25,13 +25,13 @@ import window from '@ohos.window';
 
 @Component
 export struct PLVMediaPlayerFeedVideoPage {
+  param: PLVMediaPlayerFeedVideoPageParam = lateInit()
   @Consume navPathStack: NavPathStack
   @Consume pageDependScope: DependScope
-  private param: PLVMediaPlayerFeedVideoPageParam = this.navPathStack.getParamByName(PLVMediaPlayerScenes.FEED_VIDEO.name)[0] as PLVMediaPlayerFeedVideoPageParam
   private context = getContext(this) as common.UIAbilityContext
   private pageControlViewModel: PLVMPPageControlViewModel = this.pageDependScope.get(PLVMPPageControlViewModel)
   private feedDataSource: IPLVMediaPlayerFeedResourceDataSource = new PLVMockFeedResourceDataSource();
-  private swiperDataSource: PLVMediaPlayerFeedSwiperDataSource = new PLVMediaPlayerFeedSwiperDataSource(this.feedDataSource, this.param.initialMediaSources)
+  private swiperDataSource: PLVMediaPlayerFeedSwiperDataSource = lateInit()
   private onBackPressDisposable: Disposable | undefined = undefined
   private readonly ids = defineIds(
     'plv_media_player_feed_video_background'
@@ -39,6 +39,7 @@ export struct PLVMediaPlayerFeedVideoPage {
 
   aboutToAppear(): void {
     requireNotNull(this.param, () => "param is null")
+    this.swiperDataSource = new PLVMediaPlayerFeedSwiperDataSource(this.feedDataSource, this.param.initialMediaSources)
     this.onBackPressDisposable = this.pageControlViewModel.onBackPressHandler.register(10, () => this.onBackPress())
     runCatching(async () => {
       const windowInstance = await window.getLastWindow(this.context)
@@ -61,7 +62,7 @@ export struct PLVMediaPlayerFeedVideoPage {
           (item: PLVMediaResource, index: number) => {
             PLVMediaPlayerFeedVideoLayout({ mediaResource: item, mediaResourceIndex: index })
           },
-          (item: PLVMediaResource) => getUniqueKey(item)
+          (item: PLVMediaResource) => PLVMediaResources.getUniqueKey(item)
         )
       }
       .indicator(false)

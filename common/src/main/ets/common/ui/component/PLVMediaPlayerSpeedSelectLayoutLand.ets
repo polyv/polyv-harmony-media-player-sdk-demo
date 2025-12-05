@@ -1,7 +1,7 @@
 import { DependScope, extendArray, MutableObserver } from '@polyvharmony/media-player-sdk'
 import { PLVMPMediaViewModel } from '../../modules/media/viewmodel/PLVMPMediaViewModel'
 import { PLVMPMediaControllerViewModel } from '../../modules/mediacontroller/viewmodel/PLVMPMediaControllerViewModel'
-import { defineIds, parent, toCenterOf, toEndOf, toTopOf, usePadding } from '../../utils/arkts-no-everything'
+import { defineIds, parent, toBottomOf, toEndOf, toTopOf, usePadding } from '../../utils/arkts-no-everything'
 
 @Component
 export struct PLVMediaPlayerSpeedSelectLayoutLand {
@@ -10,7 +10,7 @@ export struct PLVMediaPlayerSpeedSelectLayoutLand {
   private controllerViewModel: PLVMPMediaControllerViewModel = this.dependScope.get(PLVMPMediaControllerViewModel)
   @State isVisible: boolean = false
   @State currentSpeed: number = 1
-  private supportSpeeds: number[] = [0.5, 1.0, 1.5, 2.0]
+  private supportSpeeds: string[] = ["0.5", "0.75", "1", "1.25", "1.5", "2", "3"]
   private observers: MutableObserver[] = []
   private readonly ids = defineIds(
     'plv_media_player_speed_select_layout_close_layout_mask_land',
@@ -46,28 +46,34 @@ export struct PLVMediaPlayerSpeedSelectLayoutLand {
         this.controllerViewModel.popFloatActionLayout()
       })
 
-      Column() {
-        ForEach(this.supportSpeeds, (speed: number) => {
-          Text(`${speed.toFixed(1)}x`)
-            .fontSize(14)
-            .fontColor(this.currentSpeed === speed ? '#3F76FC' : '#FFFFFF')
-            .margin(usePadding({
-              vertical: 24
-            }))
-            .onClick(() => {
-              this.mediaViewModel.setSpeed(speed)
-              this.controllerViewModel.popFloatActionLayout()
-            })
-        }, (speed: number) => speed.toString())
+      Scroll() {
+        Column() {
+          ForEach(this.supportSpeeds, (speed: string) => {
+            Text(`${speed}x`)
+              .fontSize(14)
+              .fontColor(this.currentSpeed === parseFloat(speed) ? '#3F76FC' : '#FFFFFF')
+              .margin(usePadding({
+                vertical: 24
+              }))
+              .onClick(() => {
+                this.mediaViewModel.setSpeed(parseFloat(speed))
+                this.controllerViewModel.popFloatActionLayout()
+              })
+          }, (speed: number) => speed.toString())
+        }
+        .width(80)
       }
       .id(this.ids.plv_media_player_speed_select_content)
+      .scrollable(ScrollDirection.Vertical)
       .alignRules({
-        center: toCenterOf(parent),
+        top: toTopOf(parent),
+        bottom: toBottomOf(parent),
         right: toEndOf(parent)
       })
-      .margin({
-        right: 167
-      })
+      .margin(usePadding({
+        vertical: 64,
+        right: 87
+      }))
 
       Image($r('app.media.plv_media_player_float_menu_close_icon'))
         .id(this.ids.plv_media_player_speed_select_close_iv_land)

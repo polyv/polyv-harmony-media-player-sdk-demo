@@ -170,8 +170,6 @@ struct DownloadCompletedListItem {
     if (this.downloader === null || navPathStack === undefined) {
       return
     }
-    navPathStack.removeByName(PLVMediaPlayerScenes.SINGLE_VIDEO.name)
-    navPathStack.removeByName(PLVMediaPlayerScenes.FEED_VIDEO.name)
     navPathStack.pushPath(new NavPathInfo(
       PLVMediaPlayerScenes.SINGLE_VIDEO.name,
       new PLVMediaPlayerSingleVideoPageParam(this.downloader.mediaResource, true)

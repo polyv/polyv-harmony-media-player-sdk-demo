@@ -1,11 +1,11 @@
-import { DependScope, extendNumber, minutes, MutableObserver, repeat, seconds } from '@polyvharmony/media-player-sdk'
-import { PLVMPMediaViewModel } from '../../modules/media/viewmodel/PLVMPMediaViewModel'
-import { PLVMPMediaPlayViewState } from '../../modules/media/viewmodel/viewstate/PLVMPMediaPlayViewState'
-import { PLVMPMediaControllerViewModel } from '../../modules/mediacontroller/viewmodel/PLVMPMediaControllerViewModel'
+import { DependScope, extendNumber, minutes, MutableObserver, repeat } from '@polyvharmony/media-player-sdk'
+import { PLVMPMediaViewModel } from '../../../modules/media/viewmodel/PLVMPMediaViewModel'
+import { PLVMPMediaPlayViewState } from '../../../modules/media/viewmodel/viewstate/PLVMPMediaPlayViewState'
+import { PLVMPMediaControllerViewModel } from '../../../modules/mediacontroller/viewmodel/PLVMPMediaControllerViewModel'
 import {
   PLVMPMediaControllerViewState
-} from '../../modules/mediacontroller/viewmodel/viewstate/PLVMPMediaControllerViewState'
-import { getDisplayWindowWidth } from '../../utils/PLVDisplayUtils'
+} from '../../../modules/mediacontroller/viewmodel/viewstate/PLVMPMediaControllerViewState'
+import { getDisplayWindowWidth } from '../../../utils/PLVDisplayUtils'
 
 @Component
 export struct PLVMediaPlayerGestureHandleLayout {

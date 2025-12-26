@@ -1,6 +1,6 @@
 import { DependScope, MutableObserver } from '@polyvharmony/media-player-sdk'
-import { PLVMPMediaControllerViewModel } from '../../modules/mediacontroller/viewmodel/PLVMPMediaControllerViewModel'
-import { isLandscape } from '../../utils/PLVDisplayUtils'
+import { PLVMPMediaControllerViewModel } from '../../../modules/mediacontroller/viewmodel/PLVMPMediaControllerViewModel'
+import { isLandscape } from '../../../utils/PLVDisplayUtils'
 
 @Component
 export struct PLVMediaPlayerMoreActionImageView {

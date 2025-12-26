@@ -5,16 +5,18 @@ import {
   PLVMediaBitRate,
   PLVMediaOutputMode
 } from '@polyvharmony/media-player-sdk'
-import { PLVMPMediaViewModel } from '../../modules/media/viewmodel/PLVMPMediaViewModel'
-import { PLVMPMediaControllerViewModel } from '../../modules/mediacontroller/viewmodel/PLVMPMediaControllerViewModel'
-import { defineIds, parent, toBottomOf, toEndOf, toTopOf, usePadding } from '../../utils/arkts-no-everything'
+import { PLVMPMediaViewModel } from '../../../modules/media/viewmodel/PLVMPMediaViewModel'
+import { PLVMPMediaControllerViewModel } from '../../../modules/mediacontroller/viewmodel/PLVMPMediaControllerViewModel'
+import { defineIds, parent, toBottomOf, toEndOf, toTopOf, usePadding } from '../../../utils/arkts-no-everything'
 import { PLVMediaPlayerMoreLayoutAudioModeActionView } from './PLVMediaPlayerMoreLayoutAudioModeActionView'
+import { PLVMediaPlayerMoreLayoutCastActionView } from './PLVMediaPlayerMoreLayoutCastActionView'
 import { PLVMediaPlayerMoreLayoutDownloadActionView } from './PLVMediaPlayerMoreLayoutDownloadActionView'
 import { PLVMediaPlayerMoreLayoutSubtitleActionView } from './PLVMediaPlayerMoreLayoutSubtitleActionView'
 
 @Component
 export struct PLVMediaPlayerMoreLayoutPort {
   @Consume dependScope: DependScope
+  showCastAction: boolean = false
   private mediaViewModel: PLVMPMediaViewModel = this.dependScope.get(PLVMPMediaViewModel)
   private controllerViewModel: PLVMPMediaControllerViewModel = this.dependScope.get(PLVMPMediaControllerViewModel)
   @State isVisible: boolean = false
@@ -61,6 +63,9 @@ export struct PLVMediaPlayerMoreLayoutPort {
         Row({ space: 28 }) {
           PLVMediaPlayerMoreLayoutAudioModeActionView()
           PLVMediaPlayerMoreLayoutSubtitleActionView()
+          if (this.showCastAction) {
+            PLVMediaPlayerMoreLayoutCastActionView()
+          }
           PLVMediaPlayerMoreLayoutDownloadActionView({
             iconResource: $r("app.media.plv_media_player_more_download_action_icon_port"),
             textFontColor: "#CC333333"

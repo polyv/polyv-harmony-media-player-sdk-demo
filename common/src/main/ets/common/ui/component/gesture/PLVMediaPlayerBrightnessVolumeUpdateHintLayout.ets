@@ -1,6 +1,6 @@
 import { DependScope, MutableObserver } from '@polyvharmony/media-player-sdk'
-import { PLVMPMediaControllerViewModel } from '../../modules/mediacontroller/viewmodel/PLVMPMediaControllerViewModel'
-import { usePadding } from '../../utils/arkts-no-everything'
+import { PLVMPMediaControllerViewModel } from '../../../modules/mediacontroller/viewmodel/PLVMPMediaControllerViewModel'
+import { usePadding } from '../../../utils/arkts-no-everything'
 
 @Component
 export struct PLVMediaPlayerBrightnessVolumeUpdateHintLayout {

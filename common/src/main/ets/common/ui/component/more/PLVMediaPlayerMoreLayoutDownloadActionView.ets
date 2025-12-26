@@ -8,9 +8,9 @@ import {
   PLVMediaDownloadStatusPaused,
   PLVMediaDownloadStatusWaiting
 } from '@polyvharmony/media-player-sdk-addon-cache-down'
-import { PLVMPDownloadItemViewModel } from '../../modules/download/single/viewmodel/PLVMPDownloadItemViewModel'
-import { PLVMPPageControlViewModel } from '../../modules/pagecontrol/viewmodel/PLVMPPageControlViewModel'
-import { PLVMediaPlayerDownloadCenterPageParam, PLVMediaPlayerScenes } from '../enums/PLVMediaPlayerScenes'
+import { PLVMPDownloadItemViewModel } from '../../../modules/download/single/viewmodel/PLVMPDownloadItemViewModel'
+import { PLVMPPageControlViewModel } from '../../../modules/pagecontrol/viewmodel/PLVMPPageControlViewModel'
+import { PLVMediaPlayerDownloadCenterPageParam, PLVMediaPlayerScenes } from '../../enums/PLVMediaPlayerScenes'
 
 @Component
 export struct PLVMediaPlayerMoreLayoutDownloadActionView {

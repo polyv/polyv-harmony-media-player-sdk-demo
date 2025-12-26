@@ -1,8 +1,8 @@
 import { DependScope, MutableObserver } from '@polyvharmony/media-player-sdk'
-import { PLVMPMediaViewModel } from '../../modules/media/viewmodel/PLVMPMediaViewModel'
-import { PLVMPMediaControllerViewModel } from '../../modules/mediacontroller/viewmodel/PLVMPMediaControllerViewModel'
-import { usePadding } from '../../utils/arkts-no-everything'
-import { formatDuration } from '../../utils/PLVTimeUtils'
+import { PLVMPMediaViewModel } from '../../../modules/media/viewmodel/PLVMPMediaViewModel'
+import { PLVMPMediaControllerViewModel } from '../../../modules/mediacontroller/viewmodel/PLVMPMediaControllerViewModel'
+import { usePadding } from '../../../utils/arkts-no-everything'
+import { formatDuration } from '../../../utils/PLVTimeUtils'
 
 @Component
 export struct PLVMediaPlayerSeekProgressPreviewTextView {

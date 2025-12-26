@@ -1,5 +1,5 @@
 import { DependScope, MutableObserver } from '@polyvharmony/media-player-sdk'
-import { PLVMPMediaControllerViewModel } from '../../modules/mediacontroller/viewmodel/PLVMPMediaControllerViewModel'
+import { PLVMPMediaControllerViewModel } from '../../../modules/mediacontroller/viewmodel/PLVMPMediaControllerViewModel'
 
 @Component
 export struct PLVMediaPlayerLongPressSpeedHintLayout {

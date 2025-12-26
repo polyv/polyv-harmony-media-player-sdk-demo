@@ -15,6 +15,7 @@ import {
   isPortrait,
   parent,
   PLVFoldableManager,
+  PLVMediaPlayerCastPausePlayerHandler,
   PLVMediaPlayerHandleOnEnterBackgroundComponent,
   PLVMPDownloadItemViewModel,
   PLVMPMediaControllerViewModel,
@@ -138,6 +139,10 @@ export struct PLVMediaPlayerSingleVideoLayout {
           bottom: toBottomOf(parent)
         })
 
+      // 广告播放器布局
+      PLVMediaPlayerAuxiliaryLayout()
+        .id(this.ids.plv_media_player_auxiliary_layout)
+
       // 更多功能弹层布局
       if (this.isFloatActionLayoutVisible) {
         PLVMediaPlayerSingleVideoFloatActionLayout()
@@ -151,10 +156,8 @@ export struct PLVMediaPlayerSingleVideoLayout {
         .id(this.ids.plv_media_player_handle_on_enter_background_component)
         .visibility(Visibility.None)
 
-      // 广告播放器布局
-      PLVMediaPlayerAuxiliaryLayout()
-        .id(this.ids.plv_media_player_auxiliary_layout)
-
+      // 投屏暂停播放器 & 投屏结束恢复播放处理逻辑
+      PLVMediaPlayerCastPausePlayerHandler()
     }
     .id(this.ids.plv_media_player_single_video_layout_root)
     .width('100%')

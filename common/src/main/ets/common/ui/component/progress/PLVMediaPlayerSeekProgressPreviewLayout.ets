@@ -1,6 +1,6 @@
 import { DependScope, MutableObserver } from '@polyvharmony/media-player-sdk'
-import { PLVMPMediaControllerViewModel } from '../../modules/mediacontroller/viewmodel/PLVMPMediaControllerViewModel'
-import { PLVMPProgressImageViewModel } from '../../modules/progressImage/viewmodel/PLVMPProgressImageViewModel'
+import { PLVMPMediaControllerViewModel } from '../../../modules/mediacontroller/viewmodel/PLVMPMediaControllerViewModel'
+import { PLVMPProgressImageViewModel } from '../../../modules/progressImage/viewmodel/PLVMPProgressImageViewModel'
 import { PLVMediaPlayerSeekProgressPreviewTextView } from './PLVMediaPlayerSeekProgressPreviewTextView'
 import image from '@ohos.multimedia.image'
 

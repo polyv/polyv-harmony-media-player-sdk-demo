@@ -9,7 +9,7 @@ import {
   PLVMediaResource,
   PLVMediaSubtitle
 } from '@polyvharmony/media-player-sdk';
-import {PLVMPMediaMediator} from '../mediator/PLVMPMediaMediator';
+import { PLVMPMediaMediator } from '../mediator/PLVMPMediaMediator';
 
 export class PLVMPMediaRepo implements LifecycleAwareDependComponent {
 
@@ -23,6 +23,8 @@ export class PLVMPMediaRepo implements LifecycleAwareDependComponent {
   ) {
     this.mediator = mediator
 
+    this.mediator.start = () => this.start()
+    this.mediator.pause = () => this.pause()
     this.mediator.seekTo = (position: number) => this.seekTo(position)
     this.mediator.getSpeed = () => this.player.getStateListenerRegistry().speed.value ?? 1
     this.mediator.setSpeed = (speed: number) => this.setSpeed(speed)

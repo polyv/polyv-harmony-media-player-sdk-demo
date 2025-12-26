@@ -1,11 +1,15 @@
 {
   "modelVersion": "5.0.0",
   "name": "@polyvharmony/harmony-media-player",
-  "version": "2.7.0",
+  "version": "2.7.1",
   "description": "保利威鸿蒙播放器",
   "main": "",
   "author": "",
   "license": "MIT",
   "dependencies": {},
-  "devDependencies": {}
+  "devDependencies": {},
+  "overrides": {
+    "@polyvharmony/media-player-sdk": "2.7.1",
+    "@polyvharmony/common-libs": "1.0.1"
+  }
 }

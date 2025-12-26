@@ -1,9 +1,9 @@
 import { DependScope, MutableObserver, seconds } from '@polyvharmony/media-player-sdk'
-import { PLVMPMediaViewModel } from '../../modules/media/viewmodel/PLVMPMediaViewModel'
-import { PLVMarqueeAnimateSettingVO, PLVMarqueeAnimateType } from './marquee/model/PLVMarqueeAnimateSettingVO'
-import { PLVMarqueeModel, PLVMarqueePlayingState } from './marquee/model/PLVMarqueeModel'
-import { PLVMarqueeTextSettingVO } from './marquee/model/PLVMarqueeTextSettingVO'
-import { PLVMarqueeView } from './marquee/PLVMarqueeView'
+import { PLVMPMediaViewModel } from '../../../modules/media/viewmodel/PLVMPMediaViewModel'
+import { PLVMarqueeAnimateSettingVO, PLVMarqueeAnimateType } from './model/PLVMarqueeAnimateSettingVO'
+import { PLVMarqueeModel, PLVMarqueePlayingState } from './model/PLVMarqueeModel'
+import { PLVMarqueeTextSettingVO } from './model/PLVMarqueeTextSettingVO'
+import { PLVMarqueeView } from './PLVMarqueeView'
 
 @Component
 export struct PLVMediaPlayerMarqueeLayout {

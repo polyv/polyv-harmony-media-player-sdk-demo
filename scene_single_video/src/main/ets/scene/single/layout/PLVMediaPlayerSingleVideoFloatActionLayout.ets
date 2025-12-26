@@ -23,10 +23,14 @@ export struct PLVMediaPlayerSingleVideoFloatActionLayout {
 
   build() {
     if (this.isPortrait) {
-      PLVMediaPlayerMoreLayoutPort()
+      PLVMediaPlayerMoreLayoutPort({
+        showCastAction: true
+      })
       PLVMediaPlayerMoreSubtitleSettingLayoutPort()
     } else {
-      PLVMediaPlayerMoreLayoutLand()
+      PLVMediaPlayerMoreLayoutLand({
+        showCastAction: true
+      })
       PLVMediaPlayerBitRateSelectLayoutLand()
       PLVMediaPlayerSpeedSelectLayoutLand()
       PLVMediaPlayerMoreSubtitleSettingLayoutLand()

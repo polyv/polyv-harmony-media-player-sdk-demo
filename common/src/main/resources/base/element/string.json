@@ -127,6 +127,42 @@
     {
       "name": "plv_media_player_ui_component_screenshot_save_to_local",
       "value": "保存视频截图"
+    },
+    {
+      "name": "plv_media_player_cast_search_device_title",
+      "value": "投电视"
+    },
+    {
+      "name": "plv_media_player_cast_search_device_result_title",
+      "value": "已找到以下设备"
+    },
+    {
+      "name": "plv_media_player_cast_search_device_result_not_found",
+      "value": "未发现到可投屏设备，请重试…"
+    },
+    {
+      "name": "plv_media_player_cast_search_device_retry",
+      "value": "重试"
+    },
+    {
+      "name": "plv_media_player_cast_connect_device_title",
+      "value": "连接设备..."
+    },
+    {
+      "name": "plv_media_player_cast_connect_device_status_connecting",
+      "value": "正在连接..."
+    },
+    {
+      "name": "plv_media_player_cast_connect_device_switch",
+      "value": "切换设备 >"
+    },
+    {
+      "name": "plv_media_player_bitrate_definition",
+      "value": "清晰度"
+    },
+    {
+      "name": "plv_media_player_cast_title",
+      "value": "投屏"
     }
   ]
 }

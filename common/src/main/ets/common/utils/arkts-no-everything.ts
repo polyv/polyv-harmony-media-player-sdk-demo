@@ -60,10 +60,12 @@ export function toMiddleOf(anchor: string) {
 
 export const any: (any: any) => any = (any: any) => any
 
-export function defineIds<T extends string>(...ids: T[]): { [P in T]: P } {
-  const res: { [P in T]: P } = {} as any;
-  for (let value of ids) {
-    res[value] = value
+let uniqueIdCounter = 0
+
+export function defineIds<T extends string>(...ids: T[]): { [P in T]: `${P}_{uniqueId}` } {
+  const res = {} as any;
+  for (const id of ids) {
+    res[id] = `${id}_${uniqueIdCounter++}`
   }
   return res;
 }

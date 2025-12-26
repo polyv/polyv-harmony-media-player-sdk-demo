@@ -1,12 +1,13 @@
 {
   "name": "media-player-common",
-  "version": "2.7.0",
+  "version": "2.7.1",
   "description": "Please describe the basic information.",
   "main": "Index.ets",
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@polyvharmony/media-player-sdk": "2.7.0",
-    "@polyvharmony/media-player-sdk-addon-cache-down": "2.7.0"
+    "@polyvharmony/media-cast": "1.0.1",
+    "@polyvharmony/media-player-sdk": "2.7.1",
+    "@polyvharmony/media-player-sdk-addon-cache-down": "2.7.1"
   }
 }

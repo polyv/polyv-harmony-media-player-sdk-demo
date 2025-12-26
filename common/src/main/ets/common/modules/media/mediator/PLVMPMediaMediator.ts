@@ -13,9 +13,9 @@ import {
   PLVMediaPlayerPlayingState,
   PLVMediaPlayerState,
   PLVMediaResource
-} from '@polyvharmony/media-player-sdk'
-import {PLVMPMediaInfoViewState} from "../viewmodel/viewstate/PLVMPMediaInfoViewState";
-import {PLVMPMediaPlayViewState} from "../viewmodel/viewstate/PLVMPMediaPlayViewState";
+} from '@polyvharmony/media-player-sdk';
+import { PLVMPMediaInfoViewState } from '../viewmodel/viewstate/PLVMPMediaInfoViewState';
+import { PLVMPMediaPlayViewState } from '../viewmodel/viewstate/PLVMPMediaPlayViewState';
 
 export class PLVMPMediaMediator implements LifecycleAwareDependComponent {
 
@@ -33,6 +33,8 @@ export class PLVMPMediaMediator implements LifecycleAwareDependComponent {
   readonly bufferingSpeed = new MutableState<number>(0)
   readonly businessErrorState = new MutableState<PLVMediaPlayerBusinessErrorEnum | null>(null)
 
+  start?: () => void
+  pause?: () => void
   seekTo?: (progress: number) => void
   getSpeed?: () => number
   setSpeed?: (speed: number) => void

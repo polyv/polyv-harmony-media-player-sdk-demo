@@ -6,6 +6,7 @@ import { PLVMediaPlayerMoreLayoutDownloadActionView } from './PLVMediaPlayerMore
 import { PLVMediaPlayerMoreLayoutSubtitleActionView } from './PLVMediaPlayerMoreLayoutSubtitleActionView'
 import { LengthUnit } from '@kit.ArkUI'
 import { PLVMediaPlayerMoreLayoutCastActionView } from './PLVMediaPlayerMoreLayoutCastActionView'
+import { PLVMediaPlayerMoreLayoutKnowledgeActionView } from './PLVMediaPlayerMoreLayoutKnowledgeActionView'
 
 @Component
 export struct PLVMediaPlayerMoreLayoutLand {
@@ -90,6 +91,8 @@ export struct PLVMediaPlayerMoreLayoutLand {
           iconResource: $r("app.media.plv_media_player_more_download_action_icon_land"),
           textFontColor: "#CCFFFFFF"
         })
+
+        PLVMediaPlayerMoreLayoutKnowledgeActionView()
       }
       .id(this.ids.plv_media_player_more_action_container)
       .height('100%')

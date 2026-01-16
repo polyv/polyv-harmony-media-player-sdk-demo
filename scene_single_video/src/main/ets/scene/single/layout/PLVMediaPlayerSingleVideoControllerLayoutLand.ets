@@ -10,6 +10,7 @@ import {
   PLVMediaPlayerBrightnessVolumeUpdateHintLayout,
   PLVMediaPlayerBufferingSpeedLayout,
   PLVMediaPlayerControllerGradientMaskLayout,
+  PLVMediaPlayerDanmuInputEntranceImageView,
   PLVMediaPlayerGestureHandleLayout,
   PLVMediaPlayerLockControllerImageView,
   PLVMediaPlayerLongPressSpeedHintLayout,
@@ -233,17 +234,26 @@ export struct PLVMediaPlayerSingleVideoControllerLayoutLand {
         })
         .hitTestBehavior(HitTestMode.Transparent)
 
-      // 视频截图按钮
-      PLVMediaPlayerScreenshotImageView()
-        .id(this.ids.plv_media_player_screenshot_iv)
-        .alignRules({
-          center: toCenterOf(parent),
-          end: toEndOf(parent)
-        })
-        .margin({
-          right: 16
-        })
-        .hitTestBehavior(HitTestMode.Transparent)
+      // 右侧按钮
+      Column({
+        space: 8
+      }) {
+        // 视频截图按钮
+        PLVMediaPlayerScreenshotImageView()
+          .id(this.ids.plv_media_player_screenshot_iv)
+          .hitTestBehavior(HitTestMode.Transparent)
+
+        // 弹幕按钮
+        PLVMediaPlayerDanmuInputEntranceImageView()
+          .hitTestBehavior(HitTestMode.Transparent)
+      }
+      .alignRules({
+        center: toCenterOf(parent),
+        end: toEndOf(parent)
+      })
+      .margin({
+        right: 16
+      })
 
       // 弱网提示
       PLVMediaPlayerNetworkPoorIndicateLayout()

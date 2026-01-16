@@ -11,6 +11,8 @@ import {
 } from '@polyvharmony/media-player-sdk';
 import {
   defineIds,
+  ON_BACK_PRESS_PRIORITY_ORIENTATION,
+  PLVKeyboardManagerObserver,
   PLVMediaPlayerSingleVideoPageParam,
   PLVMPPageControlViewModel,
   PLVOrientationManager,
@@ -35,7 +37,7 @@ export struct PLVMediaPlayerSingleVideoPage {
 
   aboutToAppear(): void {
     requireNotNull(this.param, () => "param is null")
-    this.onBackPressDisposable = this.pageControlViewModel.onBackPressHandler.register(10, () => this.onBackPress())
+    this.onBackPressDisposable = this.pageControlViewModel.onBackPressHandler.register(ON_BACK_PRESS_PRIORITY_ORIENTATION, () => this.onBackPress())
     runCatching(async () => {
       const windowInstance = await window.getLastWindow(this.context)
       windowInstance.setWindowKeepScreenOn(true)
@@ -72,6 +74,8 @@ export struct PLVMediaPlayerSingleVideoPage {
 
       // 屏幕方向监听器
       PLVOrientationManagerObserver()
+      // 键盘监听器
+      PLVKeyboardManagerObserver()
     }
   }
 

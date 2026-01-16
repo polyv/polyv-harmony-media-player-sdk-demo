@@ -163,6 +163,42 @@
     {
       "name": "plv_media_player_cast_title",
       "value": "投屏"
+    },
+    {
+      "name": "plv_media_player_ui_component_knowledge_hint_text",
+      "value": "知识点"
+    },
+    {
+      "name": "plv_media_player_danmu_content_hint",
+      "value": "说点什么..."
+    },
+    {
+      "name": "plv_media_player_danmu_send",
+      "value": "发送"
+    },
+    {
+      "name": "plv_media_player_danmu_color",
+      "value": "弹幕颜色"
+    },
+    {
+      "name": "plv_media_player_danmu_mode",
+      "value": "弹幕类型"
+    },
+    {
+      "name": "plv_media_player_danmu_mode_roll",
+      "value": "滚动"
+    },
+    {
+      "name": "plv_media_player_danmu_mode_top",
+      "value": "顶部"
+    },
+    {
+      "name": "plv_media_player_danmu_mode_bottom",
+      "value": "底部"
+    },
+    {
+      "name": "plv_media_player_danmu_size",
+      "value": "字体大小"
     }
   ]
 }

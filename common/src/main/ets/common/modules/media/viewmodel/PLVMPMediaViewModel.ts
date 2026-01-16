@@ -1,5 +1,5 @@
-import {PLVMPMediaRepo} from '../model/PLVMPMediaRepo';
-import {PLVMPMediaUseCases} from './usecase/PLVMPMediaUseCases';
+import { PLVMPMediaRepo } from '../model/PLVMPMediaRepo';
+import { PLVMPMediaUseCases } from './usecase/PLVMPMediaUseCases';
 import {
   LifecycleAwareDependComponent,
   MutableEvent,
@@ -10,15 +10,16 @@ import {
   PLVMediaPlayerOnCompletedEvent,
   PLVMediaPlayerOnInfoEvent,
   PLVMediaPlayerOnPreparedEvent,
+  PLVMediaPlayerOnSeekCompleteEvent,
   PLVMediaPlayerOption,
   PLVMediaPlayerState,
   PLVMediaResource,
   PLVMediaSubtitle,
   State
 } from '@polyvharmony/media-player-sdk';
-import {PLVMPMediaPlayViewState} from './viewstate/PLVMPMediaPlayViewState';
-import {PLVMPMediaInfoViewState} from './viewstate/PLVMPMediaInfoViewState';
-import {image} from '@kit.ImageKit';
+import { PLVMPMediaPlayViewState } from './viewstate/PLVMPMediaPlayViewState';
+import { PLVMPMediaInfoViewState } from './viewstate/PLVMPMediaInfoViewState';
+import { image } from '@kit.ImageKit';
 
 export class PLVMPMediaViewModel implements LifecycleAwareDependComponent {
 
@@ -32,6 +33,7 @@ export class PLVMPMediaViewModel implements LifecycleAwareDependComponent {
   readonly onPreparedEvent: MutableEvent<PLVMediaPlayerOnPreparedEvent>
   readonly onAutoContinueEvent: MutableEvent<PLVMediaPlayerAutoContinueEvent>
   readonly onInfoEvent: MutableEvent<PLVMediaPlayerOnInfoEvent>
+  readonly onSeekCompleteEvent: MutableEvent<PLVMediaPlayerOnSeekCompleteEvent>
   readonly onCompleteEvent: MutableEvent<PLVMediaPlayerOnCompletedEvent>
   readonly playerState: MutableState<PLVMediaPlayerState>
 
@@ -50,6 +52,7 @@ export class PLVMPMediaViewModel implements LifecycleAwareDependComponent {
     this.onPreparedEvent = this.repo.mediator.onPreparedEvent
     this.onAutoContinueEvent = this.repo.mediator.onAutoContinueEvent
     this.onInfoEvent = this.repo.mediator.onInfoEvent
+    this.onSeekCompleteEvent = this.repo.mediator.onSeekCompleteEvent
     this.onCompleteEvent = this.repo.mediator.onCompleteEvent
     this.playerState = this.repo.mediator.playerState
   }

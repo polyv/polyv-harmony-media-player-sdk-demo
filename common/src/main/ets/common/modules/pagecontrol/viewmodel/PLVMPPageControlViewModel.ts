@@ -1,5 +1,5 @@
-import {MutableState, OnBackPressHandler} from '@polyvharmony/media-player-sdk';
-import {PLVComponentLifecycle} from "../../../utils/PLVComponentLifecycle";
+import { MutableState, OnBackPressHandler } from '@polyvharmony/media-player-sdk';
+import { PLVComponentLifecycle } from '../../../utils/PLVComponentLifecycle';
 
 export class PLVMPPageControlViewModel {
 
@@ -13,3 +13,7 @@ export class PLVMPPageControlViewModel {
   }
 
 }
+
+export const ON_BACK_PRESS_PRIORITY_ORIENTATION = 10
+
+export const ON_BACK_PRESS_PRIORITY_TEXT_INPUT = 100

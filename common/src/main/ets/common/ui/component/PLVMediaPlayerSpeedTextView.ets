@@ -27,7 +27,7 @@ export struct PLVMediaPlayerSpeedTextView {
   }
 
   build() {
-    Text(`${this.currentSpeed.toFixed(1)}x`)
+    Text(`${this.currentSpeed}x`)
       .fontSize(14)
       .fontColor('#FFFFFF')
       .visibility(this.isVisible ? Visibility.Visible : Visibility.None)

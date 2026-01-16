@@ -1,4 +1,6 @@
 import {
+  extendNumber,
+  IPLVMediaPlayer,
   LifecycleAwareDependComponent,
   MutableObserver,
   PLVMediaBitRate,
@@ -9,6 +11,7 @@ import {
   PLVMediaResource,
   PLVMediaSubtitle
 } from '@polyvharmony/media-player-sdk';
+import { PLVMediaPlayerAddonBusinessManager } from '@polyvharmony/media-player-sdk-addon-business';
 import { PLVMPMediaMediator } from '../mediator/PLVMPMediaMediator';
 
 export class PLVMPMediaRepo implements LifecycleAwareDependComponent {
@@ -33,9 +36,15 @@ export class PLVMPMediaRepo implements LifecycleAwareDependComponent {
     this.mediator.setVolume = (volume: number) => this.setVolume(volume)
     this.mediator.bindAuxiliaryPlayer = (auxiliaryPlayer) => this.player.bindAuxiliaryPlayer(auxiliaryPlayer)
     this.mediator.unbindAuxiliaryPlayer = (auxiliaryPlayer) => this.player.unbindAuxiliaryPlayer(auxiliaryPlayer)
+    this.mediator.addonBusinessManager =
+      () => PLVMediaPlayerAddonBusinessManager.of(this.player as any as IPLVMediaPlayer)
     this.player.getEventListenerRegistry().onPrepared.relayTo(this.mediator.onPreparedEvent).pushTo(this.observers)
     this.player.getBusinessListenerRegistry().onAutoContinueEvent.relayTo(this.mediator.onAutoContinueEvent).pushTo(this.observers)
     this.player.getEventListenerRegistry().onInfo.relayTo(this.mediator.onInfoEvent).pushTo(this.observers)
+    this.player.getEventListenerRegistry()
+      .onSeekCompleteEvent
+      .relayTo(this.mediator.onSeekCompleteEvent)
+      .pushTo(this.observers)
     this.player.getEventListenerRegistry().onCompleted.relayTo(this.mediator.onCompleteEvent).pushTo(this.observers)
     this.player.getStateListenerRegistry().playingState.relayTo(this.mediator.playingState).pushTo(this.observers)
     this.player.getStateListenerRegistry().playerState.relayTo(this.mediator.playerState).pushTo(this.observers)
@@ -68,7 +77,14 @@ export class PLVMPMediaRepo implements LifecycleAwareDependComponent {
   }
 
   seekTo(position: number) {
-    this.player.seek(position)
+    const duration = this.player.getStateListenerRegistry().durationState.value ?? 0
+    const nextPosition = extendNumber(position).coerceIn_ext(0, duration)
+    this.player.seek(nextPosition)
+    if (nextPosition < duration) {
+      this.player.start()
+    } else {
+      this.player.pause()
+    }
   }
 
   restart() {
@@ -97,6 +113,7 @@ export class PLVMPMediaRepo implements LifecycleAwareDependComponent {
   }
 
   onDestroy(): void {
+    PLVMediaPlayerAddonBusinessManager.of(this.player as any as IPLVMediaPlayer).destroy()
     this.player.destroy()
     MutableObserver.disposeAll(this.observers)
     this.observers = []

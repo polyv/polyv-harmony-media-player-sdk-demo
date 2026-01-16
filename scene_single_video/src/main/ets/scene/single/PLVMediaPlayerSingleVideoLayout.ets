@@ -16,6 +16,8 @@ import {
   parent,
   PLVFoldableManager,
   PLVMediaPlayerCastPausePlayerHandler,
+  PLVMediaPlayerDanmuInputLayout,
+  PLVMediaPlayerDanmuLayout,
   PLVMediaPlayerHandleOnEnterBackgroundComponent,
   PLVMPDownloadItemViewModel,
   PLVMPMediaControllerViewModel,
@@ -23,7 +25,9 @@ import {
   PLVOrientationManager,
   toBottomOf,
   toCenterOf,
+  toEndOf,
   toMiddleOf,
+  toStartOf,
   toTopOf
 } from 'media-player-common';
 import { PLVMediaPlayerAuxiliaryLayout } from './component/PLVMediaPlayerAuxiliaryLayout';
@@ -51,6 +55,7 @@ export struct PLVMediaPlayerSingleVideoLayout {
   private observers: MutableObserver[] = []
   private readonly ids = defineIds(
     'plv_media_player_single_video_xcomponent',
+    'plv_media_player_single_video_danmu_layout',
     'plv_media_player_single_video_controller_layout',
     'plv_media_player_single_video_container',
     'plv_media_player_single_video_float_action_layout',
@@ -88,7 +93,7 @@ export struct PLVMediaPlayerSingleVideoLayout {
       RelativeContainer() {
         // 视频播放器
         XComponent({
-          id: `plv_media_player_single_video_xcomponent`,
+          id: this.ids.plv_media_player_single_video_xcomponent,
           type: "surface",
           libraryname: "plvplayer_xcomponent",
           controller: this.componentController
@@ -109,6 +114,16 @@ export struct PLVMediaPlayerSingleVideoLayout {
               .get(this.ids.plv_media_player_single_video_xcomponent)
           }
         })
+
+        // 弹幕
+        PLVMediaPlayerDanmuLayout()
+          .id(this.ids.plv_media_player_single_video_danmu_layout)
+          .alignRules({
+            top: toTopOf(this.ids.plv_media_player_single_video_xcomponent),
+            bottom: toBottomOf(this.ids.plv_media_player_single_video_xcomponent),
+            start: toStartOf(this.ids.plv_media_player_single_video_xcomponent),
+            end: toEndOf(this.ids.plv_media_player_single_video_xcomponent)
+          })
 
         // 播放控制皮肤
         PLVMediaPlayerSingleVideoControllerLayout()
@@ -150,6 +165,9 @@ export struct PLVMediaPlayerSingleVideoLayout {
           .width('100%')
           .height('100%')
       }
+
+      // 弹幕输入
+      PLVMediaPlayerDanmuInputLayout()
 
       // 进入后台播放处理逻辑
       PLVMediaPlayerHandleOnEnterBackgroundComponent()

@@ -14,14 +14,20 @@ import {
   getDisplayWindowWidth,
   isPortrait,
   parent,
+  PLVMediaPlayerDanmuInputLayout,
+  PLVMediaPlayerDanmuLayout,
   PLVMediaPlayerHandleOnEnterBackgroundComponent,
   PLVMediaPlayerPlayCompleteAutoRestartComponent,
   PLVMPMediaControllerViewModel,
   PLVMPMediaViewModel,
   PLVMPPageControlViewModel,
   PLVOrientationManager,
+  toBottomOf,
   toCenterOf,
-  toMiddleOf
+  toEndOf,
+  toMiddleOf,
+  toStartOf,
+  toTopOf
 } from 'media-player-common';
 import { PLVMediaPlayerFeedVideoStateHandleComponent } from './component/PLVMediaPlayerFeedVideoStateHandleComponent';
 import { PLVMediaPlayerFeedVideoControllerLayout } from './layout/PLVMediaPlayerFeedVideoControllerLayout';
@@ -47,6 +53,7 @@ export struct PLVMediaPlayerFeedVideoLayout {
   private readonly ids = defineIds(
     'plv_media_player_feed_video_background',
     'plv_media_player_feed_video_xcomponent',
+    'plv_media_player_feed_video_danmu_layout',
     'plv_media_player_feed_video_controller_layout',
     'plv_media_player_feed_video_float_action_layout',
     'plv_media_player_handle_on_enter_background_component',
@@ -120,6 +127,19 @@ export struct PLVMediaPlayerFeedVideoLayout {
         }
       })
 
+      // 弹幕
+      PLVMediaPlayerDanmuLayout()
+        .id(this.ids.plv_media_player_feed_video_danmu_layout)
+        .alignRules({
+          top: toTopOf(this.ids.plv_media_player_feed_video_xcomponent),
+          bottom: toBottomOf(this.ids.plv_media_player_feed_video_xcomponent),
+          start: toStartOf(this.ids.plv_media_player_feed_video_xcomponent),
+          end: toEndOf(this.ids.plv_media_player_feed_video_xcomponent)
+        })
+        .offset({
+          y: this.videoOffsetY
+        })
+
       // 播放控制皮肤
       PLVMediaPlayerFeedVideoControllerLayout()
         .id(this.ids.plv_media_player_feed_video_controller_layout)
@@ -139,6 +159,9 @@ export struct PLVMediaPlayerFeedVideoLayout {
             })
           )
       }
+
+      // 弹幕输入
+      PLVMediaPlayerDanmuInputLayout()
 
       // 进入后台播放处理逻辑
       PLVMediaPlayerHandleOnEnterBackgroundComponent()

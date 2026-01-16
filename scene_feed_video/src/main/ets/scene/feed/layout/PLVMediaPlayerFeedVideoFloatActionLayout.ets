@@ -2,6 +2,7 @@ import { MutableObserver } from '@polyvharmony/media-player-sdk'
 import {
   isPortrait,
   PLVMediaPlayerBitRateSelectLayoutLand,
+  PLVMediaPlayerKnowledgeLayout,
   PLVMediaPlayerMoreLayoutLand,
   PLVMediaPlayerMoreLayoutPort,
   PLVMediaPlayerMoreSubtitleSettingLayoutLand,
@@ -30,6 +31,7 @@ export struct PLVMediaPlayerFeedVideoFloatActionLayout {
       PLVMediaPlayerBitRateSelectLayoutLand()
       PLVMediaPlayerSpeedSelectLayoutLand()
       PLVMediaPlayerMoreSubtitleSettingLayoutLand()
+      PLVMediaPlayerKnowledgeLayout()
     }
   }
 

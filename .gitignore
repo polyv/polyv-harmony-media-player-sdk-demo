@@ -12,3 +12,4 @@
 /dist
 oh-package-lock.json5
 package-lock.json
+.DS_Store

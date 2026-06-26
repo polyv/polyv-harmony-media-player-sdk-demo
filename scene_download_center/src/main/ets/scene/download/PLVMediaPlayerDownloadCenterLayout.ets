@@ -1,6 +1,6 @@
 import {
   DependScope,
-  DerivedState,
+  derivedStateOf,
   MutableObserver,
   MutableState,
   PLVMediaPlayerAppContext
@@ -27,6 +27,13 @@ export struct PLVMediaPlayerDownloadCenterLayout {
   private readonly pageControlViewModel: PLVMPPageControlViewModel = this.pageDependScope.get(PLVMPPageControlViewModel)
   private readonly downloadListViewModel: PLVMPDownloadListViewModel = PLVMPDownloadListViewModel.getInstance();
   private readonly currentSelectTab: MutableState<number> = new MutableState();
+  private readonly downloadListEmptyState = derivedStateOf(() => {
+    if (this.currentSelectTab.value === 0) {
+      return (this.downloadListViewModel.downloadedList.value?.list?.length ?? 0) === 0
+    } else {
+      return (this.downloadListViewModel.downloadingList.value?.list?.length ?? 0) === 0
+    }
+  })
   private readonly tabSwiperController: SwiperController = new SwiperController();
   @State currentSelectTabState: number = 0
   @State downloadCompletedCountText: string = ""
@@ -61,14 +68,7 @@ export struct PLVMediaPlayerDownloadCenterLayout {
       this.currentSelectTabState = index
     }).pushTo(this.observers)
 
-    const downloadListEmptyState = new DerivedState(() => {
-      if (this.currentSelectTab.value === 0) {
-        return (this.downloadListViewModel.downloadedList.value?.list?.length ?? 0) === 0
-      } else {
-        return (this.downloadListViewModel.downloadingList.value?.list?.length ?? 0) === 0
-      }
-    })
-    downloadListEmptyState.observe((listEmpty) => {
+    this.downloadListEmptyState.observe((listEmpty) => {
       this.downloadListEmptyHintVisible = listEmpty
     }).pushTo(this.observers)
   }
@@ -213,6 +213,7 @@ export struct PLVMediaPlayerDownloadCenterLayout {
   }
 
   aboutToDisappear(): void {
+    this.downloadListEmptyState.destroy()
     MutableObserver.disposeAll(this.observers)
     this.observers = []
   }

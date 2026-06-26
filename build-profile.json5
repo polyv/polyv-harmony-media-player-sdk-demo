@@ -1,6 +1,20 @@
 {
   "app": {
-    "signingConfigs": [],
+    "signingConfigs": [
+      {
+        "name": "default",
+        "type": "HarmonyOS",
+        "material": {
+          "certpath": "/Users/jinyuhuang/.ohos/config/default_polyv-harmony-media-player-sdk-demo_LcW13BXAZKbDzKdG-vOe3p-k6i7dnBF9P99Ux234XZk=.cer",
+          "keyAlias": "debugKey",
+          "keyPassword": "0000001B4901997D6850EF9CF9F5B27C524407892C47DC38F77031979E2606796AB976AD53D9C747798F26",
+          "profile": "/Users/jinyuhuang/.ohos/config/default_polyv-harmony-media-player-sdk-demo_LcW13BXAZKbDzKdG-vOe3p-k6i7dnBF9P99Ux234XZk=.p7b",
+          "signAlg": "SHA256withECDSA",
+          "storeFile": "/Users/jinyuhuang/.ohos/config/default_polyv-harmony-media-player-sdk-demo_LcW13BXAZKbDzKdG-vOe3p-k6i7dnBF9P99Ux234XZk=.p12",
+          "storePassword": "0000001BF8ABBF9157238A8862A54AAFA4E5CAD76B1859A3D1423E5CC285A8A1EDD9C21CBBAFC4CF2D094A"
+        }
+      }
+    ],
     "products": [
       {
         "name": "default",

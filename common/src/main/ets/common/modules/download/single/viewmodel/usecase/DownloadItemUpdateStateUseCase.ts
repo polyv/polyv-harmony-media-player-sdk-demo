@@ -1,17 +1,17 @@
-import {PLVMPDownloadItemRepo} from "../../model/PLVMPDownloadItemRepo";
+import { PLVMPDownloadItemRepo } from '../../model/PLVMPDownloadItemRepo';
 import {
-  DerivedState,
   LifecycleAwareDependComponent,
   MutableObserver,
   MutableState,
   PLVMediaBitRate,
-  runCatching
-} from "@polyvharmony/media-player-sdk";
-import {PLVMPDownloadItemViewState} from "../viewstate/PLVMPDownloadItemViewState";
+  runCatching,
+  watchStates
+} from '@polyvharmony/media-player-sdk';
+import { PLVMPDownloadItemViewState } from '../viewstate/PLVMPDownloadItemViewState';
 import {
   PLVMediaDownloaderManager,
   PLVMediaDownloadStatusNotStarted
-} from "@polyvharmony/media-player-sdk-addon-cache-down";
+} from '@polyvharmony/media-player-sdk-addon-cache-down';
 
 export class DownloadItemUpdateStateUseCase implements LifecycleAwareDependComponent {
 
@@ -25,26 +25,26 @@ export class DownloadItemUpdateStateUseCase implements LifecycleAwareDependCompo
   private observers: MutableObserver[] = []
 
   private init() {
-    new DerivedState(() => {
+    watchStates(() => {
       const mediaResource = this.repo.mediaMediator.mediaResource.value
       const bitRate = this.repo.mediaMediator.mediaInfoViewState.value?.bitRate ?? PLVMediaBitRate.BITRATE_AUTO
       if (mediaResource === undefined) {
-        return null
+        return this.repo.mediator.downloadItem.setValue(null)
       }
       const downloaderResult = runCatching(() => PLVMediaDownloaderManager.getInstance().getDownloader(mediaResource, bitRate))
       if (downloaderResult.success === false) {
-        return null
+        return this.repo.mediator.downloadItem.setValue(null)
       }
       const downloader = downloaderResult.data
-      return new PLVMPDownloadItemViewState(
+      const downloadItem = new PLVMPDownloadItemViewState(
         downloader,
         downloader.listenerRegistry.progress.value ?? 0,
         downloader.listenerRegistry.fileSize.value ?? 0,
         downloader.listenerRegistry.status.value ?? PLVMediaDownloadStatusNotStarted.instance,
         this.downloadActionVisibleState.value ?? true
       )
-    }).relayTo(this.repo.mediator.downloadItem)
-      .pushTo(this.observers)
+      this.repo.mediator.downloadItem.setValue(downloadItem)
+    }).pushTo(this.observers)
   }
 
   setDownloadActionVisible(isVisible: boolean) {

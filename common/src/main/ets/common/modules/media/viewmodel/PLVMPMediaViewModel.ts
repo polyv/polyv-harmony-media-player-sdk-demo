@@ -20,6 +20,7 @@ import {
 import { PLVMPMediaPlayViewState } from './viewstate/PLVMPMediaPlayViewState';
 import { PLVMPMediaInfoViewState } from './viewstate/PLVMPMediaInfoViewState';
 import { image } from '@kit.ImageKit';
+import { customTokenRequestListener, PLVMPMediaConfig } from '../config/PLVMPMediaConfig';
 
 export class PLVMPMediaViewModel implements LifecycleAwareDependComponent {
 
@@ -55,6 +56,9 @@ export class PLVMPMediaViewModel implements LifecycleAwareDependComponent {
     this.onSeekCompleteEvent = this.repo.mediator.onSeekCompleteEvent
     this.onCompleteEvent = this.repo.mediator.onCompleteEvent
     this.playerState = this.repo.mediator.playerState
+    if (PLVMPMediaConfig.useCustomToken) {
+      this.repo.player.getBusinessListenerRegistry().vodTokenRequestListener = customTokenRequestListener
+    }
   }
 
   setMediaResource(mediaResource: PLVMediaResource) {

@@ -1,6 +1,6 @@
 {
   "name": "media-player-common",
-  "version": "2.7.3",
+  "version": "2.7.5",
   "description": "Please describe the basic information.",
   "main": "Index.ets",
   "author": "",
@@ -8,8 +8,8 @@
   "dependencies": {
     "@ohos/danmakuflamemaster": "2.1.1",
     "@polyvharmony/media-cast": "1.0.1",
-    "@polyvharmony/media-player-sdk": "2.7.3",
-    "@polyvharmony/media-player-sdk-addon-business": "2.7.3",
-    "@polyvharmony/media-player-sdk-addon-cache-down": "2.7.3"
+    "@polyvharmony/media-player-sdk": "2.7.5",
+    "@polyvharmony/media-player-sdk-addon-business": "2.7.5",
+    "@polyvharmony/media-player-sdk-addon-cache-down": "2.7.5"
   }
 }

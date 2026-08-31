@@ -1,7 +1,7 @@
 {
   "modelVersion": "5.0.0",
   "name": "@polyvharmony/harmony-media-player",
-  "version": "2.7.3",
+  "version": "2.7.5",
   "description": "保利威鸿蒙播放器",
   "main": "",
   "author": "",
@@ -9,7 +9,7 @@
   "dependencies": {},
   "devDependencies": {},
   "overrides": {
-    "@polyvharmony/media-player-sdk": "2.7.3",
+    "@polyvharmony/media-player-sdk": "2.7.5",
     "@polyvharmony/common-libs": "1.0.3"
   }
 }

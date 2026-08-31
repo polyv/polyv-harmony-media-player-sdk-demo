@@ -27,8 +27,8 @@ export class UpdateMediaStateUseCase implements LifecycleAwareDependComponent {
 
     new DerivedState(() => {
       const viewState = new PLVMPMediaPlayViewState();
-      viewState.currentProgress = this.repo.player.getStateListenerRegistry().progressState.value ?? 0
-      viewState.duration = this.repo.player.getStateListenerRegistry().durationState.value ?? 0
+      viewState.currentProgress = this.getCurrentProgress()
+      viewState.duration = this.getDuration()
       viewState.isPlaying = this.repo.player.getStateListenerRegistry().playingState.value === PLVMediaPlayerPlayingState.PLAYING
       viewState.playerState = this.repo.player.getStateListenerRegistry().playerState.value ?? PLVMediaPlayerState.STATE_IDLE
       viewState.isBuffering = this.repo.player.getStateListenerRegistry().isBuffering.value ?? false
@@ -57,6 +57,20 @@ export class UpdateMediaStateUseCase implements LifecycleAwareDependComponent {
       return viewState;
     }).relayTo(this.repo.mediator.mediaInfoViewState)
       .pushTo(this.observers);
+  }
+
+  private getCurrentProgress(): number {
+    const currentProgress = this.repo.player.getStateListenerRegistry().progressState.value ?? 0
+    const duration = this.getDuration()
+    if (this.repo.player.getStateListenerRegistry().playerState.value === PLVMediaPlayerState.STATE_COMPLETED || currentProgress > duration) {
+      return duration
+    } else {
+      return currentProgress
+    }
+  }
+
+  private getDuration(): number {
+    return (this.repo.player.getBusinessListenerRegistry().vodVideoJson.value?.durationSeconds ?? 0) * 1000
   }
 
   private getSupportSubtitles(player: PLVMediaPlayer): PLVMediaSubtitle[][] {

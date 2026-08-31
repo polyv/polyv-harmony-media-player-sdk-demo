@@ -9,10 +9,11 @@ import {
   PLVVodMediaResource
 } from '@polyvharmony/media-player-sdk';
 import {PLVMediaDownloadSetting} from '@polyvharmony/media-player-sdk-addon-cache-down';
+import {PLVMPMediaConfig} from 'media-player-common';
 
 const mockAuthentication: PLVVodMainAccountAuthentication = {
   userId: "e97dbe3e64",
-  secretKey: "zMV29c519P"
+  secretKey: ""
 }
 
 const mockViewerParam: PLVViewerParam = {
@@ -27,6 +28,10 @@ export class PLVMockMediaResourceData {
   private static readonly instance = new PLVMockMediaResourceData()
 
   private constructor() {
+    // 如果没有配置 secretKey，则认为使用自定义 Token 播放。
+    if (mockAuthentication.secretKey.length === 0) {
+      PLVMPMediaConfig.useCustomToken = true
+    }
     this.setupMediaResources()
   }
 

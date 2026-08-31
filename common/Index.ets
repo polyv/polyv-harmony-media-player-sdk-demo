@@ -10,6 +10,7 @@ export * from './src/main/ets/common/modules/download/single/viewmodel/PLVMPDown
 export * from './src/main/ets/common/modules/media/viewmodel/viewstate/PLVMPMediaInfoViewState'
 export * from './src/main/ets/common/modules/media/viewmodel/viewstate/PLVMPMediaPlayViewState'
 export * from './src/main/ets/common/modules/media/viewmodel/PLVMPMediaViewModel'
+export * from './src/main/ets/common/modules/media/config/PLVMPMediaConfig'
 export * from './src/main/ets/common/modules/mediacontroller/viewmodel/viewstate/PLVMPMediaControllerViewState'
 export * from './src/main/ets/common/modules/mediacontroller/viewmodel/PLVMPMediaControllerViewModel'
 export * from './src/main/ets/common/modules/pagecontrol/viewmodel/PLVMPPageControlViewModel'

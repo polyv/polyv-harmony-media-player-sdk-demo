@@ -4,6 +4,7 @@ import {
   PLVMediaDownloaderManager,
   PLVMediaDownloadStatus
 } from "@polyvharmony/media-player-sdk-addon-cache-down";
+import {customTokenRequestListener, PLVMPMediaConfig} from "../../../media/config/PLVMPMediaConfig";
 
 export class PLVMPDownloadListViewState {
   constructor(
@@ -27,6 +28,9 @@ export class PLVMPDownloadListItemViewState {
   }
 
   startDownload() {
+    if (PLVMPMediaConfig.useCustomToken) {
+      this.downloader.listenerRegistry.vodTokenRequestListener = customTokenRequestListener
+    }
     PLVMediaDownloaderManager.getInstance().startDownloader(this.downloader)
   }
 

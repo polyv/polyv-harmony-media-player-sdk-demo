@@ -2,6 +2,7 @@ import {PLVMPDownloadItemRepo} from "../model/PLVMPDownloadItemRepo";
 import {PLVMPDownloadItemUseCases} from "./usecase/PLVMPDownloadItemUseCases";
 import {PLVMediaDownloaderManager} from "@polyvharmony/media-player-sdk-addon-cache-down";
 import {PLVMPDownloadListViewModel} from '../../list/PLVMPDownloadListViewModel';
+import {customTokenRequestListener, PLVMPMediaConfig} from '../../../media/config/PLVMPMediaConfig';
 
 export class PLVMPDownloadItemViewModel {
 
@@ -20,6 +21,9 @@ export class PLVMPDownloadItemViewModel {
     const downloader = this.repo.mediator.downloadItem.value?.downloader
     if (downloader === undefined) {
       return
+    }
+    if (PLVMPMediaConfig.useCustomToken) {
+      downloader.listenerRegistry.vodTokenRequestListener = customTokenRequestListener
     }
     PLVMediaDownloaderManager.getInstance().startDownloader(downloader)
   }

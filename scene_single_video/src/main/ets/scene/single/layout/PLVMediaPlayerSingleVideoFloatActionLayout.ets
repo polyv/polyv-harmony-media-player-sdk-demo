@@ -7,6 +7,7 @@ import {
   PLVMediaPlayerMoreLayoutPort,
   PLVMediaPlayerMoreSubtitleSettingLayoutLand,
   PLVMediaPlayerMoreSubtitleSettingLayoutPort,
+  PLVMediaPlayerRouteSelectLayout,
   PLVMediaPlayerSpeedSelectLayoutLand,
   PLVOrientationManager
 } from 'media-player-common'
@@ -24,11 +25,13 @@ export struct PLVMediaPlayerSingleVideoFloatActionLayout {
 
   build() {
     if (this.isPortrait) {
+      PLVMediaPlayerRouteSelectLayout()
       PLVMediaPlayerMoreLayoutPort({
         showCastAction: true
       })
       PLVMediaPlayerMoreSubtitleSettingLayoutPort()
     } else {
+      PLVMediaPlayerRouteSelectLayout()
       PLVMediaPlayerMoreLayoutLand({
         showCastAction: true
       })

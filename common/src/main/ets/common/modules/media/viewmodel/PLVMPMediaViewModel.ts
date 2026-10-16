@@ -13,6 +13,7 @@ import {
   PLVMediaPlayerOnSeekCompleteEvent,
   PLVMediaPlayerOption,
   PLVMediaPlayerState,
+  PLVMediaRoute,
   PLVMediaResource,
   PLVMediaSubtitle,
   State
@@ -99,6 +100,14 @@ export class PLVMPMediaViewModel implements LifecycleAwareDependComponent {
 
   changeBitRate(bitRate: PLVMediaBitRate) {
     this.repo.changeBitRate(bitRate)
+  }
+
+  changeRoute(route: PLVMediaRoute) {
+    this.repo.changeRoute(route)
+  }
+
+  changeHttpDns(enable: boolean) {
+    this.repo.changeHttpDns(enable)
   }
 
   changeMediaOutputMode(outputMode: PLVMediaOutputMode) {

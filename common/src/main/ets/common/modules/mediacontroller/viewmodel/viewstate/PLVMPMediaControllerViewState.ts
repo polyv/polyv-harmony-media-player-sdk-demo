@@ -21,7 +21,7 @@ export class PLVMPMediaControllerViewState {
 
 }
 
-export type PLVMPMediaControllerFloatAction = 'more' | 'bitRate' | 'speed' | 'subtitle' | 'knowledge'
+export type PLVMPMediaControllerFloatAction = 'more' | 'bitRate' | 'speed' | 'route' | 'subtitle' | 'knowledge'
 
 export type PLVMPVideoViewLocation = {
   width: number,

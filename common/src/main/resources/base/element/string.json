@@ -199,6 +199,38 @@
     {
       "name": "plv_media_player_danmu_size",
       "value": "字体大小"
+    },
+    {
+      "name": "plv_media_player_ui_component_route_title",
+      "value": "播放线路"
+    },
+    {
+      "name": "plv_media_player_ui_component_route_name",
+      "value": "线路%d"
+    },
+    {
+      "name": "plv_media_player_ui_component_route_recommended_desc",
+      "value": "推荐线路，首选尝试"
+    },
+    {
+      "name": "plv_media_player_ui_component_route_backup_desc",
+      "value": "主线路不畅时切换"
+    },
+    {
+      "name": "plv_media_player_ui_component_route_section_title",
+      "value": "线路"
+    },
+    {
+      "name": "plv_media_player_ui_component_dns_title",
+      "value": "解析"
+    },
+    {
+      "name": "plv_media_player_ui_component_http_dns_desc",
+      "value": "一般网络下更稳定"
+    },
+    {
+      "name": "plv_media_player_ui_component_local_dns_desc",
+      "value": "网络受限环境下使用"
     }
   ]
 }

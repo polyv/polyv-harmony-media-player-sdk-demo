@@ -1,10 +1,13 @@
-import {PLVMediaBitRate, PLVMediaOutputMode, PLVMediaSubtitle, Rect} from '@polyvharmony/media-player-sdk'
+import {PLVMediaBitRate, PLVMediaOutputMode, PLVMediaRoute, PLVMediaSubtitle, Rect} from '@polyvharmony/media-player-sdk'
 
 export class PLVMPMediaInfoViewState {
   title: string = ""
   videoSize: Rect = new Rect()
   bitRate: PLVMediaBitRate | null = null
   supportBitRates: PLVMediaBitRate[] = []
+  route: PLVMediaRoute | null = null
+  supportRoutes: PLVMediaRoute[] = []
+  httpDnsEnabled: boolean = false
   outputMode: PLVMediaOutputMode = PLVMediaOutputMode.AUDIO_VIDEO
   supportOutputModes: PLVMediaOutputMode[] = []
   currentSubtitle: PLVMediaSubtitle[] | null = null

@@ -21,6 +21,7 @@ import {
   PLVMediaPlayerPlayCompleteManualRestartOverlayLayout,
   PLVMediaPlayerPlayErrorOverlayLayout,
   PLVMediaPlayerProgressTextView,
+  PLVMediaPlayerRouteImageView,
   PLVMediaPlayerScreenshotImageView,
   PLVMediaPlayerSeekProgressPreviewLayout,
   PLVMediaPlayerSpeedTextView,
@@ -63,6 +64,7 @@ export struct PLVMediaPlayerFeedVideoControllerLayoutLand {
     'plv_media_player_progress_slider',
     'plv_media_player_bit_rate_text_view',
     'plv_media_player_speed_text_view',
+    'plv_media_player_route_text_view',
     'plv_media_player_lock_controller_iv',
     'plv_media_player_network_poor_indicate_layout',
     'plv_media_player_long_press_speed_hint_layout',
@@ -244,6 +246,21 @@ export struct PLVMediaPlayerFeedVideoControllerLayoutLand {
           right: 24,
           bottom: 30
         })
+        .hitTestBehavior(HitTestMode.Transparent)
+
+      // 线路
+      PLVMediaPlayerRouteImageView()
+        .id(this.ids.plv_media_player_route_text_view)
+        .width(24)
+        .height(24)
+        .alignRules({
+          right: toStartOf(this.ids.plv_media_player_speed_text_view),
+          bottom: toBottomOf(parent)
+        })
+        .margin(usePadding({
+          right: 24,
+          vertical: 28
+        }))
         .hitTestBehavior(HitTestMode.Transparent)
 
       // 横屏操作锁定按钮

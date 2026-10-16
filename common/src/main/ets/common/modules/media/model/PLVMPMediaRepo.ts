@@ -1,23 +1,30 @@
 import {
+  logger,
   extendNumber,
   IPLVMediaPlayer,
   LifecycleAwareDependComponent,
   MutableObserver,
+  MutableState,
   PLVMediaBitRate,
   PLVMediaOutputMode,
   PLVMediaPlayer,
+  PLVMediaPlayerHttpDns,
   PLVMediaPlayerOption,
   PLVMediaPlayerPlayingState,
+  PLVMediaRoute,
   PLVMediaResource,
   PLVMediaSubtitle
 } from '@polyvharmony/media-player-sdk';
 import { PLVMediaPlayerAddonBusinessManager } from '@polyvharmony/media-player-sdk-addon-business';
 import { PLVMPMediaMediator } from '../mediator/PLVMPMediaMediator';
 
+const TAG = 'PLVBackgroundPlayback'
+
 export class PLVMPMediaRepo implements LifecycleAwareDependComponent {
 
   readonly mediator: PLVMPMediaMediator
   readonly player: PLVMediaPlayer = new PLVMediaPlayer()
+  readonly httpDnsEnabled = new MutableState<boolean>(PLVMediaPlayerHttpDns.getInstance().enable)
 
   private observers: MutableObserver[] = []
 
@@ -73,6 +80,8 @@ export class PLVMPMediaRepo implements LifecycleAwareDependComponent {
   }
 
   pause() {
+    // 只在显式暂停时输出调用栈，便于区分生命周期、音频焦点、投屏和用户操作。
+    logger.info(TAG, `[player] pause requested, playing=${this.player.getStateListenerRegistry().playingState.value}, stack=${new Error('pause requested').stack}`)
     this.player.pause()
   }
 
@@ -102,6 +111,16 @@ export class PLVMPMediaRepo implements LifecycleAwareDependComponent {
   changeBitRate(bitRate: PLVMediaBitRate) {
     this.player.changeBitRate(bitRate)
     this.mediator.onChangeBitRateEvent.value = bitRate
+  }
+
+  changeRoute(route: PLVMediaRoute) {
+    this.player.changeRoute(route)
+  }
+
+  changeHttpDns(enable: boolean) {
+    PLVMediaPlayerHttpDns.getInstance().enable = enable
+    this.httpDnsEnabled.value = enable
+    this.player.reload()
   }
 
   changeMediaOutputMode(outputMode: PLVMediaOutputMode) {

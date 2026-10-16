@@ -18,7 +18,7 @@ import {
   PLVMediaPlayerCastPausePlayerHandler,
   PLVMediaPlayerDanmuInputLayout,
   PLVMediaPlayerDanmuLayout,
-  PLVMediaPlayerHandleOnEnterBackgroundComponent,
+  PLVMediaPlayerKeepBackgroundTask,
   PLVMPDownloadItemViewModel,
   PLVMPMediaControllerViewModel,
   PLVMPMediaViewModel,
@@ -38,6 +38,8 @@ import { PLVMediaPlayerSingleVideoFloatActionLayout } from './layout/PLVMediaPla
 @Preview
 @Component
 export struct PLVMediaPlayerSingleVideoLayout {
+  /** 是否允许进入后台后继续播放音频，默认开启。 */
+  @Prop backgroundAudioPlaybackEnabled: boolean = true
   mediaResource?: PLVMediaResource
   recommendVideos: PLVMediaResource[] = []
   enterFromDownloadCenter: boolean = false
@@ -170,7 +172,9 @@ export struct PLVMediaPlayerSingleVideoLayout {
       PLVMediaPlayerDanmuInputLayout()
 
       // 进入后台播放处理逻辑
-      PLVMediaPlayerHandleOnEnterBackgroundComponent()
+      PLVMediaPlayerKeepBackgroundTask({
+        backgroundAudioPlaybackEnabled: this.backgroundAudioPlaybackEnabled
+      })
         .id(this.ids.plv_media_player_handle_on_enter_background_component)
         .visibility(Visibility.None)
 

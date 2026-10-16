@@ -13,16 +13,16 @@ export class PLVComponentLifecycle {
     this.changeStateTo(LifecycleState.SHOWING)
   }
 
-  onPageHide() {
-    this.changeStateTo(LifecycleState.APPEARED)
+  onPageHide(isWindowHidden: boolean = false) {
+    this.changeStateTo(LifecycleState.APPEARED, isWindowHidden)
   }
 
   onAboutToDisappear() {
     this.changeStateTo(LifecycleState.INITIALIZED)
   }
 
-  private changeStateTo(state: LifecycleState) {
-    this.event.value = new LifecycleChangeEvent(this.state.value!, state)
+  private changeStateTo(state: LifecycleState, isWindowHidden: boolean = false) {
+    this.event.value = new LifecycleChangeEvent(this.state.value!, state, isWindowHidden)
     this.state.value = state
   }
 
@@ -38,7 +38,9 @@ export class LifecycleChangeEvent {
 
   constructor(
     readonly from: LifecycleState,
-    readonly to: LifecycleState
+    readonly to: LifecycleState,
+    // 导航页仍在栈顶，只是应用窗口进入后台。
+    readonly isWindowHidden: boolean = false
   ) {
   }
 

@@ -16,7 +16,7 @@ import {
   parent,
   PLVMediaPlayerDanmuInputLayout,
   PLVMediaPlayerDanmuLayout,
-  PLVMediaPlayerHandleOnEnterBackgroundComponent,
+  PLVMediaPlayerKeepBackgroundTask,
   PLVMediaPlayerPlayCompleteAutoRestartComponent,
   PLVMPMediaControllerViewModel,
   PLVMPMediaViewModel,
@@ -36,6 +36,8 @@ import { PLVMediaPlayerFeedVideoFloatActionLayout } from './layout/PLVMediaPlaye
 @Preview
 @Component
 export struct PLVMediaPlayerFeedVideoLayout {
+  /** 是否允许进入后台后继续播放音频，默认开启。 */
+  @Prop backgroundAudioPlaybackEnabled: boolean = true
   mediaResource?: PLVMediaResource
   mediaResourceIndex?: number
   @Provide dependScope: DependScope = createDependScope(commonItemModule)
@@ -164,7 +166,10 @@ export struct PLVMediaPlayerFeedVideoLayout {
       PLVMediaPlayerDanmuInputLayout()
 
       // 进入后台播放处理逻辑
-      PLVMediaPlayerHandleOnEnterBackgroundComponent()
+      PLVMediaPlayerKeepBackgroundTask({
+        backgroundAudioPlaybackEnabled: this.backgroundAudioPlaybackEnabled,
+        mediaResourceIndex: this.mediaResourceIndex
+      })
         .id(this.ids.plv_media_player_handle_on_enter_background_component)
 
       // 播放完成自动重新播放逻辑

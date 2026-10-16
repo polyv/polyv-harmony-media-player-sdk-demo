@@ -1,4 +1,4 @@
-import { createDependScope, DependScope, lateInit } from '@polyvharmony/media-player-sdk'
+import { logger, createDependScope, DependScope, lateInit } from '@polyvharmony/media-player-sdk'
 import {
   commonPageModule,
   PLVAbilityContexts,
@@ -14,6 +14,8 @@ import { PLVMediaPlayerFeedVideoPage } from '../PLVMediaPlayerFeedVideoPage'
 import { PLVMediaPlayerDownloadCenterPage } from '../PLVMediaPlayerDownloadCenterPage'
 import { PLVMediaPlayerSingleVideoPage } from '../PLVMediaPlayerSingleVideoPage'
 
+const TAG = 'PLVBackgroundPlayback'
+
 @Component
 export struct PLVMediaPlayerNavigationPage {
   navigationName: string = lateInit()
@@ -25,10 +27,16 @@ export struct PLVMediaPlayerNavigationPage {
   navAboutToAppear(): void {
     PLVAbilityContexts.getInstance().registerContext(getContext(this) as common.UIAbilityContext)
     this.pageControlViewModel.navPathStack = this.navPathStack
+    if (this.isPlaybackPage()) {
+      this.pageControlViewModel.activatePlaybackPage()
+    }
     this.pageControlViewModel.pageLifecycle.onAboutToAppear()
   }
 
   navOnPageShow(): void {
+    if (this.isPlaybackPage()) {
+      this.pageControlViewModel.activatePlaybackPage()
+    }
     this.pageControlViewModel.pageLifecycle.onPageShow()
   }
 
@@ -64,10 +72,23 @@ export struct PLVMediaPlayerNavigationPage {
   }
 
   navOnPageHide(): void {
-    this.pageControlViewModel.pageLifecycle.onPageHide()
+    // onHidden 在应用切后台时也会触发，不能一律当作离开播放页。
+    // 用路由与参数身份区分，避免依赖 Ability 与 NavDestination 回调的先后顺序。
+    const paths = this.navPathStack.getAllPathName()
+    const topIndex = paths.length - 1
+    const isWindowHidden = topIndex >= 0 && paths[topIndex] === this.navigationName
+      && this.navPathStack.getParamByIndex(topIndex) === this.param
+    logger.info(TAG, `[navigation] hidden scene=${this.navigationName}, windowHidden=${isWindowHidden}, stackSize=${paths.length}`)
+    this.pageControlViewModel.pageLifecycle.onPageHide(isWindowHidden)
+  }
+
+  private isPlaybackPage(): boolean {
+    return this.navigationName === PLVMediaPlayerScenes.SINGLE_VIDEO.name
+      || this.navigationName === PLVMediaPlayerScenes.FEED_VIDEO.name
   }
 
   navAboutToDisappear(): void {
+    this.pageControlViewModel.releasePlaybackPage()
     this.pageControlViewModel.pageLifecycle.onAboutToDisappear()
     PLVAbilityContexts.getInstance().unregisterContext(getContext(this) as common.UIAbilityContext)
   }

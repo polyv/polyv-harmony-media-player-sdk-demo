@@ -13,6 +13,7 @@ import {
   PLVMediaPlayerNetworkPoorIndicateLayout,
   PLVMediaPlayerPlayErrorOverlayLayout,
   PLVMediaPlayerProgressTextView,
+  PLVMediaPlayerRouteImageView,
   PLVMediaPlayerSeekProgressPreviewLayout,
   PLVMediaPlayerSubtitleTextLayout,
   PLVMediaPlayerSwitchBitRateHintLayout,
@@ -54,6 +55,7 @@ export struct PLVMediaPlayerFeedVideoControllerLayoutPort {
     'plv_media_player_more_action_iv',
     'plv_media_player_play_button',
     'plv_media_player_progress_text_view',
+    'plv_media_player_route_text_view',
     'plv_media_player_switch_full_screen_btn',
     'plv_media_player_progress_slider',
     'plv_media_player_network_poor_indicate_layout',
@@ -202,6 +204,22 @@ export struct PLVMediaPlayerFeedVideoControllerLayoutPort {
         })
         .alignRules({
           left: toStartOf(parent),
+          bottom: toBottomOf(parent)
+        })
+        .hitTestBehavior(HitTestMode.Transparent)
+
+      // 线路
+      PLVMediaPlayerRouteImageView()
+        .id(this.ids.plv_media_player_route_text_view)
+        .width(32)
+        .height(32)
+        .margin({
+          right: 12,
+          bottom: 8
+        })
+        .padding(8)
+        .alignRules({
+          right: toEndOf(parent),
           bottom: toBottomOf(parent)
         })
         .hitTestBehavior(HitTestMode.Transparent)

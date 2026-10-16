@@ -45,6 +45,9 @@ export class UpdateMediaStateUseCase implements LifecycleAwareDependComponent {
       viewState.videoSize = this.repo.player.getStateListenerRegistry().videoSize.value ?? new Rect()
       viewState.bitRate = this.repo.player.getBusinessListenerRegistry().currentMediaBitRate.value ?? null
       viewState.supportBitRates = this.repo.player.getBusinessListenerRegistry().supportMediaBitRates.value ?? []
+      viewState.route = this.repo.player.getBusinessListenerRegistry().currentMediaRoute.value ?? null
+      viewState.supportRoutes = this.repo.player.getBusinessListenerRegistry().supportMediaRoutes.value ?? []
+      viewState.httpDnsEnabled = this.repo.httpDnsEnabled.value
       viewState.outputMode = this.repo.player.getBusinessListenerRegistry().currentMediaOutputMode.value ?? PLVMediaOutputMode.AUDIO_VIDEO
       viewState.supportOutputModes = this.repo.player.getBusinessListenerRegistry().supportMediaOutputModes.value ?? []
       viewState.currentSubtitle = this.repo.player.getBusinessListenerRegistry().currentShowSubTitles.value ?? null

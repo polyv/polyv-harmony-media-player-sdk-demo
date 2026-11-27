@@ -4,18 +4,24 @@ import {
   PLVMediaPlayerOnInfoEvent,
   PLVMediaPlayerState
 } from '@polyvharmony/media-player-sdk'
-import { PLVMPMediaViewModel } from 'media-player-common'
+import { PLVMPMediaControllerViewModel, PLVMPMediaViewModel } from 'media-player-common'
 
 @Component
 export struct PLVMediaPlayerPlayButtonFeedPort {
   @Consume dependScope: DependScope
   private viewModel: PLVMPMediaViewModel = this.dependScope.get(PLVMPMediaViewModel)
+  private controllerViewModel: PLVMPMediaControllerViewModel = this.dependScope.get(PLVMPMediaControllerViewModel)
+  private seekButtonsEnabled: boolean = false
   private playerState: PLVMediaPlayerState = PLVMediaPlayerState.STATE_IDLE
   private isFirstFrameRendered: boolean = this.viewModel.mediaPlayViewState.value?.isPlaying === true
   @State isVisible: boolean = false
   private observers: MutableObserver[] = []
 
   aboutToAppear(): void {
+    this.controllerViewModel.mediaControllerViewState.observe((state) => {
+      this.seekButtonsEnabled = state.seekButtonsEnabled
+      this.updateVisibility()
+    }).pushTo(this.observers)
     this.viewModel.mediaPlayViewState.observe((viewState) => {
       this.playerState = viewState.playerState
       this.updateVisibility()
@@ -40,7 +46,7 @@ export struct PLVMediaPlayerPlayButtonFeedPort {
   }
 
   private updateVisibility() {
-    this.isVisible = this.playerState === PLVMediaPlayerState.STATE_PAUSED
+    this.isVisible = !this.seekButtonsEnabled && this.playerState === PLVMediaPlayerState.STATE_PAUSED
       && this.isFirstFrameRendered
   }
 

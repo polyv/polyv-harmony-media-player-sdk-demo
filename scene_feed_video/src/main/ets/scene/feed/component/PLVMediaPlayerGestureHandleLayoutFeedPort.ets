@@ -33,6 +33,11 @@ export struct PLVMediaPlayerGestureHandleLayoutFeedPort {
   }
 
   private onSingleClick() {
+    // 开启中央快进退布局后，画面单击负责唤出/隐藏控制栏。
+    if (this.controllerViewModel.mediaControllerViewState.value?.seekButtonsEnabled) {
+      this.controllerViewModel.onClickChangeControllerVisible()
+      return
+    }
     if (this.mediaViewModel.mediaPlayViewState.value?.isPlaying) {
       this.mediaViewModel.pause()
     } else {

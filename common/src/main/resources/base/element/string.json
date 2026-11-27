@@ -231,6 +231,22 @@
     {
       "name": "plv_media_player_ui_component_local_dns_desc",
       "value": "网络受限环境下使用"
+    },
+    {
+      "name": "plv_media_player_step_backward",
+      "value": "Rewind %d seconds"
+    },
+    {
+      "name": "plv_media_player_step_forward",
+      "value": "Forward %d seconds"
+    },
+    {
+      "name": "plv_media_player_step_play",
+      "value": "Play"
+    },
+    {
+      "name": "plv_media_player_step_pause",
+      "value": "Pause"
     }
   ]
 }

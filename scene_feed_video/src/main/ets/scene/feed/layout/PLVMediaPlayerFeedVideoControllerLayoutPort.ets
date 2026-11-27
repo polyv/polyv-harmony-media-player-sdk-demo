@@ -1,6 +1,7 @@
 import { createDependScope, DependScope, MutableObserver } from '@polyvharmony/media-player-sdk'
 import {
   commonItemModule,
+  PLVMediaPlayerStepSeekLayout,
   defineIds,
   parent,
   PLVMediaPlayerAudioModeCoverLayoutPort,
@@ -181,7 +182,7 @@ export struct PLVMediaPlayerFeedVideoControllerLayoutPort {
         })
         .hitTestBehavior(HitTestMode.Transparent)
 
-      // 播放/暂停按钮
+      // 关闭快进退时使用原有短视频播放按钮。
       PLVMediaPlayerPlayButtonFeedPort()
         .id(this.ids.plv_media_player_play_button)
         .width(80)
@@ -190,10 +191,16 @@ export struct PLVMediaPlayerFeedVideoControllerLayoutPort {
           center: toCenterOf(parent),
           middle: toMiddleOf(parent)
         })
-        .offset({
-          y: this.videoOffsetY
-        })
+        .offset({ y: this.videoOffsetY })
         .hitTestBehavior(HitTestMode.Transparent)
+
+      // 开启后使用整组中央快进退布局，跟随实际视频区域偏移。
+      PLVMediaPlayerStepSeekLayout()
+        .alignRules({
+          center: toCenterOf(parent),
+          middle: toMiddleOf(parent)
+        })
+        .offset({ y: this.videoOffsetY })
 
       // 播放进度文本
       PLVMediaPlayerProgressTextView()

@@ -36,6 +36,13 @@ export class PLVMPMediaRepo implements LifecycleAwareDependComponent {
     this.mediator.start = () => this.start()
     this.mediator.pause = () => this.pause()
     this.mediator.seekTo = (position: number) => this.seekTo(position)
+    this.mediator.getCurrentPosition = () => this.player.getCurrentPosition()
+    this.mediator.seekToKeepingPlayState = (position: number) => {
+      const duration = this.player.getStateListenerRegistry().durationState.value ?? 0
+      if (Number.isFinite(duration) && duration > 0 && Number.isFinite(position)) {
+        this.player.seek(Math.max(0, Math.min(duration, position)))
+      }
+    }
     this.mediator.getSpeed = () => this.player.getStateListenerRegistry().speed.value ?? 1
     this.mediator.setSpeed = (speed: number) => this.setSpeed(speed)
     this.mediator.isPlaying = () => this.player.getStateListenerRegistry().playingState.value === PLVMediaPlayerPlayingState.PLAYING
@@ -132,6 +139,8 @@ export class PLVMPMediaRepo implements LifecycleAwareDependComponent {
   }
 
   onDestroy(): void {
+    this.mediator.seekToKeepingPlayState = undefined
+    this.mediator.getCurrentPosition = undefined
     PLVMediaPlayerAddonBusinessManager.of(this.player as any as IPLVMediaPlayer).destroy()
     this.player.destroy()
     MutableObserver.disposeAll(this.observers)

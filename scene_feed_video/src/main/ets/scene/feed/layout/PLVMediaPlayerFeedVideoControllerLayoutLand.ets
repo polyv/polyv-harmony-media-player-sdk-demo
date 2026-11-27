@@ -1,6 +1,7 @@
 import { createDependScope, DependScope, MutableObserver } from '@polyvharmony/media-player-sdk'
 import {
   commonItemModule,
+  PLVMediaPlayerStepSeekLayout,
   defineIds,
   parent,
   PLVMediaPlayerAudioModeCoverLayoutLand,
@@ -138,6 +139,13 @@ export struct PLVMediaPlayerFeedVideoControllerLayoutLand {
       // 播放异常覆盖层
       PLVMediaPlayerPlayErrorOverlayLayout()
         .id(this.ids.plv_media_player_error_overlay_layout)
+
+      // 中央快退 / 播放暂停 / 快进，在当前皮肤内部处理点击。
+      PLVMediaPlayerStepSeekLayout()
+        .alignRules({
+          center: toCenterOf(parent),
+          middle: toMiddleOf(parent)
+        })
 
       // 返回按钮
       PLVMediaPlayerBackImageView()

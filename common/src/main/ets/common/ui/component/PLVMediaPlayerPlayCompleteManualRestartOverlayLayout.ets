@@ -8,12 +8,15 @@ export struct PLVMediaPlayerPlayCompleteManualRestartOverlayLayout {
   private mediaViewModel: PLVMPMediaViewModel = this.dependScope.get(PLVMPMediaViewModel)
   private controllerViewModel: PLVMPMediaControllerViewModel = this.dependScope.get(PLVMPMediaControllerViewModel)
   @State isVisible: boolean = false
+  @State seekButtonsEnabled: boolean = false
   private observers: MutableObserver[] = []
 
   aboutToAppear(): void {
-    this.controllerViewModel.mediaControllerViewState.observe((viewState) => [
+    this.controllerViewModel.mediaControllerViewState.observe((viewState) => {
+      this.seekButtonsEnabled = viewState.seekButtonsEnabled
       this.isVisible = viewState.completeOverlayLayoutVisible
-    ]).pushTo(this.observers)
+        && (!viewState.seekButtonsEnabled || !viewState.controllerVisible)
+    }).pushTo(this.observers)
   }
 
   build() {
@@ -31,6 +34,7 @@ export struct PLVMediaPlayerPlayCompleteManualRestartOverlayLayout {
               top: 8
             })
         }
+        .hitTestBehavior(HitTestMode.Block)
         .onClick(() => {
           this.mediaViewModel.restart()
         })
@@ -39,7 +43,9 @@ export struct PLVMediaPlayerPlayCompleteManualRestartOverlayLayout {
       .height('100%')
       .backgroundColor('#CC000000')
       .visibility(this.isVisible ? Visibility.Visible : Visibility.None)
+      .hitTestBehavior(this.seekButtonsEnabled ? HitTestMode.Transparent : HitTestMode.Default)
     }
+    .hitTestBehavior(this.seekButtonsEnabled ? HitTestMode.Transparent : HitTestMode.Default)
   }
 
   aboutToDisappear(): void {

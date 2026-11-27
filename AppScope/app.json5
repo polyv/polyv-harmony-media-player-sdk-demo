@@ -1,8 +1,8 @@
 {
   "app": {
     "bundleName": "net.polyv.media.player",
-    "versionCode": 20707,
-    "versionName": "2.7.7",
+    "versionCode": 20709,
+    "versionName": "2.7.9",
     "icon": "$media:plv_media_player_app_icon",
     "label": "$string:app_name"
   }

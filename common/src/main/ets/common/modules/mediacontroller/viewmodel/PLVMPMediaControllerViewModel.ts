@@ -17,6 +17,7 @@ import {
 import {PLVBrightnessManager} from "../../../utils/PLVBrightnessManager";
 import {PLVMPMediaControllerUseCases} from "./usecase/PLVMPMediaControllerUseCases";
 import {PLVMPMediaControllerRepo} from "../model/PLVMPMediaControllerRepo";
+import { normalizeSeekStep, stepSeekTarget } from '../model/PLVMPStepSeek';
 
 export class PLVMPMediaControllerViewModel implements LifecycleAwareDependComponent {
 
@@ -30,6 +31,8 @@ export class PLVMPMediaControllerViewModel implements LifecycleAwareDependCompon
   readonly volumeUpdateEvent: MutableEvent<number>
 
   private showControllerForDurationTimeout: number = -1
+  private stepSeekTimeout: number = -1
+  private submittedStepSeekPosition?: number = undefined
 
   private observers: MutableObserver[] = []
 
@@ -45,11 +48,81 @@ export class PLVMPMediaControllerViewModel implements LifecycleAwareDependCompon
 
     this.observeSeekFinishEvent()
     this.observeMediaStopState()
+    this.observeStepSeek()
+  }
+
+  /** 更新当前播放器步长，按钮数字同步变化。 */
+  setSeekStepSeconds(seconds: number): void {
+    this.mediaControllerViewState.mutate({ seekStepSeconds: normalizeSeekStep(seconds) })
+  }
+
+  setSeekButtonsEnabled(enabled: boolean): void {
+    if (!enabled) this.clearStepSeek()
+    this.mediaControllerViewState.mutate({ seekButtonsEnabled: enabled })
+  }
+
+  seekByStep(forward: boolean): void {
+    const media = this.repo.mediaMediator.mediaPlayViewState.value
+    const state = this.mediaControllerViewState.value
+    const seek = this.repo.mediaMediator.seekToKeepingPlayState
+    if (!media || !state || !state.seekButtonsEnabled || !seek || !Number.isFinite(media.duration) || media.duration <= 0
+      || state.progressSliderDragging) {
+      return
+    }
+    const current = this.repo.mediaMediator.getCurrentPosition?.() ?? media.currentProgress
+    const target = stepSeekTarget(current, state.stepSeekPosition, media.duration,
+      state.seekStepSeconds, forward)
+    this.mediaControllerViewState.mutate({ stepSeekPosition: target, progressSliderWaitSeekFinish: false })
+    this.submitStepSeek()
+    this.showControllerForDuration(seconds(5))
+  }
+
+  private submitStepSeek(): void {
+    if (this.submittedStepSeekPosition !== undefined) return
+    const target = this.mediaControllerViewState.value?.stepSeekPosition
+    const seek = this.repo.mediaMediator.seekToKeepingPlayState
+    if (target === undefined || !seek) return
+    if (this.repo.mediaMediator.getCurrentPosition?.() === target) {
+      this.clearStepSeek()
+      return
+    }
+    // 同时只提交一个 seek，完成后再处理连点累加的最新目标。
+    this.submittedStepSeekPosition = target
+    clearTimeout(this.stepSeekTimeout)
+    this.stepSeekTimeout = setTimeout(() => this.clearStepSeek(), 10000)
+    seek(target)
+  }
+
+  private clearStepSeek(): void {
+    clearTimeout(this.stepSeekTimeout)
+    this.stepSeekTimeout = -1
+    this.submittedStepSeekPosition = undefined
+    if (this.mediaControllerViewState.value?.stepSeekPosition !== undefined) {
+      this.mediaControllerViewState.mutate({ stepSeekPosition: undefined })
+    }
+  }
+
+  private observeStepSeek(): void {
+    this.repo.mediaMediator.onSeekCompleteEvent.observe(() => {
+      const submitted = this.submittedStepSeekPosition
+      if (submitted === undefined) return
+      this.submittedStepSeekPosition = undefined
+      if (this.mediaControllerViewState.value?.stepSeekPosition === submitted) {
+        this.clearStepSeek()
+      } else {
+        this.submitStepSeek()
+      }
+    }).pushTo(this.observers)
+    this.repo.mediaMediator.mediaResource.observe(() => this.clearStepSeek()).pushTo(this.observers)
+    this.repo.mediator.businessErrorState.observe((error) => {
+      if (error !== null) this.clearStepSeek()
+    }).pushTo(this.observers)
   }
 
   handleDragSlider(event: 'slide' | 'slideFinish' | 'click', progress: number) {
     switch (event) {
       case "slide":
+        this.clearStepSeek()
         this.mediaControllerViewState.mutate({
           progressSliderDragging: true,
           progressSliderWaitSeekFinish: true,
@@ -66,6 +139,7 @@ export class PLVMPMediaControllerViewModel implements LifecycleAwareDependCompon
         })
         break;
       case "click":
+        this.clearStepSeek()
         this.repo.mediaMediator.seekTo?.apply(null, [progress])
         this.mediaControllerViewState.mutate({
           progressSliderWaitSeekFinish: true
@@ -232,6 +306,8 @@ export class PLVMPMediaControllerViewModel implements LifecycleAwareDependCompon
   }
 
   onDestroy() {
+    clearTimeout(this.stepSeekTimeout)
+    clearTimeout(this.showControllerForDurationTimeout)
     MutableObserver.disposeAll(this.observers)
     this.observers = []
   }

@@ -3,6 +3,22 @@
     {
       "name": "page_show",
       "value": "page from package"
+    },
+    {
+      "name": "plv_media_player_step_backward",
+      "value": "Rewind %d seconds"
+    },
+    {
+      "name": "plv_media_player_step_forward",
+      "value": "Forward %d seconds"
+    },
+    {
+      "name": "plv_media_player_step_play",
+      "value": "Play"
+    },
+    {
+      "name": "plv_media_player_step_pause",
+      "value": "Pause"
     }
   ]
 }

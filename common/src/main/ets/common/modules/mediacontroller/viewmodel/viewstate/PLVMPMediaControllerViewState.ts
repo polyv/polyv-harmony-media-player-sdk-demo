@@ -1,4 +1,10 @@
+import { PLVMPMediaConfig } from '../../../media/config/PLVMPMediaConfig'
+
 export class PLVMPMediaControllerViewState {
+  seekButtonsEnabled: boolean = PLVMPMediaConfig.seekButtonsEnabled
+  seekStepSeconds: number = PLVMPMediaConfig.seekStepSeconds
+  // 仅供连续点击累加和提交使用，不覆盖 UI 的真实播放进度。
+  stepSeekPosition?: number = undefined
   controllerVisible: boolean = false
   controllerLocking: boolean = false
   progressSliderDragging: boolean = false

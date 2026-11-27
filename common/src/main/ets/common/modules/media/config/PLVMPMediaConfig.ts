@@ -1,4 +1,5 @@
 import { promptAction } from '@kit.ArkUI';
+import { normalizeSeekStep } from '../../mediacontroller/model/PLVMPStepSeek';
 import {
   DefaultVodMediaTokenRequestListener,
   IPLVVodMediaTokenRequestListener,
@@ -19,6 +20,20 @@ export class PLVMPMediaConfig {
    * false：使用默认认证方式，需要配置 secretKey。
    */
   static useCustomToken: boolean = false
+
+  /** 是否使用中央快进退布局，默认关闭。在创建播放器前配置。 */
+  static seekButtonsEnabled: boolean = false
+
+  private static _seekStepSeconds: number = 15
+
+  /** 快进退步长，初始化播放器前设置；5–60 整数秒，非法值回落到 15。 */
+  static get seekStepSeconds(): number {
+    return PLVMPMediaConfig._seekStepSeconds
+  }
+
+  static set seekStepSeconds(seconds: number) {
+    PLVMPMediaConfig._seekStepSeconds = normalizeSeekStep(seconds)
+  }
 }
 
 const demoUserId = "e97dbe3e64"

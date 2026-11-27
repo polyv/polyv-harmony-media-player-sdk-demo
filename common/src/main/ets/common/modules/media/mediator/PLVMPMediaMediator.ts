@@ -39,6 +39,8 @@ export class PLVMPMediaMediator implements LifecycleAwareDependComponent {
   start?: () => void
   pause?: () => void
   seekTo?: (progress: number) => void
+  seekToKeepingPlayState?: (progress: number) => void
+  getCurrentPosition?: () => number
   getSpeed?: () => number
   setSpeed?: (speed: number) => void
   isPlaying?: () => boolean

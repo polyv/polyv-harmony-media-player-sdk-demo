@@ -29,6 +29,7 @@ export class PLVMPMediaViewModel implements LifecycleAwareDependComponent {
   private readonly useCases: PLVMPMediaUseCases
 
   readonly mediaPlayViewState: State<PLVMPMediaPlayViewState>
+  readonly mediaResource: State<PLVMediaResource>
   readonly mediaInfoViewState: State<PLVMPMediaInfoViewState>
   readonly networkPoorEvent: MutableEvent<number>
   readonly onChangeBitRateEvent: MutableEvent<PLVMediaBitRate>
@@ -48,6 +49,7 @@ export class PLVMPMediaViewModel implements LifecycleAwareDependComponent {
     this.repo = repo
     this.useCases = useCases
     this.mediaPlayViewState = this.repo.mediator.mediaPlayViewState
+    this.mediaResource = this.repo.mediator.mediaResource
     this.mediaInfoViewState = this.repo.mediator.mediaInfoViewState
     this.networkPoorEvent = this.repo.mediator.networkPoorEvent
     this.onChangeBitRateEvent = this.repo.mediator.onChangeBitRateEvent

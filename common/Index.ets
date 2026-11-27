@@ -51,6 +51,7 @@ export * from './src/main/ets/common/ui/component/PLVMediaPlayerKeepBackgroundTa
 export * from './src/main/ets/common/ui/component/PLVMediaPlayerLockControllerImageView'
 export * from './src/main/ets/common/ui/component/PLVMediaPlayerNetworkPoorIndicateLayout'
 export * from './src/main/ets/common/ui/component/PLVMediaPlayerPlayButton'
+export * from './src/main/ets/common/ui/component/PLVMediaPlayerStepSeekLayout'
 export * from './src/main/ets/common/ui/component/PLVMediaPlayerPlayCompleteAutoRestartComponent'
 export * from './src/main/ets/common/ui/component/PLVMediaPlayerPlayCompleteManualRestartOverlayLayout'
 export * from './src/main/ets/common/ui/component/PLVMediaPlayerPlayErrorOverlayLayout'

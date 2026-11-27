@@ -9,7 +9,7 @@
   "dependencies": {},
   "devDependencies": {},
   "overrides": {
-    "@polyvharmony/media-player-sdk": "file:./sdk",
+    "@polyvharmony/media-player-sdk": "2.7.9",
     "@polyvharmony/common-libs": "1.0.3"
   }
 }
